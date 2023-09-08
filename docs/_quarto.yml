@@ -1,0 +1,65 @@
+project:
+  type: book
+
+book:
+  title: Tragverhalten von Stahlbetontragwerken
+  subtitle: Grundlagen
+  author: Pascal Gitz
+  date: 2023.09.07
+  date-format: full
+  chapters:
+    - index.qmd
+    - 04_Gebrauchstauglichkeit.qmd
+    - 05_Zuggurtmodell.ipynb
+    - 99_references.qmd
+
+bibliography: references.bib
+
+format:
+  pdf:
+  # Titelblatt und Kurzfassung
+    template-partials:
+      - title.tex
+    include-in-header: 
+      - file: styling_nach_hslu.sty
+    include-before-body:
+      - file: 01_redlichkeitserklaerung.tex
+      - file: 02_kurzfassung.tex
+  
+  # Dokument
+    documentclass: scrbook
+    toc-depth: 2
+    lang: de
+    # keep-tex: true
+
+  # Figuren
+    fig-pos: 'H'
+    fig-format: svg
+  
+  # Verlinkungen
+    csl: diabetologia.csl
+    link-citations: True
+  
+  # Tabellen
+    tbl-colwidths: [50,50]
+    
+  # Code
+    execute:
+      echo: false
+      warning: false
+  
+  # Font
+    mainfont: Palatino Linotype
+    fontsize: 12pt
+    classoption: egregdoesnotlikesansseriftitles
+
+
+
+
+  html:
+    fig-format: svg
+    lang: de
+    csl: diabetologia.csl
+    link-citations: True
+    tbl-colwidths: [50,50]
+
