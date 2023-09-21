@@ -39,6 +39,7 @@ format:
   # Verlinkungen
     csl: diabetologia.csl
     link-citations: True
+    linkcolor: Blue
   
   # Tabellen
     tbl-colwidths: [50,50]
