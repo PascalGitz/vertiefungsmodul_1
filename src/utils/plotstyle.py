@@ -33,7 +33,7 @@ def set_engineering_style():
     plt.rcParams['xtick.labelsize'] = 10  # Größe der x-Achsenbeschriftungen
     plt.rcParams['ytick.labelsize'] = 10  # Größe der y-Achsenbeschriftungen
     plt.rcParams['legend.fontsize'] = 10  # Größe der Legende
-    plt.rcParams['figure.figsize'] = (6.5, 2)  # Größe der Figur 6.5 Zoll entspricht der Standardbreite des scrbook latex types
+    plt.rcParams['figure.figsize'] = (6.5, 3.5)  # Größe der Figur 6.5 Zoll entspricht der Standardbreite des scrbook latex types
     plt.rcParams.update({
         "font.family": "serif",
         "font.serif": ["Palatino Linotype"],

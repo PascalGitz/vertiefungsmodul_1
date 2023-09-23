@@ -40,7 +40,7 @@ def FEM_ersatzstab(hoehen, kraefte, Ersatzsteifigkeit):
         'shear_stiffness_deactivated' : True,
         'warping_stiffness_deactivated' : True,
         'thin_walled_model' : True,
-        'us_spelling_of_properites' : False,
+        # 'us_spelling_of_properites' : False,
         'stress_smoothing_to_avoid_singularities' : False,
         'area_axial' : 0.00538,
         'area_shear_y' : 0.002657379815189324,
@@ -86,7 +86,5 @@ def FEM_ersatzstab(hoehen, kraefte, Ersatzsteifigkeit):
     
     
     Model.clientModel.service.finish_modification()
-    return Deformation_last_Node
-
-FEM_ersatzstab(hoehen=hoehen, kraefte= kraefte, Ersatzsteifigkeit=Ersatzsteifigkeit)
+    return Deformation_last_Node, ResultTables.CalculationDiagrams()
 

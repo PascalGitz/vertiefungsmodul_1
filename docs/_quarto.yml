@@ -11,6 +11,7 @@ book:
     - index.qmd
     - 04_Gebrauchstauglichkeit.qmd
     - 05_Zuggurtmodell.ipynb
+    - 06_Versuch_2_A3_Jaeger.ipynb
     - 99_references.qmd
 
 bibliography: references.bib
@@ -27,7 +28,7 @@ format:
       - file: 02_kurzfassung.tex
   
   # Dokument
-    documentclass: scrbook
+    documentclass: scrreprt
     toc-depth: 2
     lang: de
     # keep-tex: true
@@ -53,6 +54,8 @@ format:
     mainfont: Palatino Linotype
     fontsize: 12pt
     classoption: egregdoesnotlikesansseriftitles
+    mathfontoptions: 
+      - fontsize=12pt
 
 
 
