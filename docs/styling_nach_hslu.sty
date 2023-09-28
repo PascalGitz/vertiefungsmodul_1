@@ -6,7 +6,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Seiten mit Kapitelüberschriften
-\pagestyle{headings}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhead{} % Löscht den Standardinhalt der Kopfzeile
+\renewcommand{\headrulewidth}{0pt} % Entfernt die horizontale Linie in der Kopfzeile
+\fancyhead[L]{\leftmark} % Setzt die Seitenzahl und Kapitel/Section-Titel links in die Kopfzeile
+
 	
 % Wird für die Tabelle im Titelblatt der Experten verwendet:
 %Array
