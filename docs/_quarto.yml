@@ -9,7 +9,7 @@ book:
   date-format: full
   chapters:
     - index.qmd
-    - 04_Gebrauchstauglichkeit.qmd
+    - 04_Theorie.qmd
     - 05_Zuggurtmodell.ipynb
     - 06_Versuch_2_A3_Jaeger.ipynb
     - 99_references.qmd
