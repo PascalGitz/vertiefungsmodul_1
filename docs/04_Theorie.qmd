@@ -1,0 +1,119 @@
+# Modellbeschrieb
+
+In diesem Kapitel werden die grundlegenden Modelle und Methoden beschrieben, welche das Tragverhalten von Stahlbeton rechnerisch erfassen lassen.
+
+## Kontinua - reine Biegeträger{#sec-kontinua}
+
+**Besprechung HDA**
+- bei reiner Biegung ist die Schiebung null sein. Wieso gibt es eine Verdrehung des Elements?
+- Gleichgewicht der Momente
+
+### Aufbau
+
+*Die Verknüpfung der Gleichgewichtsbedingungen mit den kinematischen Relationen  sowie den linear elastischen Stoffgleichungen führt auf gewöhnliche Differentialgleichungen für die je nach Problemstellung relevanten Verschiebungsgrössen, und aus diesen ergeben sich die interessierenden inneren Verformungs- und Kraftgrössen in Abhängigkeit der Lage auf der Stabachse.* Beschreibt @Marti in seinem Kapitel Kontinua. 
+
+Für reine Biegeträger lässt sich die Beziehung zwischen Deformation und Einwirkung ermitteln. Betrachtet man folgendes System eines einfachen Balkens mit einer Streckenlast belastet, kann man daraus ein Element ausschneiden und an diesem Schnittkräfte einführen.
+
+![Statisches System mit finiten Elementen](../images/Kontinua_system.svg){#fig-system_reine_biegung_system}
+
+Die Schnittkräfte am differentiellen Element folgen zu:
+
+![Differentielles Element des reinen Beigebalkens](../images/Kontinua_element.svg){#fig-system_reine_biegung_element}
+
+
+Aus Gleichgewicht der vertikalen Kräfte folgt die Beziehung zwischen Einwirkung und Querkraft:
+
+$$
+\downarrow^+\sum F_z = 0 = q_z(x)\cdot dx -V + (V+dV)
+$$
+
+$$
+q_z(x)\cdot dx = - dV
+$$
+
+
+$$
+q_z(x) = \frac{dV}{dx} = -V(x)'     
+$${#eq-dgl_v_x}
+
+Aus dem Gleichgewicht der Momente kann die Beziehung zwischen Einwirkung und Momente ermittelt werden:
+
+$$
+\sum^{\curvearrowleft+} M_y = 0 = (M+dM) - M - V \cdot dx + q_z(x)\cdot dx \cdot dx/2
+$$
+
+$$
+0 = dM - V \cdot dx - \frac{dV}{dx}\cdot dx^2/2
+$$
+$$
+0 = \frac{dM}{dx} - V -dV/2
+$$
+$$
+V+dV/2 = \frac{dM}{dx} 
+$$
+$$
+q_z(x) = -V(x)'= -\frac{dM}{dx^2} 
+$${#eq-dgl_M_y}
+
+Die Herleitung etwas abgekürzt ist aus den Stoffgleichungen die Beziehung zwischen Biegemoment und Krümmung bekannt. Diese sind durch die Biegesteifigkeit $EI$ gekoppelt.
+
+$$
+\frac{M}{EI} = \chi
+$${#eq-momentenkrümmung}
+
+Aus der verformten Lage lässt sich die Verdrehung des Elements bestimmen. Die Krümmung beschreibt die Änderung der Verdrehungung.
+
+$$
+\chi = \varphi(x)'
+$${#eq-krummung}
+
+Abschliessend entspricht die Verdrehung der Änderung der Deformation.
+
+$$
+-\varphi = \frac{dw}{dx}
+$$
+
+
+Daraus folgt die Beziehung zwischen Biegemoment und Deformation:
+
+$$
+M = -EIw(x)''
+$$
+
+Und abschliessend die Beziehung zwischen Einwirkung und Deformation:
+$$
+q(x) = EIw(x)''''
+$${#eq-dgl_reine_biegung}
+
+
+### Anwendungen und Grenzen
+
+Das angewendete Modell berücksichtigt keine Schubverformungen. Da in der Praxis übliche Stahlbetonbauteile eine signifikant grössere Schubsteifigkeit, als Biegesteifigkeit besitzen, liefert das Modell zuverlässige Resultate. 
+
+
+
+## Mohrsche Analogie
+
+### Aufbau
+Aus den Beziehungen für reine Biegeträger, detailliert beschrieben in @sec-kontinua, können folgende Abhängigkeiten definiert werden:  
+
+$$
+\frac{d^2M}{dx^2} = M'' = -q_z
+$$
+
+$$
+\frac{d^2w}{dx^2} = w'' = -\frac{M}{EI}
+$$
+
+
+Erkennbar ist die Analogie der beiden Gleichungen. Aus der Einwirkung lässt sich der Verlauf der Biegemomente bestimmen. Wird nun auf ein analoges System der Verlauf der Biegemomente als Einwirkung angesetzt, so lässt sich mit dem gleichen Berechnungsvorgehen die Deformation bestimmen. Lediglich den Randbedingungen ist Beachtung zu schenken, welche mit entsprechenden Lagerungsbedingungen im analogen System berücksichtigt werden. 
+
+![Lagerugnsbedingungen für Analogiesysteme](../images/analogietrager.png){#fig-randbedingungen_analogiesysteme}
+
+## Zuggurtmodell
+
+### Aufbau
+
+
+
+
