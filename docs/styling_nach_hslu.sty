@@ -26,3 +26,23 @@
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} 
 
 \usepackage[a4paper, margin=3cm]{geometry}
+
+
+
+
+% Pakete für Mathematikumgebungen, Schriftart (Palatino) und Zitieren
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathpazo}  % Palatino-Schriftart
+\usepackage{bm}
+
+% Alle Gleichungen auf Schriftgröße 12 setzen
+\makeatletter
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{0pt}
+  \setlength\belowdisplayskip{0pt}
+  \setlength\abovedisplayshortskip{0pt}
+  \setlength\belowdisplayshortskip{0pt}
+}
+\makeatother

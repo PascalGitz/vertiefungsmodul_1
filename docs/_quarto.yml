@@ -10,8 +10,8 @@ book:
   chapters:
     - index.qmd
     - 04_Theorie.qmd
-    - 05_Zuggurtmodell.ipynb
     - 06_Versuch_2_A3_Jaeger.ipynb
+    - 07_Versuch_SV14b.ipynb
     - 99_references.qmd
 
 bibliography: references.bib
@@ -31,14 +31,14 @@ format:
     documentclass: scrreprt
     toc-depth: 2
     lang: de
-    # keep-tex: true
+    keep-tex: true
 
   # Figuren
     fig-pos: 'H'
     fig-format: svg
   
   # Verlinkungen
-    csl: diabetologia.csl
+    csl: american-society-of-civil-engineers.csl
     link-citations: True
     linkcolor: Blue
   
@@ -51,19 +51,18 @@ format:
       warning: false
   
   # Font
-    mainfont: Palatino Linotype
-    fontsize: 12pt
-    classoption: egregdoesnotlikesansseriftitles
-    mathfontoptions: 
-      - fontsize=12pt
+    # mainfont: Palatino Linotype
+    # fontsize: 12pt
+    # classoption: egregdoesnotlikesansseriftitles
 
 
 
 
-  html:
-    fig-format: svg
-    lang: de
-    csl: diabetologia.csl
-    link-citations: True
-    tbl-colwidths: [50,50]
+
+  # html:
+  #   fig-format: svg
+  #   lang: de
+  #   csl: diabetologia.csl
+  #   link-citations: True
+  #   tbl-colwidths: [50,50]
 
