@@ -118,6 +118,16 @@ querschnitt.geoms[0].material = conc_nonlinear
 conc_querschnitt = ConcreteSection(querschnitt)
 
 moment_kruemmung_nonlin = conc_querschnitt.moment_curvature_analysis(
-    theta=0, kappa_inc=2.5e-7, progress_bar=True
+    theta=0, kappa_inc=2.5e-7, progress_bar=False
 )
 
+
+
+def kruemmungsverlauf(My_start, chi_y, My):
+    # Interpolation der Krümmungswerte
+    interpolierte_krümmung = interp1d(My_start, chi_y, kind='linear')
+
+    # Berechnung der Krümmung für das gesuchte Biegemoment
+    gesuchte_krümmung = interpolierte_krümmung(My)
+
+    return gesuchte_krümmung

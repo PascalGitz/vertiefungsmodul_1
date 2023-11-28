@@ -11,7 +11,7 @@ book:
     - index.qmd
     - 04_Theorie.qmd
     - 06_Versuch_2_A3_Jaeger.ipynb
-    - 07_Versuch_SV14b.ipynb
+    - 07_Versuch_SV_14.ipynb
     - 99_references.qmd
 
 bibliography: references.bib
@@ -31,7 +31,7 @@ format:
     documentclass: scrreprt
     toc-depth: 2
     lang: de
-    keep-tex: true
+    # keep-tex: true
 
   # Figuren
     fig-pos: 'H'

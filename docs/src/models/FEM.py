@@ -54,10 +54,10 @@ class MomentenKruemmung:
     
     def kruemmungsverlauf(self, My):
         # Interpolation der Krümmungswerte
-        interpolierte_krümmung = interp1d(self.My, self.chi_y, kind='linear')
+        interpolierte_krümmung = interp1d(self.My.to(un.kilonewton*un.meter), self.chi_y.to(1/un.meter), kind='linear')
 
         # Berechnung der Krümmung für das gesuchte Biegemoment
-        gesuchte_krümmung = interpolierte_krümmung(My)
+        gesuchte_krümmung = interpolierte_krümmung(My.to(un.kilonewton*un.meter))*1/un.meter
 
         return gesuchte_krümmung
     
