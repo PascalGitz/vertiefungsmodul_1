@@ -38,7 +38,7 @@ format:
     fig-format: svg
   
   # Verlinkungen
-    csl: american-society-of-civil-engineers.csl
+    csl: diabetologia.csl
     link-citations: True
     linkcolor: Blue
   
@@ -51,11 +51,20 @@ format:
       warning: false
   
   # Font
-    # mainfont: Palatino Linotype
-    # fontsize: 12pt
-    # classoption: egregdoesnotlikesansseriftitles
+    mainfont: Palatino Linotype
+    fontsize: 12pt
+    classoption: egregdoesnotlikesansseriftitles
 
 
+
+  docx:
+    lang: de
+    fig-format: svg
+    csl: diabetologia.csl
+    link-citations: true
+    tbl-colwidths: [50,50]
+    echo: false
+    warning: false
 
 
 
