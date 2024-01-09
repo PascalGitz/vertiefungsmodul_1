@@ -3,21 +3,23 @@ project:
 
 book:
   title: Tragverhalten von Stahlbetontragwerken
-  subtitle: Grundlagen
+  subtitle: Ansätze zur Verformungsberechnung
   author: Pascal Gitz
-  date: 2023.09.07
+  date: 2024.01.19
   date-format: full
   chapters:
     - index.qmd
     - 04_Theorie.qmd
     - 06_Versuch_2_A3_Jaeger.ipynb
     - 07_Versuch_SV_14.ipynb
+    - 98_summary.qmd
     - 99_references.qmd
 
 bibliography: references.bib
 
 format:
   pdf:
+    pdf-engine: latexmk
   # Titelblatt und Kurzfassung
     template-partials:
       - title.tex
@@ -26,12 +28,15 @@ format:
     include-before-body:
       - file: 01_redlichkeitserklaerung.tex
       - file: 02_kurzfassung.tex
-  
+
+
   # Dokument
     documentclass: scrreprt
     toc-depth: 2
+    lof: true
+    lot: true
     lang: de
-    # keep-tex: true
+    keep-tex: true
 
   # Figuren
     fig-pos: 'H'
@@ -40,7 +45,7 @@ format:
   # Verlinkungen
     csl: diabetologia.csl
     link-citations: True
-    linkcolor: Blue
+    linkcolor: Black
   
   # Tabellen
     tbl-colwidths: [50,50]
@@ -56,15 +61,14 @@ format:
     classoption: egregdoesnotlikesansseriftitles
 
 
-
-  docx:
-    lang: de
-    fig-format: svg
-    csl: diabetologia.csl
-    link-citations: true
-    tbl-colwidths: [50,50]
-    echo: false
-    warning: false
+  # docx:
+  #   lang: de
+  #   fig-format: svg
+  #   csl: diabetologia.csl
+  #   link-citations: true
+  #   tbl-colwidths: [50,50]
+  #   echo: false
+  #   warning: false
 
 
 

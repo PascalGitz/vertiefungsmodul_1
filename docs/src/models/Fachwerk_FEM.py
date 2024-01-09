@@ -45,20 +45,22 @@ def deformation_fachwerk(modelname, nodenumber_load, resultnumber, Laststufe=0):
 
     except Exception as e:
         print(f"Fehler bei der Berechnung: {e}. Versuche es erneut.")
-        return deformation_fachwerk("Fachwerk_sv14_min", ["7", "3"], -2, Laststufe)
+        # return deformation_fachwerk("Fachwerk_sv14_min", ["7", "3"], -2, Laststufe)
+        return deformation_fachwerk("Fachwerk_A3_mid_hoch", ["77"], -2, Laststufe)
+
 
 
 if __name__ == "__main__":
-    Laststufen = np.linspace(1000, 105 * 10**3, 50)
+    Laststufen = np.linspace(1000, 320 * 10**3, 50)
 
     w_1_fachwerk = []
     for last in Laststufen:
         w_1_fachwerk.append(
-            deformation_fachwerk("Fachwerk_sv14_min", ["7", "3"], -2, last)
+            deformation_fachwerk("Fachwerk_A3_mid_hoch", ["77"], -2, last)
         )
 
     # Specify the file path
-    versuch = "SV14_"
+    versuch = "A3_hoch_"
     file_path_tot = "deformation_results_FEM_tot"
     file_path_tot_var_z = "deformation_results_FEM_tot_var_z"
 
@@ -73,4 +75,4 @@ if __name__ == "__main__":
         for item in w_1_fachwerk:
             file.write(str(item) + "\n")
 
-    print(f"Gespeichert in {file_path_zuggurt+versuch}")
+    print(f"Gespeichert in {versuch+file_path_zuggurt}")

@@ -1,3 +1,15 @@
-# Summary
+# Fazit
 
-In summary, this book has no content whatsoever.
+## Rückblick
+
+Das einleitende Kapitel der Modellvorstellung bietet einen breiten Überblick der Modelle zum Beschreiben von Verformungen im Stahlbetonbau. Die Komplexität der Modellbeschriebe ist gering gehalten, was im Sinne der Anwendung dieser steht. 
+
+Die darauf folgende Anwendung am Dreipunktbiegeversuch zeigt die Stärken und Schwächen der Modelle vollumfänglich. Der Versuch zeigt, dass der Verformungsverlauf mit überschaubarem Rechenaufwand durchaus präzise abgebildet werden kann, vorzugsweise mit der numerischen Integration der Krümmung, basierend auf der nicht-linearen Momenten-Krümmungs-Beziehung. Die Stärke in diesem pragmatischen Ansatz liegt darin, dass komplexere Berechnungen damit verifiziert werden können, sofern aussagekräftige Querschnittsanalysen getroffen werden. Des Weiteren wird aufgezeigt, dass Verformungen primär durch Biegung verursacht, mit sämtlichen Modellen ansatzweise beschrieben werden können. Ausführlich beschrieben ist die Schwäche der Modellierung mittels der konstanten gerissenen oder ungerissenen Biegesteifigkeit, welche den Verformungsverlauf nur ansatzweise beschreiben. Die Fachwerksanalyse liefert bei diesem Versuch keine passenden Ergebnisse. Lediglich bei einer Anpassung der Fachwerkshöhe sind zutreffende Ergebnisse angetroffen worden. Das empfindliche Verhalten auf die gewählte Fachwerkshöhe ist als problematisch einzuschätzen. Denn in der Praxis fehlt ein vorgängiges Bild des Verformungsverlaufs, an welchem diese abgestimmt werden kann.
+
+Der anschliessende Vierpunktbiegeversuch liefert weniger passende Ergebnisse für die Biegemodelle. Problematisch dabei ist, dass die Verformung primär nicht nur aus den Biegeverformungen resultieren, sondern auch Schubverformungen einen beträchtlichen Anteil liefern. Lediglich das Fachwerkmodell ist in der Lage einen präzisen Verformungsverlauf zu beschreiben. Die rechnerisch ermittelte Fachwerkshöhe hat in diesem Fall erfreulich passende Ergebnisse geliefert. Unsicherheiten bleiben hierbei bei der Wahl des Neigungswinkels der Spannungsfelder, welcher unrealistisch klein gewählt ist. Dies ist möglicherweise auf die gering gehaltene Schubbewehrung zurückzuführen, welche deutlich unter der Mindestquerkraftbewehrung liegt. 
+
+Es lässt sich abschliessend festhalten, dass die Arbeit eine Förderung des Grundverständnisses der Verformungen im Stahlbetonbau bietet, sowie praxistaugliche Werkzeuge zur rechnerischen Beschreibung dieser liefert. 
+
+## Ausblick
+
+Basierend auf dieser Arbeit, gilt es sich in einer folgenden Arbeit von den Stabtragwerken zu lösen. Es wird angestrebt, die beschriebenen Modelle auf Plattentragwerke zu erweitern. Unter der Verwendung gängier Finite-Element-Programmen wird versucht, Verformungen mittels nicht-linearen Beziehungen zu beschreiben. Ein möglicher Ansatz zur Modellierung von Platten, basierend auf den erlangten Erkenntnissen, ist die Anordnung der Stabtragwerke als Trägerrost. Weiterhin wird das übergeordnete Ziel verfolgt, pragmatische Ansätze zu verfolgen.
