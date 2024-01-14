@@ -1,6 +1,6 @@
 # Modellbeschreibung {#sec-modellbeschrieb}
 
-In diesem Kapitel sind Modelle zur Bestimmung von Verformungen im Stahlbeton aufgezeigt. Es wird auf analytische Beziehungen und deren Herleitungen eingegangen. Das Ziel ist es, die grundlegenden Eigenschaften der Modelle darzulegen.
+In diesem Kapitel sind Modellvorstellungen zur Bestimmung von Verformungen im Stahlbeton aufgezeigt. Es wird auf analytische Beziehungen und deren Herleitungen eingegangen. Das Ziel ist es, die grundlegenden Eigenschaften der Modellvorstellungen darzulegen.
 
 ## Reiner Biegeträger {#sec-kontinua}
 
@@ -89,11 +89,11 @@ Durch das Lösen der Differentialgleichung lassen sich die Zustandslinien der Qu
 
 ### Grenzen der Anwendung
 
-Das Modell berücksichtigt keine Schubverformungen. Da in der Praxis übliche Stahlbetonbauteile eine signifikant grössere Schubsteifigkeit als Biegesteifigkeit aufweisen, liefert das Modell zuverlässige Resultate. Sowie gilt, die @eq-dgl_reine_biegung lässt lediglich die Anwendung einer konstanten Biegesteifigkeit zu.
+Das Modell berücksichtigt keine Schubverformungen. Da in der Praxis übliche Stahlbetonbauteile eine signifikant grössere Schubsteifigkeit als Biegesteifigkeit aufweisen, liefert das Modell zuverlässige Resultate. Zudem lässt die @eq-dgl_reine_biegung lediglich die Anwendung einer konstanten Biegesteifigkeit zu. Für nicht konstante Verläufe der Biegesteifigkeit über die Trägerachse ist der Träger in Abschnitte zu unterteilen, jeder Abschnitt ist in sich zu lösen und mittels den Rand- und Übergangsbedingungen mit dem folgenden Abschnitt zu verknüpfen.
 
 ## Mohr'sche Analogie {#sec-mohrsche_analogie}
 
-Die Mohr'sche Analogie ist an sich keine Modellvorstellung, sondern beschreibt ein handhabbares Lösungsvorgehen der Differentialgleichung für reine Biegeträger.
+Die Mohr'sche Analogie ist an sich keine Modellvorstellung, sondern beschreibt ein Lösungsvorgehen der Differentialgleichung mittels Handrechnung für reine Biegeträger.
 
 ### Aufbau
 
@@ -115,9 +115,7 @@ Die Mohr'sche Analogie ermöglicht folglich die Bestimmung der Verformungen durc
 
 ## Abschätzung nach Norm {#sec-norm}
 
-Die folgende Beschreibung richtet sich nach der Masterthesis @Stecher2022. Sowie sind die Beziehungen empirischen Ursprungs.
-
-Der Schweizerische Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen Betonnorm @SIA2013a Ziffer 4.4.3.2.5 den Ansatz in @eq-w_1_II_sia zur Ermittlung der Verformung im gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu bestimmen und mit einem Faktor, welcher abhängig von Zug- und Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu vergrössern. Das Verhalten des Faktors unter Variierung der Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe ist in @fig-fg gezeigt.
+Die folgende Beschreibung richtet sich nach der Masterthesis @Stecher2022. Der Schweizerische Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen Betonnorm @SIA2013a Ziffer 4.4.3.2.5 den Ansatz in @eq-w_1_II_sia zur Ermittlung der Verformung im gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu bestimmen und mit einem Faktor, welcher abhängig von Zug- und Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu vergrössern. Das Verhalten des Faktors unter Variation der Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe ist in @fig-fg gezeigt. Der Vergrösserungsfaktor wurde empirisch ermittelt.
 
 $$
 w_{1II,SIA} = f_g w_1
@@ -196,17 +194,17 @@ Das Zuggurtmodell findet Anwendung bei Zuggliedern in der Biegezugzone. Es liefe
 
 ## Numerische Integration der Krümmung {#sec-numint}
 
-Die numerische Integration der Krümmung bietet einen Ansatz, einen nicht-linearen Biegesteifigkeitenverlauf zu berücksichtigen. Mittels der Arbeitsgleichung lassen sich die Verformungen punktuell bestimmen. Für Biegeträger gilt die folgende @eq-arbeitsgleichung.
+Die numerische Integration der Krümmung bietet einen Ansatz, einen nicht-linearen Biegesteifigkeitsverlauf zu berücksichtigen. Mittels der Arbeitsgleichung lassen sich die Verformungen punktuell bestimmen. Für Biegeträger gilt die folgende @eq-arbeitsgleichung.
 
 $$
 w = \int_0^l \bar{M}(x) \cdot \frac{M(x)}{EI} d_x
 $$ {#eq-arbeitsgleichung}
 
-Wobei $\frac{M(x)}{EI} = \chi(x)$ gilt, sprich dem Krümmungsverlauf entspricht. Die Arbeitsgleichung setzt die innere Arbeit aus dem Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus lässt sich der Weg, sprich die Verformung herauslösen.
+Wobei $\frac{M(x)}{EI} = \chi(x)$ gilt, sprich dem Krümmungsverlauf entspricht. Die Arbeitsgleichung setzt die innere Arbeit aus dem Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus lässt sich der Weg, sprich die Verformung bestimmen.
 
 ### Momenten-Krümmungs-Beziehung
 
-Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich händisch mittels einer Querschnittsanalyse bestimmen. Zur rechnerischen Ermittlung gelten folgende Annahmen, wie in @Spathelf2022 beschrieben:
+Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich mittels Handrechnung an einer Querschnittsanalyse bestimmen. Zur rechnerischen Ermittlung gelten folgende Annahmen, wie in @Spathelf2022 beschrieben:
 
 -   Eben- und senkrechtbleiben der Querschnitte
 -   Die Betonzugfestigkeit $f_{ct}$ wird für Zustände nach dem Überschreiten von $f_{ct}$ vernachlässigt
@@ -216,17 +214,17 @@ Dazu wird der Querschnitt bei steigender Dehnung, induziert durch Biegung, analy
 
 ![Querschnittsanalyse für den Zustand des Biegewiderstands](../images/QS_14_analyse_1.svg){#fig-exemplar_qs_analyse}
 
-## Fachwerksanalyse {#sec-fachwerk}
+## Analyse mit Fachwerksmodellen {#sec-fachwerk}
 
-Die Fachwerksanalyse basiert auf einer Modellierung mittels Spannungsfeldern. Das Ziel ist es, mittels Spannungsfelder den Kraftfluss im Balken nachzuverfolgen. Das Fachwerk bildet den Kraftfluss detaillierter als eine Querschnittsanalyse ab. In Anlehnung an die Modellierungsstufen in @Thoma2020 gliedert sich die Fachwerksmodellierung im level of Approximation II an, eine Stufe höher als die Querschnittsanalyse. Grundsätzlich wird das Modell jedoch zur Bemessung im Grenzzustand der Tragsicherheit verwendet. Folgend wird beschrieben, wie mittels diesem Deformationen zielführend bestimmt werden können.
+Die Analyse mit Fachwerksmodellen basiert auf einer Modellierung mittels Spannungsfeldern. Das Ziel ist es, mittels Spannungsfelder den Kraftfluss im Balken abzubilden. Das Fachwerk bildet den Kraftfluss detaillierter als eine Querschnittsanalyse ab. In Anlehnung an die Modellierungsstufen in @Thoma2020 gliedert sich die Fachwerksmodellierung im level of Approximation II an, eine Stufe höher als die Querschnittsanalyse. Grundsätzlich wird das Modell jedoch zur Bemessung im Grenzzustand der Tragsicherheit verwendet. Folgend wird beschrieben, wie mittels der Analyse mit Fachwerksmodellen Deformationen zielführend bestimmt werden können.
 
 ### Spannungsfelder
 
-Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche mit nicht-zentrierten Fächern und Parallelfeldern modellieren. Durch die Wahl eines Neigungswinkels der Felder ergibt sich deren Breite. Bei der Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
+Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche mit nicht-zentrierten Fächern und Parallelfeldern modellieren. Durch die Wahl eines Neigungswinkels der Felder ergibt sich deren Geometrie. Bei der Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
 
 #### Wahl des Neigungswinkels
 
-Anders als beim Entwurf der Balken, ist die Wahl der Bügelbewehrung bei der Nachrechnung bereits festgelgt. Folgend wird eine Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die Querkraftbemessung der Betonnorm @SIA2013a basiert auf der Modellierung mittels Spannungsfeldern. Der Neigungswinkel der Betondruckstrebe kann in Anlehnung an die @eq-v_rds_sia262 zur Bestimmung des Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
+Anders als bei einer Bemessung eines Balkens, ist die Bügelbewehrung bei einer Nachrechnung (Überprüfung) bereits festgelegt. Folgend wird eine Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die Querkraftbemessung der Betonnorm @SIA2013a basiert auf der Modellierung mittels Spannungsfeldern. Der Neigungswinkel der Betondruckstrebe kann in Anlehnung an die @eq-v_rds_sia262 zur Bestimmung des Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
 
 $$
 V_{Rd,s} = \frac{A_{sw}}{s} z f_{sd} \cot(\alpha)
@@ -236,7 +234,7 @@ Wird nun ein Fachwerkmodell für die Nachrechnung von Verformungen von Versuchen
 
 #### Dehnsteifigkeiten
 
-Abschliessend gilt es den Pendelstäben die entsprechenden Querschnittsflächen, bzw. Dehnsteifigkeiten zuzuordnen, um die passenden Verformungen zu berechnen. In den Versuchsnachrechnungen des Dreipunkt- und Vierpunktbiegeversuchs ist dies detailliert aufgezeigt.
+Abschliessend gilt es den Fachwerksstäben die entsprechenden Querschnittsflächen, bzw. Dehnsteifigkeiten zuzuordnen, um die Verformungen zu berechnen. In den Versuchsnachrechnungen des Dreipunkt- und Vierpunktbiegeversuchs ist dies detailliert aufgezeigt.
 
 ## Versatzmass {#sec-versatzmass}
 

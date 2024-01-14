@@ -238,7 +238,7 @@ Hiermit erkläre ich, dass ich die vorliegende Arbeit selbstständig angefertigt
 %
 \\%
 %
-Horw, 21. Januar 2023 \hfill Pascal Gitz%
+Horw, 19. Januar 2023 \hfill Pascal Gitz%
 
 \vfill
 %\begin{tabular}[h]{llcr} 
@@ -247,23 +247,23 @@ Horw, 21. Januar 2023 \hfill Pascal Gitz%
 %\end{tabular}\\
 
 % Version 2.0 - Definitives Exemplar \hfill \today \quad \quad \quad \quad \quad MK\\
-% Version 1.0 - Prüfungsexemplar \hfill 19. Januar 2023 \quad \quad \quad \quad \quad PG\\
+Version 1.0 - Prüfungsexemplar \hfill 19. Januar 2023 \quad \quad \quad \quad \quad PG\\
 Version 0.9 - Entwurf \hfill 08. Januar 2023 \quad \quad \quad \quad \quad PG\\
 
 \newpage
 
 \chapter*{Kurzfassung}
 
-Die vorliegende Arbeit befasst sich mit Verformungen im Stahlbetonbau. Speziell mit den Verformungen von Stabtragwerken. Dazu sind unterschiedliche Modelle zur rechnerischen Bestimmung aufgezeigt. Als übergeordnetes Ziel gilt es praxistaugliche Berechnungsmethoden zu verwenden. Dies bedeutet möglichst geringen Berechnungsaufwand bei gleichzeitig hoher Genauigkeit.  
+Die vorliegende Arbeit befasst sich mit Verformungen im Stahlbetonbau; speziell mit den Verformungen von Stabtragwerken. Dazu sind unterschiedliche Modellvorstellungen zur rechnerischen Bestimmung aufgezeigt. Als übergeordnetes Ziel gilt es praxistaugliche Berechnungsmethoden zu verwenden. Dies bedeutet möglichst geringen Berechnungsaufwand bei gleichzeitig vernünftiger Genauigkeit.  
 
-Das einleitende Kapitel beschreibt die Hintergründe der Modelle. Es wird auf das Modell des reinen Biegeträgers, die Methode der Mohr'schen Analogie, eine Abschätzung nach der Schweizerischen Betonnorm, das Zuggurtmodell, eine Integrationsmethode zur Berücksichtigung einer nicht-linearen Momenten-Krümmungs-Beziehung, sowie abschliessend auf eine Fachwerksanalyse eingegangen. Neben den theoretischen Grundlagen zeigt dir Arbeit die Anwendung der Modelle an einem Dreipunktbiegeversuch und einem Vierpunktbiegeversuch. Die Versuchsanwendung wird jeweils mit einer ausführlichen Diskussion der Ergebnisse abgeschlossen, verifiziert an den gemessenen Versuchsdaten. 
+Das einleitende Kapitel beschreibt die Hintergründe der Modellvorstellungen. Es wird auf die Modellvorstellungen des reinen Biegeträgers, die Methode der Mohr'schen Analogie, eine Abschätzung nach der Schweizerischen Betonnorm, das Zuggurtmodell, eine Integrationsmethode zur Berücksichtigung einer nicht-linearen Momenten-Krümmungs-Beziehung sowie abschliessend auf eine Analyse mit Fachwerksmodellen eingegangen. Neben den theoretischen Grundlagen zeigt die Arbeit die Anwendung der Modellvorstellungen an einem Dreipunktbiegeversuch und einem Vierpunktbiegeversuch. Diese wird jeweils mit einer ausführlichen Diskussion der Ergebnisse abgeschlossen, verifiziert an den gemessenen Versuchsdaten. 
 
-Der Modellvergleich zeigt, dass mit Berechnungsmethoden mit konstanten Biegesteifigkeiten, wie in der Praxis üblich, Verformungen nur bedingt präzise berechnet werden können. Die Verwendung von einer nicht-linearen Momenten-Krümmungs-Beziehungen ist für die Nachrechnung der Verformungen von Versuchen, belastet bis zum Versagen, unerlässlich. Die Fachwerksanalyse liefert bei beiden Versuchen die treffendsten Ergebnisse, sofern die Fachwerkshöhe exakt bestimmt werden kann. 
+Der Vergleich der Modellvorstellungen zeigt, dass mit Berechnungsmethoden mit konstanten Biegesteifigkeiten, wie in der Praxis üblich, Verformungen nur bedingt präzise berechnet werden können. Die Verwendung von einer nicht-linearen Momenten-Krümmungs-Beziehungen ist für die Nachrechnung der Verformungen von Versuchen, belastet bis zum Versagen, unerlässlich. Die Analyse mit Fachwerksmodellen liefert bei beiden Versuchen die treffendsten Ergebnisse, sofern der Hebelarm der inneren Kräfte bestimmt werden kann. 
 
 
-Im abschliessenden Kapitel wird das Ziel beschrieben, in einer folgenden Arbeit, die aufgezeigten Modelle auf Plattentragwerke zu erweitern. Als Ansatz dazu soll die Modellierung als Trägerrost dienen.
+Im abschliessenden Kapitel wird das Ziel beschrieben, in einer folgenden Arbeit, die aufgezeigten Modellvorstellungen auf Plattentragwerke zu erweitern. Als Ansatz dazu soll die Modellierung als Trägerrost dienen.
 
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, interior hidden, sharp corners, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, interior hidden, frame hidden, enhanced]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Inhaltsverzeichnis}
 {
@@ -280,13 +280,13 @@ Im abschliessenden Kapitel wird das Ziel beschrieben, in einer folgenden Arbeit,
 
 Bei der Analyse des Tragverhaltens ist die Bestimmung von Verformungen
 im Stahlbetonbau in der Praxis oftmals mit Unsicherheiten verbunden. Die
-vorwiegend aus Biegung resultierenden Verformungen werden unter der
-Annahme einer konstanten Biegesteifigkeit berechnet. Diese wird
-grundsätzlich am gerissenen oder am ungerissenen Querschnitt bestimmt.
-Mit dieser Arbeit sollen die Grenzen dieser Modellvorstellung aufgezeigt
-werden. Des Weiteren wird versucht, mit einem möglichst pragmatischen
-Ansatz die eingeschränkte Modellvorstellung zu erweitern und die
-Verformungen präzise abzubilden.
+vorwiegend aus Biegung resultierenden Verformungen werden vereinfacht
+unter der Annahme einer konstanten Biegesteifigkeit berechnet. Diese
+wird grundsätzlich am gerissenen oder am ungerissenen Querschnitt
+bestimmt. Mit dieser Arbeit sollen die Grenzen dieser Modellvorstellung
+aufgezeigt werden. Des Weiteren wird versucht, mit einem möglichst
+pragmatischen Ansatz die eingeschränkte Modellvorstellung zu erweitern
+und die Verformungen genauer abzubilden.
 
 Die Arbeit umfasst ein einleitendes Kapitel, welches die Modelle in
 ihren Grundeigenschaften aufgreift und erläutert, gefolgt von zwei
@@ -297,9 +297,9 @@ Vierpunktbiegeversuch aus dem Versuchsbericht
 {[}\protect\hyperlink{ref-Tue2019}{2}{]} analysiert. Es werden
 ausschliesslich Stabtragwerke betrachtet. Das Berechnungsvorgehen ist
 für beide Versuche analog zueinander. Die Kapitel werden mit einem
-Modellvergleich abgeschlossen. Der Schlusspunkt der Arbeit liefert ein
-Fazit, welches die Erkenntnisse der Berechnungen erneut aufgreift,
-zusammenfasst und interpretiert.
+Vergleich der Modellvorstellungen abgeschlossen. Der Schlusspunkt der
+Arbeit liefert ein Fazit, welches die Erkenntnisse der Berechnungen
+erneut aufgreift, zusammenfasst und interpretiert.
 
 Abschliessend lässt sich festhalten, dass diese Arbeit das grundlegende
 Verständnis der Verformungen im Stahlbetonbau schärfen soll. Dazu sollen
@@ -311,10 +311,10 @@ rechnerisch ermitteln lassen. Stets im Sinne der praktischen Anwendung.
 \hypertarget{sec-modellbeschrieb}{%
 \chapter{Modellbeschreibung}\label{sec-modellbeschrieb}}
 
-In diesem Kapitel sind Modelle zur Bestimmung von Verformungen im
-Stahlbeton aufgezeigt. Es wird auf analytische Beziehungen und deren
-Herleitungen eingegangen. Das Ziel ist es, die grundlegenden
-Eigenschaften der Modelle darzulegen.
+In diesem Kapitel sind Modellvorstellungen zur Bestimmung von
+Verformungen im Stahlbeton aufgezeigt. Es wird auf analytische
+Beziehungen und deren Herleitungen eingegangen. Das Ziel ist es, die
+grundlegenden Eigenschaften der Modellvorstellungen darzulegen.
 
 \hypertarget{sec-kontinua}{%
 \section{Reiner Biegeträger}\label{sec-kontinua}}
@@ -471,15 +471,19 @@ der Querkräfte, Biegemomente, Verdrehungen und Verformungen bestimmen.
 Das Modell berücksichtigt keine Schubverformungen. Da in der Praxis
 übliche Stahlbetonbauteile eine signifikant grössere Schubsteifigkeit
 als Biegesteifigkeit aufweisen, liefert das Modell zuverlässige
-Resultate. Sowie gilt, die Gleichung~\ref{eq-dgl_reine_biegung} lässt
-lediglich die Anwendung einer konstanten Biegesteifigkeit zu.
+Resultate. Zudem lässt die Gleichung~\ref{eq-dgl_reine_biegung}
+lediglich die Anwendung einer konstanten Biegesteifigkeit zu. Für nicht
+konstante Verläufe der Biegesteifigkeit über die Trägerachse ist der
+Träger in Abschnitte zu unterteilen, jeder Abschnitt ist in sich zu
+lösen und mittels den Rand- und Übergangsbedingungen mit dem folgenden
+Abschnitt zu verknüpfen.
 
 \hypertarget{sec-mohrsche_analogie}{%
 \section{Mohr'sche Analogie}\label{sec-mohrsche_analogie}}
 
 Die Mohr'sche Analogie ist an sich keine Modellvorstellung, sondern
-beschreibt ein handhabbares Lösungsvorgehen der Differentialgleichung
-für reine Biegeträger.
+beschreibt ein Lösungsvorgehen der Differentialgleichung mittels
+Handrechnung für reine Biegeträger.
 
 \hypertarget{aufbau-1}{%
 \subsection{Aufbau}\label{aufbau-1}}
@@ -526,18 +530,17 @@ und am analogen System.
 \section{Abschätzung nach Norm}\label{sec-norm}}
 
 Die folgende Beschreibung richtet sich nach der Masterthesis
-{[}\protect\hyperlink{ref-Stecher2022}{5}{]}. Sowie sind die Beziehungen
-empirischen Ursprungs.
-
-Der Schweizerische Ingenieuren- und Architekten Verband (SIA) stellt in
-ihrer aktuellen Betonnorm {[}\protect\hyperlink{ref-SIA2013a}{6}{]}
-Ziffer 4.4.3.2.5 den Ansatz in Gleichung~\ref{eq-w_1_II_sia} zur
-Ermittlung der Verformung im gerissenen Zustand. Dazu ist die elastische
-ungerissene Verformung zu bestimmen und mit einem Faktor, welcher
-abhängig von Zug- und Druckbewehrungsgehalt, der Kriechzahl sowie der
-Geometrie ist, zu vergrössern. Das Verhalten des Faktors unter
-Variierung der Bewehrungsgehälter mit konstanter Höhe und konstanter
-statischer Höhe ist in Abbildung~\ref{fig-fg} gezeigt.
+{[}\protect\hyperlink{ref-Stecher2022}{5}{]}. Der Schweizerische
+Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen
+Betonnorm {[}\protect\hyperlink{ref-SIA2013a}{6}{]} Ziffer 4.4.3.2.5 den
+Ansatz in Gleichung~\ref{eq-w_1_II_sia} zur Ermittlung der Verformung im
+gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu
+bestimmen und mit einem Faktor, welcher abhängig von Zug- und
+Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu
+vergrössern. Das Verhalten des Faktors unter Variation der
+Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe
+ist in Abbildung~\ref{fig-fg} gezeigt. Der Vergrösserungsfaktor wurde
+empirisch ermittelt.
 
 \begin{equation}\protect\hypertarget{eq-w_1_II_sia_faktor}{}{
 w_{1II,SIA} = f_g w_1
@@ -715,7 +718,7 @@ beschränkt sich ausschliesslich auf normalzugbeanspruchte Bauteile.
 \section{Numerische Integration der Krümmung}\label{sec-numint}}
 
 Die numerische Integration der Krümmung bietet einen Ansatz, einen
-nicht-linearen Biegesteifigkeitenverlauf zu berücksichtigen. Mittels der
+nicht-linearen Biegesteifigkeitsverlauf zu berücksichtigen. Mittels der
 Arbeitsgleichung lassen sich die Verformungen punktuell bestimmen. Für
 Biegeträger gilt die folgende Gleichung~\ref{eq-arbeitsgleichung}.
 
@@ -727,13 +730,13 @@ Wobei \(\frac{M(x)}{EI} = \chi(x)\) gilt, sprich dem Krümmungsverlauf
 entspricht. Die Arbeitsgleichung setzt die innere Arbeit aus dem
 Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit
 gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus
-lässt sich der Weg, sprich die Verformung herauslösen.
+lässt sich der Weg, sprich die Verformung bestimmen.
 
 \hypertarget{momenten-kruxfcmmungs-beziehung}{%
 \subsection{Momenten-Krümmungs-Beziehung}\label{momenten-kruxfcmmungs-beziehung}}
 
-Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich händisch
-mittels einer Querschnittsanalyse bestimmen. Zur rechnerischen
+Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich mittels
+Handrechnung an einer Querschnittsanalyse bestimmen. Zur rechnerischen
 Ermittlung gelten folgende Annahmen, wie in
 {[}\protect\hyperlink{ref-Spathelf2022}{4}{]} beschrieben:
 
@@ -769,26 +772,26 @@ Zustand des Biegewiderstands}
 \end{figure}
 
 \hypertarget{sec-fachwerk}{%
-\section{Fachwerksanalyse}\label{sec-fachwerk}}
+\section{Analyse mit Fachwerksmodellen}\label{sec-fachwerk}}
 
-Die Fachwerksanalyse basiert auf einer Modellierung mittels
+Die Analyse mit Fachwerksmodellen basiert auf einer Modellierung mittels
 Spannungsfeldern. Das Ziel ist es, mittels Spannungsfelder den
-Kraftfluss im Balken nachzuverfolgen. Das Fachwerk bildet den Kraftfluss
+Kraftfluss im Balken abzubilden. Das Fachwerk bildet den Kraftfluss
 detaillierter als eine Querschnittsanalyse ab. In Anlehnung an die
 Modellierungsstufen in {[}\protect\hyperlink{ref-Thoma2020}{7}{]}
 gliedert sich die Fachwerksmodellierung im level of Approximation II an,
 eine Stufe höher als die Querschnittsanalyse. Grundsätzlich wird das
 Modell jedoch zur Bemessung im Grenzzustand der Tragsicherheit
-verwendet. Folgend wird beschrieben, wie mittels diesem Deformationen
-zielführend bestimmt werden können.
+verwendet. Folgend wird beschrieben, wie mittels der Analyse mit
+Fachwerksmodellen Deformationen zielführend bestimmt werden können.
 
 \hypertarget{spannungsfelder}{%
 \subsection{Spannungsfelder}\label{spannungsfelder}}
 
 Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche
 mit nicht-zentrierten Fächern und Parallelfeldern modellieren. Durch die
-Wahl eines Neigungswinkels der Felder ergibt sich deren Breite. Bei der
-Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der
+Wahl eines Neigungswinkels der Felder ergibt sich deren Geometrie. Bei
+der Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der
 Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich
 die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
 
@@ -796,14 +799,15 @@ die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
 \subsubsection{Wahl des
 Neigungswinkels}\label{wahl-des-neigungswinkels}}
 
-Anders als beim Entwurf der Balken, ist die Wahl der Bügelbewehrung bei
-der Nachrechnung bereits festgelgt. Folgend wird eine Abschätzung zur
-Wahl des Neigungswinkels aufgezeigt. Die Querkraftbemessung der
-Betonnorm {[}\protect\hyperlink{ref-SIA2013a}{6}{]} basiert auf der
-Modellierung mittels Spannungsfeldern. Der Neigungswinkel der
-Betondruckstrebe kann in Anlehnung an die
-Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des Querkraftwiderstands
-von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
+Anders als bei einer Bemessung eines Balkens, ist die Bügelbewehrung bei
+einer Nachrechnung (Überprüfung) bereits festgelegt. Folgend wird eine
+Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die
+Querkraftbemessung der Betonnorm
+{[}\protect\hyperlink{ref-SIA2013a}{6}{]} basiert auf der Modellierung
+mittels Spannungsfeldern. Der Neigungswinkel der Betondruckstrebe kann
+in Anlehnung an die Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des
+Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer
+4.3.3.4.3, bestimmt werden.
 
 \begin{equation}\protect\hypertarget{eq-v_rds_sia262}{}{
 V_{Rd,s} = \frac{A_{sw}}{s} z f_{sd} \cot(\alpha)
@@ -822,8 +826,8 @@ der Spannungsfelder und folglich die des Fachwerks eindeutig bestimmt.
 \hypertarget{dehnsteifigkeiten}{%
 \subsubsection{Dehnsteifigkeiten}\label{dehnsteifigkeiten}}
 
-Abschliessend gilt es den Pendelstäben die entsprechenden
-Querschnittsflächen, bzw. Dehnsteifigkeiten zuzuordnen, um die passenden
+Abschliessend gilt es den Fachwerksstäben die entsprechenden
+Querschnittsflächen, bzw. Dehnsteifigkeiten zuzuordnen, um die
 Verformungen zu berechnen. In den Versuchsnachrechnungen des Dreipunkt-
 und Vierpunktbiegeversuchs ist dies detailliert aufgezeigt.
 
@@ -875,12 +879,13 @@ der erhöhten Längszugkraft zeigt die Gleichung~\ref{eq-versatzmoment}.
 \chapter{Dreipunktbiegeversuch}\label{sec-dreipunkt}}
 
 In diesem Kapitel werden alle in Kapitel~\ref{sec-modellbeschrieb}
-beschriebenen Modelle auf einen Dreipunktbiegeversuch angewendet. Das
-primäre Ziel ist es, die Differenzen zwischen den mit den verschiedenen
-Modellen berechneten Verformungen und den tatsächlich gemessenen
-Verformungen aufzuzeigen. Der Schwerpunkt liegt auf der Anwendung der
-Modelle. Das Kapitel endet mit einem Vergleich der verschiedenen Modelle
-und einer Diskussion der Ergebnisse.
+beschriebenen Modellvorstellungen auf einen Dreipunktbiegeversuch
+angewendet. Das primäre Ziel ist es, die Differenzen zwischen den mit
+den verschiedenen Modellvorstellungen berechneten Verformungen und den
+tatsächlich gemessenen Verformungen aufzuzeigen. Der Schwerpunkt liegt
+auf der Anwendung der Modellvorstellungen. Das Kapitel endet mit einem
+Vergleich der verschiedenen Modellvorstellungen und einer Diskussion der
+Ergebnisse.
 
 \hypertarget{versuchsbeschreibung}{%
 \section{Versuchsbeschreibung}\label{versuchsbeschreibung}}
@@ -895,6 +900,8 @@ des Versuchs dargestellt, während detaillierte Beschreibungen in
 beinhaltet einen Plattenstreifen, dessen Lagerung einem
 Dreipunktbiegeversuch entspricht. Der Plattenstreifen wird durch \(F_A\)
 bis zum Bruch belastet. Die maximale Last beträgt \(331 \text{ kN}\).
+Dargestellt ist dies in Abbildung~\ref{fig-lagerung_a3v2}, die
+Hauptabmessungen dazu sind in Abbildung~\ref{fig-system_2} aufgezeigt.
 
 \begin{figure}[H]
 
@@ -902,7 +909,8 @@ bis zum Bruch belastet. Die maximale Last beträgt \(331 \text{ kN}\).
 
 }
 
-\caption{Lagerung und Belastung des Plattenstreifens, entnommen aus
+\caption{\label{fig-lagerung_a3v2}Lagerung und Belastung des
+Plattenstreifens, entnommen aus
 {[}\protect\hyperlink{ref-Jaeger2006}{1}{]}}
 
 \end{figure}
@@ -977,7 +985,7 @@ Betondruckfestigkeit aufgrund der Zylinderdruckfestigkeit entspricht:
 
 \begin{equation}f_{c} = 2.7 f_{cc}^{\frac{2}{3}}\end{equation}
 
-\begin{equation}f_{c} = \frac{40.827 \text{N}}{\text{mm}^{2}}\end{equation}
+\begin{equation}f_{c} = \frac{40.8 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Ebenfalls kann die Zugfestigkeit gemäss
 {[}\protect\hyperlink{ref-Jaeger2013}{9}{]} anhand der
@@ -1113,6 +1121,10 @@ die folgenden Gleichungen.
 
 \hypertarget{zustandslinien}{%
 \subsection{Zustandslinien}\label{zustandslinien}}
+
+\hypertarget{zustandslinien-der-schnittgruxf6ssen}{%
+\subsubsection{Zustandslinien der
+Schnittgrössen}\label{zustandslinien-der-schnittgruxf6ssen}}
 
 Nach dem Bestimmen der Auflagerreaktionen können die Zustandslinien der
 Schnittgrössen bestimmt werden. Die Zustandslinien der Schnittgrössen
@@ -1998,8 +2010,9 @@ mit Zugversteifung}
 Es zeigt sich ein steiferes Verhalten im gerissenen Bereich. Der
 Einfluss ist relativ gering.
 
-\hypertarget{fachwerksanalyse}{%
-\section{Fachwerksanalyse}\label{fachwerksanalyse}}
+\hypertarget{analyse-mit-fachwerksmodellen}{%
+\section{Analyse mit
+Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen}}
 
 Abschliessend wird das Modell aus dem Kapitel~\ref{sec-fachwerk} auf den
 Versuch angewendet. Die bisherigen Analysen beschränken sich auf eine
@@ -2116,20 +2129,21 @@ Fachwerk}
 
 \end{figure}
 
-\hypertarget{modellvergleich}{%
-\section{Modellvergleich}\label{modellvergleich}}
+\hypertarget{vergleich-der-modellvorstellungen}{%
+\section{Vergleich der
+Modellvorstellungen}\label{vergleich-der-modellvorstellungen}}
 
 Abgeschlossen wird die Analyse des Dreipunktbiegeversuchs mit einer
 Gegenüberstellung der angewendeten Methoden. Der Fokus liegt auf dem
 Vergleich der experimentell ermittelten Verformungen und den
-Verformungen aus den Modellen.
+Verformungen aus den Modellvorstellungen.
 
 \hypertarget{kruxfcmmung}{%
 \subsection{Krümmung}\label{kruxfcmmung}}
 
-Der Modellvergleich wird bei der Beschreibung der Krümmung der
-unterschiedlichen Modelle gestartet. Aus dem Vergleich der
-Momenten-Krümmungs-Beziehung, dargestellt in
+Der Vergleich der Modellvorstellungen wird bei der Beschreibung der
+Krümmung der unterschiedlichen Modellvorstellungen gestartet. Aus dem
+Vergleich der Momenten-Krümmungs-Beziehung, dargestellt in
 Abbildung~\ref{fig-mchi_diagramm_vergleich}, lassen sich die
 Biegesteifigkeiten herauslesen.
 
@@ -2140,13 +2154,13 @@ Biegesteifigkeiten herauslesen.
 }
 
 \caption{\label{fig-mchi_diagramm_vergleich}Momenten-Krümmungs-Diagramm
-zum Vergleich der unterschiedlichen Modelle}
+zum Vergleich der unterschiedlichen Modellvorstellungen}
 
 \end{figure}
 
 Die Unterschiede des Detaillierungsgrad der Beziehung zwischen den
-Modellen ist deutlich erkennbar. Ebenso ersichtlich ist der geringe
-Einfluss der Zugversteifung auf die Biegesteifigkeit.
+Modellvorstellungen ist deutlich erkennbar. Ebenso ersichtlich ist der
+geringe Einfluss der Zugversteifung auf die Biegesteifigkeit.
 
 Die Abbildung~\ref{fig-chi_x_diagramm_vergleich} zeigt den
 Krümmungsverlauf für den Biegemomentenverlauf aus
@@ -2165,7 +2179,7 @@ deutlich zu steif eingeschätzt wird.
 }
 
 \caption{\label{fig-chi_x_diagramm_vergleich}Krümmungsverlauf, mit
-unterschiedlichen Modellen ohne Versatzmass}
+unterschiedlichen Modellvorstellungen ohne Versatzmass}
 
 \end{figure}
 
@@ -2181,7 +2195,7 @@ Abbildung~\ref{fig-chi_x_diagramm_laengszugkraft}.
 }
 
 \caption{\label{fig-chi_x_diagramm_laengszugkraft}Krümmungsverlauf, mit
-unterschiedlichen Modellen mit Versatzmass}
+unterschiedlichen Modellvorstellungen mit Versatzmass}
 
 \end{figure}
 
@@ -2197,9 +2211,9 @@ Fliessbereich einen signifikanten Einfluss auf die Verformung.
 
 Ein direkter Vergleich der Verformungen mit den gemessenen
 Versuchsresultaten ermöglicht die Erstellung von
-Last-Verformungs-Diagrammen. Dazu sind für die beschriebenen Modelle die
-Verformungen für sämtliche Laststufen bestimmt worden. In
-Abbildung~\ref{fig-last_verformung_vergleich} und
+Last-Verformungs-Diagrammen. Dazu sind für die beschriebenen
+Modellvorstellungen die Verformungen für sämtliche Laststufen bestimmt
+worden. In Abbildung~\ref{fig-last_verformung_vergleich} und
 Abbildung~\ref{fig-last_verformung_laengszug} sind diese für die
 Biegemomentenverläufe aus der Abbildung~\ref{fig-m_x} und der
 Abbildung~\ref{fig-m_x_versatz} gezeigt. Welche sich in der
@@ -2285,10 +2299,9 @@ mit der rechnerisch ermittelten Höhe, sprich dem Hebelarm der inneren
 Kräfte aus der Querschnittsanalyse, erzielt wird, überschreitet das Ziel
 bei Weitem. Des Weiteren zeigt sich, dass die Verformung primär aus dem
 Zuggurt resultiert. Die Schubbewehrung, Druckstrebe und der Druckgurt
-haben einen vernachlässigbaren Einfluss.
-
-Das Fachwerkmodell reagiert äusserst sensibel auf die gewählte Höhe.
-Basierend auf dieser Tatsache ist in
+haben einen vernachlässigbaren Einfluss. Das Fachwerkmodell reagiert
+äusserst sensibel auf den gewählten Abstand der Gurtungen (Hebelarm der
+inneren Kräfte). Basierend auf dieser Tatsache ist in
 Abbildung~\ref{fig-last_verformung_fachwerk_z_var} der
 Verformungsverlauf mit der Anpassung der Fachwerskhöhe auf
 \(160\text{ mm}\) gezeigt. Diese wurde nicht rechnerisch ermittelt, bzw.
@@ -2316,13 +2329,13 @@ dem Druckgurt und der Druckstrebe sind auch hier nicht signifikant.
 \chapter{Vierpunktbiegeversuch}\label{sec-vierpunkt}}
 
 Dieses Kapitel zeigt alle in Kapitel~\ref{sec-modellbeschrieb}
-aufgezeigten Modelle, angewendet auf einen Vierpunktbiegeversuch. Das
-Vorgehen ist in grossen Teilen analog dem Berechnungsvorgehen aus dem
-Kapitel~\ref{sec-dreipunkt}. Es wird das Ziel verfolgt, die
-Anwendbarkeit des Berechnungsapparats an einem weiteren Versuch zu
-verifizieren, bzw. die Differenzen zwischen den mit den verschiedenen
-Modellen berechneten Verformungen und den gemessenen Verformungen
-aufzuzeigen.
+aufgezeigten Modellvorstellungen, angewendet auf einen
+Vierpunktbiegeversuch. Das Vorgehen ist in grossen Teilen analog dem
+Berechnungsvorgehen aus dem Kapitel~\ref{sec-dreipunkt}. Es wird das
+Ziel verfolgt, die Anwendbarkeit des Berechnungsapparats an einem
+weiteren Versuch zu verifizieren, bzw. die Differenzen zwischen den mit
+den verschiedenen Modellvorstellungen berechneten Verformungen und den
+gemessenen Verformungen aufzuzeigen.
 
 \hypertarget{versuchsbeschreibung-1}{%
 \section{Versuchsbeschreibung}\label{versuchsbeschreibung-1}}
@@ -2391,7 +2404,7 @@ Die Zugfestigkeit berechnet mittels der Gleichung nach
 
 \begin{equation}f_{ct} = 0.3 f_{cc}^{\frac{2}{3}}\end{equation}
 
-\begin{equation}f_{ct} = \frac{3.89 \text{N}}{\text{mm}^{2}}\end{equation}
+\begin{equation}f_{ct} = \frac{3.9 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Die Abschätzung für den Elastizitätsmodul nach
 {[}\protect\hyperlink{ref-Jaeger2013}{9}{]} resultiert zu:
@@ -2405,8 +2418,8 @@ Die Abschätzung für den Elastizitätsmodul nach
 
 Die beschriebenen Beziehungen aus dem Kapitel~\ref{sec-kontinua} sind
 folgend auf den Versuch angewendet. Es sind Auflagerkräfte, sowie
-elastische Zustandslinien der Schnittkräfte dargestellt. Als Grundlage
-dient das statischen System in der
+Zustandslinien der Schnittgrössen dargestellt. Als Grundlage dient das
+statischen System in der
 Abbildung~\ref{fig-stat_system_14_auflagerbreite}.
 
 \begin{figure}[H]
@@ -3486,10 +3499,11 @@ mit Zugversteifung}
 
 Es zeigt sich ein leicht steiferes Verhalten im gerissenen Bereich.
 
-\hypertarget{fachwerksanalyse-1}{%
-\section{Fachwerksanalyse}\label{fachwerksanalyse-1}}
+\hypertarget{analyse-mit-fachwerksmodellen-1}{%
+\section{Analyse mit
+Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen-1}}
 
-Die Anwendung der Modelle wird mit dem Modell aus
+Die Anwendung der Modellvorstellungen wird mit dem Modell aus
 Kapitel~\ref{sec-fachwerk} abgeschlossen, welche sich von der
 Beschränkung der Querschnittsbetrachtung löst. Der Kraftfluss wird mit
 Spannungsfeldern modelliert. Eine Einteilung in Parallelfelder und
@@ -3607,8 +3621,9 @@ Fachwerk}
 
 \end{figure}
 
-\hypertarget{modellvergleich-1}{%
-\section{Modellvergleich}\label{modellvergleich-1}}
+\hypertarget{vergleich-der-modellvorstellungen-1}{%
+\section{Vergleich der
+Modellvorstellungen}\label{vergleich-der-modellvorstellungen-1}}
 
 Abgeschlossen wird die Analyse des Versuchs mit einer Gegenüberstellung
 der angewendeten Methoden.
@@ -3617,7 +3632,7 @@ der angewendeten Methoden.
 \subsection{Krümmung}\label{kruxfcmmung-1}}
 
 Betrachtet man zunächst die Momenten-Krümmungs-Beziehung anhand der
-unterschiedlichen Modelle, aufgezeigt in der
+unterschiedlichen Modellvorstellungen, aufgezeigt in der
 Abbildung~\ref{fig-mchi_diagramm_vergleich_sv14}. So zeigt sich der
 minimale Einfluss der Zugversteifung. Ebenso ist die nicht-linearität
 der Beziehung aus der Querschnittsanalyse zu erkennen.
@@ -3629,7 +3644,7 @@ der Beziehung aus der Querschnittsanalyse zu erkennen.
 }
 
 \caption{\label{fig-mchi_diagramm_vergleich_sv14}Momenten-Krümmungs-Diagramm
-zum Vergleich der unterschiedlichen Modelle}
+zum Vergleich der unterschiedlichen Modellvorstellungen}
 
 \end{figure}
 
@@ -3647,7 +3662,7 @@ konstanten gerissenen Biegesteifigkeit.
 }
 
 \caption{\label{fig-chi_x_diagramm_vergleich_sv14}Krümmungsverlauf, mit
-unterschiedlichen Modellen ohne Versatzmass}
+unterschiedlichen Modellvorstellungen ohne Versatzmass}
 
 \end{figure}
 
@@ -3658,7 +3673,7 @@ unterschiedlichen Modellen ohne Versatzmass}
 }
 
 \caption{\label{fig-chi_x_diagramm_laengszugkraft_sv14}Krümmungsverlauf,
-mit unterschiedlichen Modellen mit Versatzmass}
+mit unterschiedlichen Modellvorstellungen mit Versatzmass}
 
 \end{figure}
 
@@ -3672,10 +3687,11 @@ Ebenso ist der geringe Einfluss der Zugversteifung zu erkennen.
 
 Ein direkter Vergleich der Verformungen mit den gemessenen
 Versuchsresultate ermöglichen die Last-Verformungs-Diagramme. Dazu sind
-für die beschriebenen Modelle die Verformungen für sämtliche Laststufen
-bestimmt worden. In Abbildung~\ref{fig-last_verformung_vergleich_sv14}
-und Abbildung~\ref{fig-last_verformung_laengszug_sv14} sind diese für
-die Biegemomentenverläufe aus der Abbildung~\ref{fig-m_x_sv14} und der
+für die beschriebenen Modellvorstellungen die Verformungen für sämtliche
+Laststufen bestimmt worden. In
+Abbildung~\ref{fig-last_verformung_vergleich_sv14} und
+Abbildung~\ref{fig-last_verformung_laengszug_sv14} sind diese für die
+Biegemomentenverläufe aus der Abbildung~\ref{fig-m_x_sv14} und der
 Abbildung~\ref{fig-m_x_versatz_sv14} gezeigt. Welche sich in der
 Berücksichtigung des Versatzmasses unterscheiden. Die Verformung ist an
 der Stelle \(w_1\) gemessen, dargestellt ist die Position in der
@@ -3697,12 +3713,12 @@ erkennen, dass der Verlauf der gemessenen Verformungen in etwa linear
 steigt. Dies verdeutlicht, dass die Zugbewehrung nicht fliesst. Aufgrund
 dessen sind die Resultate mit der nicht-linearen Beziehung und der
 konstanten gerissenen Biegesteifigkeit in etwa gleich. Auffallend ist
-jedoch die starke gesamte Abweichung des Verlaufs von den Messungen. Das
-System wird mit dieser Modellierung zu steif eingeschätzt. Des Weiteren
-zeigt die Normabschätzung eine überraschende Genauigkeit, bzw.
-beschreibt diese das Tragverhalten annähernd präzise. Sowie zeigt die
-Modellierung mit der konstante ungerissenen Biegesteifigkeit keine
-Übereinstimmung mit dem Versuch.
+jedoch die starke gesamte Abweichung des Modellverlaufs von den
+Versuchsresultaten. Das System wird mit dieser Modellierung zu steif
+eingeschätzt. Des Weiteren zeigt die Normabschätzung eine überraschende
+Genauigkeit, bzw. beschreibt diese das Tragverhalten annähernd präzise.
+Sowie zeigt die Modellierung mit der konstante ungerissenen
+Biegesteifigkeit keine Übereinstimmung mit dem Versuch.
 
 \begin{figure}[H]
 
@@ -3718,12 +3734,12 @@ an der Stelle \(w_1\) mit Versatzmass}
 Wie bereits im Kapitel~\ref{sec-dreipunkt} aufgezeigt, führt das
 Versatzmass zu einem weicheren Verhalten. Die
 Abbildung~\ref{fig-last_verformung_laengszug} zeigt sämtliche
-Berechnungsmethoden unter Berücksichtigung dessen. Die Modelle zeigen
-eine Verbesserung hinsichtlich den Resultaten aus der
-Abbildung~\ref{fig-last_verformung_vergleich_sv14}. Weiterhin liefert
-die Normabschätzung eine präzise Übereinstimmung mit den Messungen.
-Jedoch lässt sich festhalten, dass die Modellierungen mit Ausnahme der
-Normabschätzung keine treffenden Beschreibungen des
+Berechnungsmethoden unter Berücksichtigung dessen. Die
+Modellvorstellungen zeigen eine Verbesserung hinsichtlich den Resultaten
+aus der Abbildung~\ref{fig-last_verformung_vergleich_sv14}. Weiterhin
+liefert die Normabschätzung eine präzise Übereinstimmung mit den
+Messungen. Jedoch lässt sich festhalten, dass die Modellierungen mit
+Ausnahme der Normabschätzung keine treffenden Beschreibungen des
 Verformungsverhaltens darstellen.
 
 Der Vierpunktbiegeversuch wird mit der Beschreibung der Resultate aus
@@ -3747,14 +3763,15 @@ an der Stelle \(w_1\) mit Fachwerksmodell}
 Das Fachwerkmodell liefert einen treffenden Beschrieb des
 Verformungsverlaufs. Es zeigt sich, dass die Schubbewehrung einen
 relevanten Verformungsanteil trägt. Dies erklärt die Differenzen der
-vorangegangen Modelle mit den gemessenen Verformungen, da diese keine
-Schubverformungen berücksichtigen. Lässt man die Verformung der
-Schubbewehrung aussen vor, so zeigt ein Vergleich des Zuggurtverlaufs in
-der Abbildung~\ref{fig-last_verformung_fachwerk_sv14} mit den Verläufen
-Abbildung~\ref{fig-last_verformung_laengszug_sv14} eine Übereinstimmung.
-Des Weiteren ist ein Knick im Verformungsverlauf zu erkennen. Dieser ist
-auf das Fliessen der Schubbewehrung zurückzuführen. Die Druckstrebe und
-der Druckgurt spielen eine untergeordnete Rolle.
+vorangegangen Modellvorstellungen mit den gemessenen Verformungen, da
+diese keine Schubverformungen berücksichtigen. Lässt man die Verformung
+der Schubbewehrung aussen vor, so zeigt ein Vergleich des
+Zuggurtverlaufs in der Abbildung~\ref{fig-last_verformung_fachwerk_sv14}
+mit den Verläufen Abbildung~\ref{fig-last_verformung_laengszug_sv14}
+eine Übereinstimmung. Des Weiteren ist ein Knick im Verformungsverlauf
+zu erkennen. Dieser ist auf das Fliessen der Schubbewehrung
+zurückzuführen. Die Druckstrebe und der Druckgurt spielen eine
+untergeordnete Rolle.
 
 Zu hinterfragen gilt es, dass in der
 Abbildung~\ref{fig-last_verformung_sv14} ein Biegeversagen dokumentiert
@@ -3775,29 +3792,30 @@ Die Komplexität der Modellbeschriebe ist gering gehalten, was im Sinne
 der Anwendung dieser steht.
 
 Die darauf folgende Anwendung am Dreipunktbiegeversuch zeigt die Stärken
-und Schwächen der Modelle vollumfänglich. Der Versuch zeigt, dass der
-Verformungsverlauf mit überschaubarem Rechenaufwand durchaus präzise
-abgebildet werden kann, vorzugsweise mit der numerischen Integration der
-Krümmung, basierend auf der nicht-linearen Momenten-Krümmungs-Beziehung.
-Die Stärke in diesem pragmatischen Ansatz liegt darin, dass komplexere
-Berechnungen damit verifiziert werden können, sofern aussagekräftige
-Querschnittsanalysen getroffen werden. Des Weiteren wird aufgezeigt,
-dass Verformungen primär durch Biegung verursacht, mit sämtlichen
-Modellen ansatzweise beschrieben werden können. Ausführlich beschrieben
-ist die Schwäche der Modellierung mittels der konstanten gerissenen oder
-ungerissenen Biegesteifigkeit, welche den Verformungsverlauf nur
-ansatzweise beschreiben. Die Fachwerksanalyse liefert bei diesem Versuch
-keine passenden Ergebnisse. Lediglich bei einer Anpassung der
-Fachwerkshöhe sind zutreffende Ergebnisse angetroffen worden. Das
-empfindliche Verhalten auf die gewählte Fachwerkshöhe ist als
-problematisch einzuschätzen. Denn in der Praxis fehlt ein vorgängiges
-Bild des Verformungsverlaufs, an welchem diese abgestimmt werden kann.
+und Schwächen der Modellvorstellungen vollumfänglich. Der Versuch zeigt,
+dass der Verformungsverlauf mit überschaubarem Rechenaufwand durchaus
+präzise abgebildet werden kann, vorzugsweise mit der numerischen
+Integration der Krümmung, basierend auf der nicht-linearen
+Momenten-Krümmungs-Beziehung. Die Stärke in diesem pragmatischen Ansatz
+liegt darin, dass komplexere Berechnungen damit verifiziert werden
+können, sofern aussagekräftige Querschnittsanalysen getroffen werden.
+Des Weiteren wird aufgezeigt, dass Verformungen primär durch Biegung
+verursacht, mit sämtlichen Modellvorstellungen ansatzweise beschrieben
+werden können. Ausführlich beschrieben ist die Schwäche der Modellierung
+mittels der konstanten gerissenen oder ungerissenen Biegesteifigkeit,
+welche den Verformungsverlauf nur ansatzweise beschreiben. Die
+Fachwerksanalyse liefert bei diesem Versuch keine passenden Ergebnisse.
+Lediglich bei einer Anpassung der Fachwerkshöhe sind zutreffende
+Ergebnisse angetroffen worden. Das empfindliche Verhalten auf die
+gewählte Fachwerkshöhe ist als problematisch einzuschätzen. Denn in der
+Praxis fehlt ein vorgängiges Bild des Verformungsverlaufs, an welchem
+diese abgestimmt werden kann.
 
 Der anschliessende Vierpunktbiegeversuch liefert weniger passende
-Ergebnisse für die Biegemodelle. Problematisch dabei ist, dass die
-Verformung primär nicht nur aus den Biegeverformungen resultieren,
-sondern auch Schubverformungen einen beträchtlichen Anteil liefern.
-Lediglich das Fachwerkmodell ist in der Lage einen präzisen
+Ergebnisse für die Biegemodellvorstellungen. Problematisch dabei ist,
+dass die Verformung primär nicht nur aus den Biegeverformungen
+resultieren, sondern auch Schubverformungen einen beträchtlichen Anteil
+liefern. Lediglich das Fachwerkmodell ist in der Lage einen präzisen
 Verformungsverlauf zu beschreiben. Die rechnerisch ermittelte
 Fachwerkshöhe hat in diesem Fall erfreulich passende Ergebnisse
 geliefert. Unsicherheiten bleiben hierbei bei der Wahl des
@@ -3815,12 +3833,72 @@ praxistaugliche Werkzeuge zur rechnerischen Beschreibung dieser liefert.
 
 Basierend auf dieser Arbeit, gilt es sich in einer folgenden Arbeit von
 den Stabtragwerken zu lösen. Es wird angestrebt, die beschriebenen
-Modelle auf Plattentragwerke zu erweitern. Unter der Verwendung gängier
-Finite-Element-Programmen wird versucht, Verformungen mittels
-nicht-linearen Beziehungen zu beschreiben. Ein möglicher Ansatz zur
-Modellierung von Platten, basierend auf den erlangten Erkenntnissen, ist
-die Anordnung der Stabtragwerke als Trägerrost. Weiterhin wird das
-übergeordnete Ziel verfolgt, pragmatische Ansätze zu verfolgen.
+Modellvorstellungen auf Plattentragwerke zu erweitern. Unter der
+Verwendung gängiger Finite-Element-Programmen (FE) wird versucht,
+Verformungen mittels nicht-linearen Beziehungen zu beschreiben.
+Weiterhin wird das übergeordnete Ziel verfolgt, pragmatische Ansätze zu
+verfolgen.
+
+Ein möglicher Ansatz zur Modellierung von Platten, basierend auf den
+erlangten Erkenntnissen, ist die Anordnung der Stabtragwerke als
+Trägerrost. Folgend wird das Modellieren der Stabtragwerke mit zweier
+FE-Programmen aufgezeigt. Dabei ist entlang der Stabachse jeweils eine
+Drehfeder einzuführen und mit der entsprechenden
+Momenten-Krümmungs-Beziehung zu hinterlegen. An jeder Drehfeder wird das
+entsprechende Biegemoment aus der Beanspruchung am System angesetzt.
+Dies führt zum Krümmungsverlauf. Der Abstand der Drehfedern definiert
+folglich den Grad der Approximation des Krümmungsverlaufs.
+
+Der Ansatz mittels dem Stabstatikprogramm Statik-9 der Cubus AG ist in
+Abbildung~\ref{fig-cubus_stab} gezeigt.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{index_files/mediabag/../images/cubus_Stab.pdf}
+
+}
+
+\caption{\label{fig-cubus_stab}Anordnung von nicht-linearen Drehfedern,
+modelliert als Wegfedern entlang der Stabachse}
+
+\end{figure}
+
+Da ein nicht-lineares Verhalten mit diesem Programm lediglich mit
+Wegfedern modelliert werden kann, wird die Drehfeder mit zwei Wegfedern
+im Abstand des Hebelarms der inneren Kräfte modelliert. Den Wegfedern
+wird das Spannungs-Dehnungs-Verhalten des Zuggurts oder des Druckgurts
+hinterlegt.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{index_files/mediabag/../images/axis_stab.pdf}
+
+}
+
+\caption{\label{fig-axis_stab}Anordnung von nicht-linearen Drehfedern
+entlang der Stabachse}
+
+\end{figure}
+
+Des Weiteren wird die AxisVM Statiksoftware verwendet. In dieser lassen
+sich direkt nicht-lineare Drehfedern modellieren. Aufgezeigt ist das
+Stabmodell in Abbildung~\ref{fig-axis_stab}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{index_files/mediabag/../images/traegerrost.pdf}
+
+}
+
+\caption{\label{fig-traegerrost}Anordnung der Stabtragwerken zu einem
+Trägerrost}
+
+\end{figure}
+
+Die Stabtragwerke werden abschliessend zum Trägerrost angeordnet,
+dargestellt in der Abbildung~\ref{fig-traegerrost}. Aus dem Trägerrost
+lassen sich die Verformungen bestimmen. Dabei gilt es zu vermerken, dass
+der Trägerrost keine Verdrillung der Platte abbilden kann.
 
 \bookmarksetup{startatroot}
 
