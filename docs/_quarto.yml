@@ -61,14 +61,14 @@ format:
     classoption: egregdoesnotlikesansseriftitles
 
 
-  # docx:
-  #   lang: de
-  #   fig-format: svg
-  #   csl: diabetologia.csl
-  #   link-citations: true
-  #   tbl-colwidths: [50,50]
-  #   echo: false
-  #   warning: false
+  docx:
+    lang: de
+    fig-format: svg
+    csl: diabetologia.csl
+    link-citations: true
+    tbl-colwidths: [50,50]
+    echo: false
+    warning: false
 
 
 

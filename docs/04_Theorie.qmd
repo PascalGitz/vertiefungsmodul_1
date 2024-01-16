@@ -1,4 +1,4 @@
-# Modellbeschreibung {#sec-modellbeschrieb}
+# Modellvorstellungen {#sec-modellbeschrieb}
 
 In diesem Kapitel sind Modellvorstellungen zur Bestimmung von Verformungen im Stahlbeton aufgezeigt. Es wird auf analytische Beziehungen und deren Herleitungen eingegangen. Das Ziel ist es, die grundlegenden Eigenschaften der Modellvorstellungen darzulegen.
 
@@ -14,7 +14,7 @@ Der Aufbau des Modells wird an einem simplen System erläutert. Das statische Sy
 
 ![Statisches System mit einer Einteilung in differentielle Elemente](../images/Kontinua_system.svg){#fig-reine_biegung_system}
 
-Die @fig-system_reine_biegung_element zeigt ein herausgeschnittenes Element mit infinit kleinen Abmessungen. An den Schnittkanten sind Schnittkräfte eingeführt. Ebenfalls ist der verformte Zustand unterhalb dargestellt. Die Darstellung im verformten Zustand liefert Auskunft über die kinematischen Relationen. Es wird angenommen, dass das Element seiner Form treu bleibt, bzw. sich als ganzes verdreht.
+Die @fig-system_reine_biegung_element zeigt ein herausgeschnittenes Element mit infinit kleinen Abmessungen. An den Schnittkanten sind Schnittkräfte eingeführt. Ebenfalls ist der verformte Zustand unterhalb dargestellt. Die Darstellung im verformten Zustand liefert Auskunft über die kinematischen Relationen. Es wird angenommen, dass das Element seiner Form treu bleibt, bzw. sich als Ganzes verdreht.
 
 ![Differentielles Element des reinen Biegebalkens](../images/Kontinua_element.svg){#fig-system_reine_biegung_element}
 
@@ -22,7 +22,7 @@ Um die Beziehung des reinen Biegeträgers herzuleiten, sind neben den Gleichgewi
 
 ### Herleitung
 
-Beginnend bei den Gleichgewichtsbetrachtungen kann anhand des Gleichgewichts der vertikalen Kräfte die @eq-dgl_v_x emittelt werden. Diese beschreibt die Beziehung zwischen Einwirkung und Querkraft.
+Beginnend bei den Gleichgewichtsbetrachtungen kann anhand des Gleichgewichts der vertikalen Kräfte die @eq-dgl_v_x ermittelt werden. Diese beschreibt die Beziehung zwischen Einwirkung und Querkraft.
 
 $$
 \downarrow^+\sum F_z = 0 = q_z(x)\cdot dx -V + (V+dV)
@@ -57,7 +57,7 @@ $$
 q_z(x) = -V(x)'= -M(x)''
 $$ {#eq-dgl_M_y}
 
-Mittels Gleichgewicht lassen sich keine weiteren Beziehungen ermitteln. Berücksichtigt man die Werkstoffbeziehungen und kinematischen Relationen, so lassen sich Aussagen zwischen Einwirkung und Verformung definieren. Um die Herleitung abzukürzen wird die Beziehung in @eq-momentenkrümmung zwischen Biegemoment und Krümmung vorausgesetzt.
+Mittels Gleichgewichts lassen sich keine weiteren Beziehungen ermitteln. Berücksichtigt man die Werkstoffbeziehungen und kinematischen Relationen, so lassen sich Aussagen zwischen Einwirkung und Verformung definieren. Um die Herleitung abzukürzen, wird die Beziehung in @eq-momentenkrümmung zwischen Biegemoment und Krümmung vorausgesetzt.
 
 $$
 \frac{M}{EI} = \chi
@@ -81,8 +81,9 @@ $$
 M = -EIw(x)''
 $$
 
-und unter Berücksichtigung der @eq-dgl_M_y folgt die Beziehung zwischen Verformung und Einwirkung, dargestellt in @eq-dgl_reine_biegung. $$
-q(x) = EIw(x)''''
+und unter Berücksichtigung der @eq-dgl_M_y folgt die Beziehung zwischen Verformung und Einwirkung, dargestellt in @eq-dgl_reine_biegung. 
+$$
+q_z(x) = EIw(x)''''
 $$ {#eq-dgl_reine_biegung}
 
 Durch das Lösen der Differentialgleichung lassen sich die Zustandslinien der Querkräfte, Biegemomente, Verdrehungen und Verformungen bestimmen.
@@ -115,7 +116,7 @@ Die Mohr'sche Analogie ermöglicht folglich die Bestimmung der Verformungen durc
 
 ## Abschätzung nach Norm {#sec-norm}
 
-Die folgende Beschreibung richtet sich nach der Masterthesis @Stecher2022. Der Schweizerische Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen Betonnorm @SIA2013a Ziffer 4.4.3.2.5 den Ansatz in @eq-w_1_II_sia zur Ermittlung der Verformung im gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu bestimmen und mit einem Faktor, welcher abhängig von Zug- und Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu vergrössern. Das Verhalten des Faktors unter Variation der Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe ist in @fig-fg gezeigt. Der Vergrösserungsfaktor wurde empirisch ermittelt.
+Die folgende Beschreibung richtet sich nach der Masterthesis @Stecher2022. Der Schweizerische Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen Betonnorm @SIA2013a Ziffer 4.4.3.2.5 den Ansatz in @eq-w_1_II_sia zur Ermittlung der Verformung im gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu bestimmen und mit einem Faktor, welcher abhängig vom Zug- und Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu vergrössern. Das Verhalten des Faktors unter Variation der Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe ist in @fig-fg gezeigt. 
 
 $$
 w_{1II,SIA} = f_g w_1
@@ -139,15 +140,15 @@ Das Zuggurtmodell beschreibt das Verformungsverhalten nach dem Reissen des Beton
 
 ### Aufbau
 
-Der folgende Abschnitt beschreibt das Zuggurtmodell anhand der Herleitungen in @Spathelf2022. Das Zuggurtmodell betrachtet auf Zug beanspruchte Stahlbetonzugglieder. Das Modell erlaubt eine Eingrenzung der Rissbreiten und der Rissabstände. Im Bereich zwischen den Rissen erhöht sich die Steifigkeit des Zugglieds, da sich der Beton am Lastabtrag beteiligt. Dies wird als Zugversteifung beschrieben. Um das Verhalten des Verbunds zwischen Beton und Betonstahl im ungerissenen Bereich zu definieren, wird eine Verbundschubspannungs-Schlupf-Beziehung dem Modell zugrunde gelegt.
+Der folgende Abschnitt beschreibt das Zuggurtmodell anhand der Herleitungen in @Spathelf2022. Das Zuggurtmodell betrachtet auf Zug beanspruchte Stahlbetonzugglieder. Das Modell erlaubt eine Eingrenzung der Rissbreiten und der Rissabstände. Durch die definierte Position der Risse, lässt sich das Verhalten im Riss vom Verhalten zwischen den Rissen unterscheiden. Im Riss ist der Querschnitt als gerissen zu betrachten, im Bereich zwischen den Rissen erhöht sich die Steifigkeit des Zugglieds, da sich der Beton am Lastabtrag beteiligt. Dies wird als Zugversteifung beschrieben. Um das Verhalten des Verbunds zwischen Beton und Betonstahl im ungerissenen Bereich zu definieren, wird eine Verbundschubspannungs-Schlupf-Beziehung dem Modell zugrunde gelegt.
 
 ![Verlauf der effektiven Verbundschubspannungen, Betonstahlspannungen, Betonspannungen, Betonstahldehnungen, Betondehnungen und Schlupf bei einem Zugglied. Bild neu gezeichnet nach @Spathelf2022](../images/Zuggurtmodell_grund.svg){#fig-zuggurtmodell}
 
-Verwendet wird eine abegtreppte, starr-ideal-plastische Verbundschubspannungs-Schlupf-Beziehung. Durch die Idealisierung lassen sich die Spannungen und Dehnungen ausschliesslich durch Gleichgewichtsbeziehungen ermitteln. Die Abtreppung erfolgt beim Erreichen der Fliessgrenze des Betonstahls. In der @fig-zuggurtmodell im Verlauf des Schlupfs (rechts) ist die Position der Fliessspannung dargestellt.
+Verwendet wird eine abgetreppte, starr-ideal-plastische Verbundschubspannungs-Schlupf-Beziehung. Durch die Idealisierung lassen sich die Spannungen und Dehnungen ausschliesslich durch Gleichgewichtsbeziehungen ermitteln. Die Abtreppung erfolgt beim Erreichen der Fliessgrenze des Betonstahls. In der @fig-zuggurtmodell im Verlauf des Schlupfs (rechts) ist die Position der Fliessspannung dargestellt.
 
 ![Idealisierte Verbundschubspannungs-Schlupf-Beziehung](../images/verbund_schlupf.svg){#fig-verbund_schlupf}
 
-Zudem verdeutlicht der Verbunschubspannungsverlauf, in @fig-zuggurtmodell (links), die Rechtfertigung der Vereinfachung als abgetreppten Verlauf.
+Zudem verdeutlicht der Verbundschubspannungsverlauf, in @fig-zuggurtmodell (links), die Rechtfertigung der Vereinfachung als abgetreppten Verlauf. 
 
 #### Ansatz nach Marti
 
@@ -157,7 +158,7 @@ Vor dem Erreichen der Zugfestigkeit des Betons verbleibt das Zugglied ungerissen
 
 ![Einfluss der zugversteifenden Wirkung bei einem Biegeelement](../images/QS_zugversteifung.svg){#fig-einfluss_zugversteifung}
 
-In der @fig-einfluss_zugversteifung ist der Spannungsverlauf des Betons und des Betonstahls gezeigt. Diese zeigt die Abnahme der Betonstahlspannung bei steigender Entfernung zum Riss. Mit der Spannungsreduktion folgt eine Dehnungsreduktion, welche mit $\Delta \varepsilon_s (\lambda)$ beschrieben wird. Aus der Dehnungsreduktion lässt sich eine Krümmungsdifferenz definieren nach @eq-krummungsdiff.
+In der @fig-einfluss_zugversteifung ist der Spannungsverlauf des Betons und des Betonstahls über die Länge des Risselements gezeigt. Diese zeigt die Abnahme der Betonstahlspannung bei steigender Entfernung zum Riss. Mit der Spannungsreduktion folgt eine Dehnungsreduktion, welche mit $\Delta \varepsilon_s (\lambda)$ beschrieben wird. Aus der Dehnungsreduktion lässt sich eine Krümmungsdifferenz definieren nach @eq-krummungsdiff.
 
 $$
 \Delta \chi(\lambda) = \frac{\Delta \varepsilon_s (\lambda)}{(d-x)} = \frac{\lambda}{2} \cdot \left ( \frac{M_r}{EI^{II}} - \frac{f_{ct}}{E_c\cdot(d-x)}\right )
@@ -194,13 +195,13 @@ Das Zuggurtmodell findet Anwendung bei Zuggliedern in der Biegezugzone. Es liefe
 
 ## Numerische Integration der Krümmung {#sec-numint}
 
-Die numerische Integration der Krümmung bietet einen Ansatz, einen nicht-linearen Biegesteifigkeitsverlauf zu berücksichtigen. Mittels der Arbeitsgleichung lassen sich die Verformungen punktuell bestimmen. Für Biegeträger gilt die folgende @eq-arbeitsgleichung.
+Die numerische Integration der Krümmung bietet einen Ansatz, einen nicht-linearen Biegesteifigkeitsverlauf, bzw. eine nicht-lineare Momenten-Krümmungs-Beziehung zu berücksichtigen. Mit einem gegebenen Biegemomentenverlauf lässt sich daraus ein Krümmungsverlauf bestimmen. Der Krümmungsverlauf ermöglicht die Bestimmung der Verformungen unter der Berücksichtigung der Arbeitsgleichung. Für Biegeträger gilt die folgende @eq-arbeitsgleichung.
 
 $$
 w = \int_0^l \bar{M}(x) \cdot \frac{M(x)}{EI} d_x
 $$ {#eq-arbeitsgleichung}
 
-Wobei $\frac{M(x)}{EI} = \chi(x)$ gilt, sprich dem Krümmungsverlauf entspricht. Die Arbeitsgleichung setzt die innere Arbeit aus dem Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus lässt sich der Weg, sprich die Verformung bestimmen.
+Wobei $\frac{M(x)}{EI} = \chi(x)$ gilt, sprich dem Krümmungsverlauf entspricht. Die Funktion $\bar{M}(x)$ beschreibt den virtuellen Biegemomentenverlauf. Die Arbeitsgleichung setzt die innere Arbeit aus dem Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus lässt sich der Weg, sprich die punktuelle Verformung bestimmen.
 
 ### Momenten-Krümmungs-Beziehung
 
@@ -210,27 +211,27 @@ Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich mittels Handrechnun
 -   Die Betonzugfestigkeit $f_{ct}$ wird für Zustände nach dem Überschreiten von $f_{ct}$ vernachlässigt
 -   Die Bewehrung überträgt Zug- und Druckkräfte ausschliesslich in Stabrichtung
 
-Dazu wird der Querschnitt bei steigender Dehnung, induziert durch Biegung, analysiert. Der entsprechende Biegewiderstand und die gekoppelte Krümmung wird dabei bestimmt. Grundsätzlich wird der Querschnitt vor dem Reissen des Betons, nach dem Reissen, beim Fliessbeginn der Zugbewehrung und beim Erreichen des Biegewiderstands betrachtet. Exemplarisch ist in @fig-exemplar_qs_analyse der Zustand des Biegewiderstands dargestellt.
+Dazu wird der Querschnitt bei steigender Dehnung, induziert durch Biegung, analysiert. Der entsprechende Biegewiderstand und die gekoppelte Krümmung werden dabei bestimmt. Grundsätzlich wird der Querschnitt vor dem Reissen des Betons, nach dem Reissen, beim Fliessbeginn der Zugbewehrung und beim Erreichen des Biegewiderstands betrachtet. Exemplarisch ist in @fig-exemplar_qs_analyse der Zustand des Biegewiderstands dargestellt.
 
-![Querschnittsanalyse für den Zustand des Biegewiderstands](../images/QS_14_analyse_1.svg){#fig-exemplar_qs_analyse}
+![Querschnittsanalyse für den Zustand des Biegewiderstands](../images/QS_14_analyse_5.svg){#fig-exemplar_qs_analyse}
 
 ## Analyse mit Fachwerksmodellen {#sec-fachwerk}
 
-Die Analyse mit Fachwerksmodellen basiert auf einer Modellierung mittels Spannungsfeldern. Das Ziel ist es, mittels Spannungsfelder den Kraftfluss im Balken abzubilden. Das Fachwerk bildet den Kraftfluss detaillierter als eine Querschnittsanalyse ab. In Anlehnung an die Modellierungsstufen in @Thoma2020 gliedert sich die Fachwerksmodellierung im level of Approximation II an, eine Stufe höher als die Querschnittsanalyse. Grundsätzlich wird das Modell jedoch zur Bemessung im Grenzzustand der Tragsicherheit verwendet. Folgend wird beschrieben, wie mittels der Analyse mit Fachwerksmodellen Deformationen zielführend bestimmt werden können.
+Die Analyse mit Fachwerksmodellen basiert auf einer Modellierung mittels Spannungsfelder. Das Ziel ist es, mittels Spannungsfelder den Kraftfluss im Balken abzubilden. Das Fachwerk bildet den Kraftfluss detaillierter als eine Querschnittsanalyse ab. In Anlehnung an die Modellierungsstufen in @Thoma2020 gliedert sich die Fachwerksmodellierung im Level of Approximation II an, eine Stufe höher als die Querschnittsanalyse. Grundsätzlich wird das Modell jedoch zur Bemessung im Grenzzustand der Tragsicherheit verwendet. Folgend wird beschrieben, wie mittels der Analyse mit Fachwerksmodellen Deformationen zielführend bestimmt werden können.
 
 ### Spannungsfelder
 
-Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche mit nicht-zentrierten Fächern und Parallelfeldern modellieren. Durch die Wahl eines Neigungswinkels der Felder ergibt sich deren Geometrie. Bei der Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
+Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche mit zentrierten Fächern und Parallelfeldern modellieren. Durch die Wahl eines Neigungswinkels der Felder ergibt sich deren Geometrie. Bei der Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
 
 #### Wahl des Neigungswinkels
 
-Anders als bei einer Bemessung eines Balkens, ist die Bügelbewehrung bei einer Nachrechnung (Überprüfung) bereits festgelegt. Folgend wird eine Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die Querkraftbemessung der Betonnorm @SIA2013a basiert auf der Modellierung mittels Spannungsfeldern. Der Neigungswinkel der Betondruckstrebe kann in Anlehnung an die @eq-v_rds_sia262 zur Bestimmung des Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
+Anders als bei einer Bemessung eines Balkens, ist die Bügelbewehrung bei einer Nachrechnung (Überprüfung) bereits festgelegt. Folgend wird eine Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die Querkraftbemessung der Betonnorm @SIA2013a basiert auf der Modellierung mittels Spannungsfelder. Der Neigungswinkel der Betondruckstrebe kann in Anlehnung an die @eq-v_rds_sia262 zur Bestimmung des Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
 
 $$
 V_{Rd,s} = \frac{A_{sw}}{s} z f_{sd} \cot(\alpha)
 $$ {#eq-v_rds_sia262}
 
-Wird nun ein Fachwerkmodell für die Nachrechnung von Verformungen von Versuchen verwendet, so gilt es den passenden Neigungswinkel anhand der gegebenen Schubbewehrung zu ermitteln. Dabei wird vom Bruchzustand ausgegangen. Somit wird die maximale Querkraft, der Hebelarm der inneren Kräfte des Biegewiderstands, die Fliess- oder Bruchspannung der Bügelbewehrung und die entsprechende Querschnittsfläche in die @eq-v_rds_sia262 eingesetzt. Daraus lässt sich die Neigung bestimmen. Mit dem bestimmten Neigungswinkel ist die Geometrie der Spannungsfelder und folglich die des Fachwerks eindeutig bestimmt. 
+Wird nun ein Fachwerkmodell für die Nachrechnung von Verformungen von Versuchen verwendet, so gilt es den passenden Neigungswinkel anhand der gegebenen Schubbewehrung zu ermitteln. Dabei wird vom Bruchzustand ausgegangen. Somit wird die maximale Querkraft, der Hebelarm der inneren Kräfte des Zustands des Biegewiderstands, die Fliess- oder Bruchspannung der Bügelbewehrung und die entsprechende Querschnittsfläche in die @eq-v_rds_sia262 eingesetzt. Daraus lässt sich die Neigung bestimmen. Mit dem bestimmten Neigungswinkel ist die Geometrie der Spannungsfelder und folglich die des Fachwerks eindeutig bestimmt. 
 
 #### Dehnsteifigkeiten
 
@@ -238,18 +239,18 @@ Abschliessend gilt es den Fachwerksstäben die entsprechenden Querschnittsfläch
 
 ## Versatzmass {#sec-versatzmass}
 
-Abgeschlossen wird die Modellbeschreibung mit der Beschreibung des Versatzmasses. Die Modellierung mittels Spannungsfeldern zeigt, dass die Querkraft durch ein diagonales Druckfeld abgetragen wird. Die horizontale Komponente des diagonalen Kraftvektors erhöht die Längskraft. Eine Erhöhung der Längskraft bringt eine Erhöhung des Biegemoments mit sich. 
+Abgeschlossen wird die Beschreibung der Modellvorstellungen mit den Grundlagen des Versatzmasses. Die Modellierung mittels Spannungsfelder zeigt, dass die Querkraft durch ein diagonales Druckfeld abgetragen wird. Die horizontale Komponente des diagonalen Kraftvektors erhöht die Längskraft. Eine Erhöhung der Längskraft bringt eine Erhöhung des Biegemoments mit sich. 
 
 ![Längszugkraft aus der Querkraft, dargestellt im Spannungsfeld, entnommen aus @Thoma2020](../images/spannungsfeld_versatzmass.svg){#fig-laengszug_spf}
 
 Visualisiert ist dies in der @fig-laengszug_spf. Es ist ein freigeschnittenes Spannungsfeld gezeigt, welches mit Schnittkräften ergänzt ist, um das Gleichgewicht im System zu wahren. Die diagonal gerichtete Druckkraft, mit deren horizontalen Komponente ist am Schnittufer gezeigt. Durch das Anwenden des Gleichgewichts lassen sich die Gurtkräfte bestimmen, welche durchwegs durch den Term in der @eq-versatzmass erhöht werden. 
 
 $$
-h_{versatz} = \frac{V \cdot \cot(\theta_{c3})}{2}
+h_{Versatz} = \frac{V \cdot \cot(\theta_{c3})}{2}
 $$ {#eq-versatzmass}
 
 $$
-M_{versatz} = \frac{V \cdot \cot(\theta_{c3})}{2} \cdot z
+M_{Versatz} = \frac{V \cdot \cot(\theta_{c3})}{2} \cdot z
 $$ {#eq-versatzmoment}
 
 Die @eq-versatzmass beschreibt die Erhöhung der Längszugkraft aus der Querkraft. Der Einfluss auf das Biegemoment aus der erhöhten Längszugkraft zeigt die @eq-versatzmoment.

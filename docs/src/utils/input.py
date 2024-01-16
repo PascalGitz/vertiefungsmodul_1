@@ -6,7 +6,7 @@ os.chdir(workspace_dir)
 
 ## Sympy und Hilfsfunktionen
 import sympy as sp
-from sympy.abc import *
+# from sympy.abc import *
 from sympycalcs import param_value, dict_render, dict_to_table, eq_pretty_units, eq_subs
 import sympy.physics.units as unit
 
@@ -52,6 +52,7 @@ EI, F_A, F_B, F_C, f_B, f_A, f_C = sp.symbols("EI F_A F_B F_C f_B, f_A, f_C")
 c_1, c_2, c_3, c_4 = sp.symbols("c_1:5", real=True)
 a_1, a_2, a_3, a_4, a_5 = sp.symbols("a_1:6", positive=True)
 b_auflager, l_tot = sp.symbols("b_Auflager l_tot", positive=True)
+x,M, b, h, w, d, z, rho, a, n, r, m, y = sp.symbols('x M b h w d z \\rho a n r m y')
 q_x = sp.Function("q")(x)
 M_x = sp.Function("M")(x)
 V_x = sp.Function("V")(x)
@@ -101,8 +102,7 @@ F_c1, F_c2, F_c3, F_c4, F_c5 = sp.symbols("F_c\,1:6")
 
 
 sigma_c_1, sigma_c_2, sigma_c_3, sigma_c_4, sigma_c_inf_5 = sp.symbols("sigma_c_1:6")
-# sigma_c_11, sigma_c_21, sigma_c_31, sigma_c_41, sigma_c_inf_51 = sp.symbols('sigma_c_1:6\,1')
-# sigma_c_12, sigma_c_22, sigma_c_32, sigma_c_42, sigma_c_inf_52 = sp.symbols('sigma_c_1:6\,2')
+
 
 sigma_s_1, sigma_s_2, sigma_s_3, sigma_s_4, sigma_s_inf_5 = sp.symbols("sigma_s_1:6")
 sigma_s_11, sigma_s_21, sigma_s_31, sigma_s_41, sigma_s_inf_51 = sp.symbols(
@@ -123,7 +123,7 @@ epsilon_s12, epsilon_s22, epsilon_s32, epsilon_s42, epsilon_s52 = sp.symbols(
 )
 
 epsilon_c1, epsilon_c2, epsilon_c3, epsilon_c4, epsilon_c5 = sp.symbols(
-    "varepsilon_c\,1:6"
+    "varepsilon_c1:6"
 )
 epsilon_sy, epsilon_cu, epsilon_su, epsilon_s, epsilon_c = sp.symbols(
     "varepsilon_sy varepsilon_cu varepsilon_su varepsilon_s varepsilon_c"

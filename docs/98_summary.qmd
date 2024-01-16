@@ -4,23 +4,21 @@
 
 Das einleitende Kapitel der Modellvorstellung bietet einen breiten Überblick der Modelle zum Beschreiben von Verformungen im Stahlbetonbau. Die Komplexität der Modellbeschriebe ist gering gehalten, was im Sinne der Anwendung dieser steht. 
 
-Die darauf folgende Anwendung am Dreipunktbiegeversuch zeigt die Stärken und Schwächen der Modellvorstellungen vollumfänglich. Der Versuch zeigt, dass der Verformungsverlauf mit überschaubarem Rechenaufwand durchaus präzise abgebildet werden kann, vorzugsweise mit der numerischen Integration der Krümmung, basierend auf der nicht-linearen Momenten-Krümmungs-Beziehung. Die Stärke in diesem pragmatischen Ansatz liegt darin, dass komplexere Berechnungen damit verifiziert werden können, sofern aussagekräftige Querschnittsanalysen getroffen werden. Des Weiteren wird aufgezeigt, dass Verformungen primär durch Biegung verursacht, mit sämtlichen Modellvorstellungen ansatzweise beschrieben werden können. Ausführlich beschrieben ist die Schwäche der Modellierung mittels der konstanten gerissenen oder ungerissenen Biegesteifigkeit, welche den Verformungsverlauf nur ansatzweise beschreiben. Die Fachwerksanalyse liefert bei diesem Versuch keine passenden Ergebnisse. Lediglich bei einer Anpassung der Fachwerkshöhe sind zutreffende Ergebnisse angetroffen worden. Das empfindliche Verhalten auf die gewählte Fachwerkshöhe ist als problematisch einzuschätzen. Denn in der Praxis fehlt ein vorgängiges Bild des Verformungsverlaufs, an welchem diese abgestimmt werden kann.
+Die darauf folgende Anwendung am Dreipunktbiegeversuch zeigt die Stärken und Schwächen der Modellvorstellungen vollumfänglich. Der Versuch zeigt, dass der Verformungsverlauf mit überschaubarem Rechenaufwand durchaus präzise abgebildet werden kann, vorzugsweise mit der numerischen Integration der Krümmung, basierend auf der nicht-linearen Momenten-Krümmungs-Beziehung. Die Stärke in diesem pragmatischen Ansatz liegt darin, dass komplexere Berechnungen damit verifiziert werden können, sofern aussagekräftige Querschnittsanalysen getroffen werden. Des Weiteren wird aufgezeigt, dass Verformungen primär durch Biegung verursacht, mit sämtlichen Modellvorstellungen ansatzweise beschrieben werden können. Ausführlich beschrieben ist die Schwäche der Modellierung mittels der konstanten gerissenen oder ungerissenen Biegesteifigkeit, welche den Verformungsverlauf nur ansatzweise beschreiben. Die Fachwerksanalyse liefert bei diesem Versuch keine passenden Ergebnisse. Lediglich bei einer Anpassung der Fachwerkshöhe sind akzeptable Ergebnisse angetroffen worden. Das empfindliche Verhalten auf die gewählte Fachwerkshöhe ist als problematisch einzuschätzen. Denn in der Praxis fehlt ein vorgängiges Bild des Verformungsverlaufs, an welchem diese abgestimmt werden kann.
 
-Der anschliessende Vierpunktbiegeversuch liefert weniger passende Ergebnisse für die Biegemodellvorstellungen. Problematisch dabei ist, dass die Verformung primär nicht nur aus den Biegeverformungen resultieren, sondern auch Schubverformungen einen beträchtlichen Anteil liefern. Lediglich das Fachwerkmodell ist in der Lage einen präzisen Verformungsverlauf zu beschreiben. Die rechnerisch ermittelte Fachwerkshöhe hat in diesem Fall erfreulich passende Ergebnisse geliefert. Unsicherheiten bleiben hierbei bei der Wahl des Neigungswinkels der Spannungsfelder, welcher unrealistisch klein gewählt ist. Dies ist möglicherweise auf die gering gehaltene Schubbewehrung zurückzuführen, welche deutlich unter der Mindestquerkraftbewehrung liegt. 
+Der anschliessende Vierpunktbiegeversuch liefert weniger passende Ergebnisse für die Biegemodellvorstellungen. Problematisch dabei ist, dass die Verformung primär nicht nur aus den Biegeverformungen resultiert, sondern auch Schubverformungen einen beträchtlichen Anteil liefern. Lediglich das Fachwerkmodell ist in der Lage einen präzisen Verformungsverlauf zu beschreiben. Die rechnerisch ermittelte Fachwerkshöhe hat in diesem Fall erfreulich passende Ergebnisse geliefert. Unsicherheiten bleiben hierbei bei der Wahl des Neigungswinkels der Spannungsfelder, welcher unrealistisch klein gewählt ist. Dies ist möglicherweise auf die gering gehaltene Schubbewehrung zurückzuführen, welche deutlich unter der Mindestquerkraftbewehrung liegt. 
 
 Es lässt sich abschliessend festhalten, dass die Arbeit eine Förderung des Grundverständnisses der Verformungen im Stahlbetonbau bietet, sowie praxistaugliche Werkzeuge zur rechnerischen Beschreibung dieser liefert. 
 
 ## Ausblick
 
-Basierend auf dieser Arbeit, gilt es sich in einer folgenden Arbeit von den Stabtragwerken zu lösen. Es wird angestrebt, die beschriebenen Modellvorstellungen auf Plattentragwerke zu erweitern. Unter der Verwendung gängiger Finite-Element-Programmen (FE) wird versucht, Verformungen mittels nicht-linearen Beziehungen zu beschreiben. Weiterhin wird das übergeordnete Ziel verfolgt, pragmatische Ansätze zu verfolgen.
+Basierend auf dieser Arbeit, gilt es sich in einer folgenden Arbeit von den Stabtragwerken zu lösen. Es wird angestrebt, die beschriebenen Modellvorstellungen auf Plattentragwerke zu erweitern. Unter der Verwendung gängiger Finite-Element-Programmen (FE) wird versucht, Verformungen mittels nicht-linearen Beziehungen zu beschreiben. Weiterhin wird das übergeordnete Ziel verfolgt, pragmatische Ansätze zu verwenden.
 
 Ein möglicher Ansatz zur Modellierung von Platten, basierend auf den erlangten Erkenntnissen, ist die Anordnung der Stabtragwerke als Trägerrost. Folgend wird das Modellieren der Stabtragwerke mit zweier FE-Programmen aufgezeigt. Dabei ist entlang der Stabachse jeweils eine Drehfeder einzuführen und mit der entsprechenden Momenten-Krümmungs-Beziehung zu hinterlegen. An jeder Drehfeder wird das entsprechende Biegemoment aus der Beanspruchung am System angesetzt. Dies führt zum Krümmungsverlauf. Der Abstand der Drehfedern definiert folglich den Grad der Approximation des Krümmungsverlaufs.
 
-Der Ansatz mittels dem Stabstatikprogramm Statik-9 der Cubus AG ist in @fig-cubus_stab gezeigt. 
-
 ![Anordnung von nicht-linearen Drehfedern, modelliert als Wegfedern entlang der Stabachse](../images/cubus_Stab.svg){#fig-cubus_stab}
 
-Da ein nicht-lineares Verhalten mit diesem Programm lediglich mit Wegfedern modelliert werden kann, wird die Drehfeder mit zwei Wegfedern im Abstand des Hebelarms der inneren Kräfte modelliert. Den Wegfedern wird das Spannungs-Dehnungs-Verhalten des Zuggurts oder des Druckgurts hinterlegt. 
+Der Ansatz mittels dem Stabstatikprogramm Statik-9 der Cubus AG ist in @fig-cubus_stab gezeigt. Da ein nicht-lineares Verhalten mit diesem Programm lediglich mit Wegfedern, in Statik-9 als nicht-lineare Fachwerkstäbe definiert, modelliert werden kann, wird die Drehfeder mit zwei Wegfedern im Abstand des Hebelarms der inneren Kräfte modelliert. Den Wegfedern wird das Spannungs-Dehnungs-Verhalten des Zuggurts oder des Druckgurts hinterlegt. 
 
 ![Anordnung von nicht-linearen Drehfedern entlang der Stabachse](../images/axis_stab.svg){#fig-axis_stab}
 
@@ -32,3 +30,84 @@ Des Weiteren wird die AxisVM Statiksoftware verwendet. In dieser lassen sich dir
 
 
 Die Stabtragwerke werden abschliessend zum Trägerrost angeordnet, dargestellt in der @fig-traegerrost. Aus dem Trägerrost lassen sich die Verformungen bestimmen. Dabei gilt es zu vermerken, dass der Trägerrost keine Verdrillung der Platte abbilden kann.
+
+
+{{< pagebreak >}}
+
+\addchap{Bezeichnungen}
+
+| Variabel                 | Bezeichnung          |
+|:----------------------|:------------------|
+| $A_i$                   | Ideelle Querschnittsfläche               |
+| $A_c$                   | Querschnittsfläche Beton               |
+| $A_{si}$                   | Querschnittsfläche Stab $i$               |
+| $A_{sw}$                 | Querschnittsfläche Schubbewehrung              |
+| $F_i$                   | Kraft an der Stelle $i$ oder in Richtung $i$               |
+| $E_c$                   | Elastizitätsmodul Beton               |
+| $E_s$                   | Elastizitätsmodul Betonstahl               |
+| $EI^I$                  | Biegesteifigkeit des Zustands $I$              |
+| $I^I$                   | Flächenträgheitsmoment Zustand $I$               |
+| $M$                     | Biegemoment                 |
+| $\bar{M}$                     | Biegemoment des virtuellen Kräftezustands                 |
+| $M_{Versatz}$                     | Versatzmoment                 |
+| $M_i$                   | Biegemoment des Zustands $i$               |
+| $M(x)$                  | Verlauf des Biegemoments               |
+| $V$                     | Querkraft                 |
+| $V(x)$                  | Verlauf der Querkraft               |
+| $V(x)'$                     | Erste Ableitung der Funktion $V(x)$                 |
+| $V_{Rd,s}$                     | Querkraftwiderstand auf Bemessungsniveau                 |
+| $V_{R,s}$                 | Querkraftwiderstand             |
+| $W_c$                   | Widerstandsmoment Beton               |
+| $a_i$                   | Abmessung $i$               |
+| $b$                     | Breite                 |
+| $b_{Auflager}$            | Auflagerbreite        |
+| $c_i$                   | Integrationskonstante $i$               |
+| $c_{nom}$                 | Betonüberdeckung             |
+| $d$                     | Statische Höhe                 |
+| $d_i$                   | Statische Höhe der Bewehrung $i$               |
+| $d_x$                     | Infinit kleine Grösse $x$                 |
+| $f_i$                   | Verschmierte Auflagerkraft an der Stelle $i$               |
+| $f_g$                     | Vergrösserungsfaktor Normabschätzung                 |
+| $f_{sd}$                     | Fliessspannung auf Bemessungsniveau                 |
+| $f_{ct}$                  | Betonzugfestigkeit              |
+| $f_{cc}$                  | Zylinderdruckfestigkeit Beton            |
+| $f_c$                   | Bauteildruckfestigkeit Beton               |
+| $f_{sy,i}$                | Fliessspannung Stab $i$            |
+| $f_{su,i}$                  | Zugfestigkeit Stab $i$              |
+| $h$                     | Höhe                 |
+| $h_{Versatz}$                     | Versatzmass                 |
+| $l_{tot}$                 | Totale Systemlänge             |
+| $n$                     | Wertigkeit                 |
+| $q(x)$                  | Verlauf der Einwirkung               |
+| $q_z$                     | Einwirkung in $z$-Richtung                 |
+| $s_{rm}$                  | Rissabstand              |
+| $s_w$                   | Teilung der Schubbewehrung               |
+| $s_x$                   | Teilung der Längsbewehrung               |
+| $w$                     | Verformung                 |
+| $w(x)$                  | Verlauf der Verformung               |
+| $w_r$                   | Rissweite               |
+| $w_1$                   | Verformung an der Stelle $1$               |
+| $x$                     | Laufvariable                 |
+| $x_i$                   | Betondruckzonenhöhe Zustand $i$               |
+| $z$                     | Hebelarm der inneren Kräfte                 |
+| $z_i$                   | Hebelarm der inneren Kräfte Zustand $i$               |
+| $\frac{d^2M}{dx^2}$                     | Zweite Ableitung der Funktion $M(x)$                 |
+| $\alpha$                     | Neigung Betondruckdiagonale                 |
+| $\delta$                     | Schlupf                 |
+| $\varepsilon_{si}$         | Dehnung im Betonstahl Zustand $i$        |
+| $\varepsilon_{ci}$        | Dehnung im Beton Zustand $i$        |
+| $\zeta_c$                | Abstand Schwerpunkt            |
+| $\theta_{c3}$              | Neigung Betondruckdiagonale          |
+| $\sigma_{ci}$             | Spannung im Beton Zustand $i$         |
+| $\sigma_{si}$             | Spannung im Betonstahl Zustand $i$         |
+| $\rho$                    | Geometrischer Bewehrungsgehalt               |
+| $\rho'$                     | Geometrischer Bewehrungsgehalt Druckbewehrung                 |
+| $\rho_{\text{eff}}$               | Effektiver Bewehrungsgehalt           |
+| $\tau$                     | Schubspannung                 |
+| $\chi(M)$                | Krümmung als Funktion des Biegemoments             |
+| $\chi_i$                | Krümmung des Zustands $i$             |
+| $\lambda$                | Beiwert Fallunterscheidung Zuggurtmodell              |
+| $\varphi$                     | Kriechzahl                 |
+| $\varphi(x)$             | Verlauf der Verdrehung             |
+| $\oslash_{s,i}$           | Durchmesser des Stabs $i$          |
+| $\Delta\chi$    | Krümmungsdifferenz         |
