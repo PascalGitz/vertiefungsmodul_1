@@ -78,28 +78,38 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
   % turn on hanging indent if param 1 is 1
   \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
   \fi
   % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
@@ -122,8 +132,6 @@
 
 
 
-\makeatletter
-\makeatother
 \makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
@@ -163,18 +171,10 @@
 \newcommand*\listoflistings{\listof{codelisting}{Listingverzeichnis}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
-\makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \makeatother
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
@@ -182,13 +182,18 @@
 \usepackage[bidi=default]{babel}
 \fi
 \babelprovide[main,import]{ngerman}
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Palatino Linotype}
+\fi
 % get rid of language-specific shorthands (see #6817):
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -234,6 +239,7 @@
 \begin{document}
 \maketitle
 
+
 Hiermit erkläre ich, dass ich die vorliegende Arbeit selbstständig angefertigt und keine anderen als die angegebenen Hilfsmittel verwendet habe. Sämtliche verwendeten Textausschnitte, Zitate oder Inhalte anderer Verfasser wurden ausdrücklich als solche gekennzeichnet.\\%
 %
 \\%
@@ -247,6 +253,7 @@ Horw, 19. Januar 2024 \hfill Pascal Gitz%
 %\end{tabular}\\
 
 % Version 2.0 - Definitives Exemplar \hfill \today \quad \quad \quad \quad \quad MK\\
+Version 1.1 - SV14 Bewehrungsgehalt \hfill 02. April 2024 \quad \quad \quad \quad \quad PG\\
 Version 1.0 - Prüfungsexemplar \hfill 19. Januar 2024 \quad \quad \quad \quad \quad PG\\
 Version 0.9 - Entwurf \hfill 08. Januar 2024 \quad \quad \quad \quad \quad PG\\
 
@@ -263,8 +270,6 @@ Der Vergleich der Modellvorstellungen zeigt, dass mit Berechnungsmethoden mit ko
 
 Im abschliessenden Kapitel wird das Ziel beschrieben, in einer folgenden Arbeit, die aufgezeigten Modellvorstellungen auf Plattentragwerke zu erweitern. Als Ansatz dazu soll die Modellierung als Trägerrost dienen.
 
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, enhanced, breakable, sharp corners, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, frame hidden]}{\end{tcolorbox}}\fi
-
 \renewcommand*\contentsname{Inhaltsverzeichnis}
 {
 \hypersetup{linkcolor=}
@@ -275,8 +280,7 @@ Im abschliessenden Kapitel wird das Ziel beschrieben, in einer folgenden Arbeit,
 \listoftables
 \bookmarksetup{startatroot}
 
-\hypertarget{einleitung}{%
-\chapter{Einleitung}\label{einleitung}}
+\chapter{Einleitung}\label{einleitung}
 
 Bei der Analyse des Tragverhaltens ist die Bestimmung von Verformungen
 im Stahlbetonbau in der Praxis oftmals mit Unsicherheiten verbunden. Die
@@ -292,11 +296,10 @@ Die Arbeit umfasst ein einleitendes Kapitel, welches die
 Modellvorstellungen in ihren Grundeigenschaften aufgreift und erläutert,
 gefolgt von zwei Kapiteln, welche die Anwendung der Modellvorstellungen
 aufzeigen. Es wird ein Dreipunktbiegeversuch aus dem Versuchsbericht
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]}, sowie ein
-Vierpunktbiegeversuch aus dem Versuchsbericht
-{[}\protect\hyperlink{ref-Tue2019}{2}{]} analysiert. Es werden
-ausschliesslich Stabtragwerke betrachtet. Das Berechnungsvorgehen ist
-für beide Versuche analog zueinander. Die Kapitel werden mit einem
+{[}\citeproc{ref-Jaeger2006}{1}{]}, sowie ein Vierpunktbiegeversuch aus
+dem Versuchsbericht {[}\citeproc{ref-Tue2019}{2}{]} analysiert. Es
+werden ausschliesslich Stabtragwerke betrachtet. Das Berechnungsvorgehen
+ist für beide Versuche analog zueinander. Die Kapitel werden mit einem
 Vergleich der Modellvorstellungen abgeschlossen. Der Schlusspunkt der
 Arbeit liefert ein Fazit, welches die Erkenntnisse der Berechnungen
 erneut aufgreift, zusammenfasst und interpretiert.
@@ -308,16 +311,14 @@ rechnerisch ermitteln lassen. Stets im Sinne der praktischen Anwendung.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{sec-modellbeschrieb}{%
-\chapter{Modellvorstellungen}\label{sec-modellbeschrieb}}
+\chapter{Modellvorstellungen}\label{sec-modellbeschrieb}
 
 In diesem Kapitel sind Modellvorstellungen zur Bestimmung von
 Verformungen im Stahlbeton aufgezeigt. Es wird auf analytische
 Beziehungen und deren Herleitungen eingegangen. Das Ziel ist es, die
 grundlegenden Eigenschaften der Modellvorstellungen darzulegen.
 
-\hypertarget{sec-kontinua}{%
-\section{Reiner Biegeträger}\label{sec-kontinua}}
+\section{Reiner Biegeträger}\label{sec-kontinua}
 
 Das Modell des reinen Biegeträgers ermöglicht die Ermittlung sämtlicher
 Zustandslinien der Schnittgrössen basierend auf differentiellen
@@ -330,11 +331,10 @@ führt auf gewöhnliche Differentialgleichungen für die je nach
 Problemstellung relevanten Verschiebungsgrössen, und aus diesen ergeben
 sich die interessierenden inneren Verformungs- und Kraftgrössen in
 Abhängigkeit der Lage auf der Stabachse.} Beschreibt
-{[}\protect\hyperlink{ref-Marti}{3}{]} in seinem Kapitel Kontinua.
+{[}\citeproc{ref-Marti}{3}{]} in seinem Kapitel Kontinua.
 \end{quote}
 
-\hypertarget{aufbau}{%
-\subsection{Aufbau}\label{aufbau}}
+\subsection{Aufbau}\label{aufbau}
 
 Der Aufbau des Modells wird an einem simplen System erläutert. Das
 statische System in Abbildung~\ref{fig-reine_biegung_system} beschreibt
@@ -345,14 +345,16 @@ Einwirkung, Querkraft, Verdrehung und Verformung aufstellen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Kontinua_system.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Kontinua_system.pdf}
 
 }
 
 \caption{\label{fig-reine_biegung_system}Statisches System mit einer
 Einteilung in differentielle Elemente}
 
-\end{figure}
+\end{figure}%
 
 Die Abbildung~\ref{fig-system_reine_biegung_element} zeigt ein
 herausgeschnittenes Element mit infinit kleinen Abmessungen. An den
@@ -363,22 +365,23 @@ dass das Element seiner Form treu bleibt, bzw. sich als Ganzes verdreht.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Kontinua_element.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Kontinua_element.pdf}
 
 }
 
 \caption{\label{fig-system_reine_biegung_element}Differentielles Element
 des reinen Biegebalkens}
 
-\end{figure}
+\end{figure}%
 
 Um die Beziehung des reinen Biegeträgers herzuleiten, sind neben den
 Gleichgewichtsbedingungen und kinematischen Relationen ebenfalls die
 Werkstoffbeziehungen erforderlich. Dies wird folgend bei der Herleitung
 aufgegriffen.
 
-\hypertarget{herleitung}{%
-\subsection{Herleitung}\label{herleitung}}
+\subsection{Herleitung}\label{herleitung}
 
 Beginnend bei den Gleichgewichtsbetrachtungen kann anhand des
 Gleichgewichts der vertikalen Kräfte die Gleichung~\ref{eq-dgl_v_x}
@@ -393,9 +396,9 @@ Querkraft.
 q_z(x)\cdot dx = - dV
 \]
 
-\begin{equation}\protect\hypertarget{eq-dgl_v_x}{}{
+\begin{equation}\phantomsection\label{eq-dgl_v_x}{
 q_z(x) = \frac{dV}{dx} = -V(x)'     
-}\label{eq-dgl_v_x}\end{equation}
+}\end{equation}
 
 Aus dem Gleichgewicht der Momente folgt die Gleichung~\ref{eq-dgl_M_y},
 welche die Beziehung zwischen Einwirkung und Biegemoment darstellt.
@@ -419,9 +422,9 @@ V = \frac{dM}{dx}
 
 Abschliessend lässt sich unter Berücksichtigung der
 Gleichung~\ref{eq-dgl_v_x} die Gleichung~\ref{eq-dgl_M_y} definieren:
-\begin{equation}\protect\hypertarget{eq-dgl_M_y}{}{
+\begin{equation}\phantomsection\label{eq-dgl_M_y}{
 q_z(x) = -V(x)'= -M(x)''
-}\label{eq-dgl_M_y}\end{equation}
+}\end{equation}
 
 Mittels Gleichgewichts lassen sich keine weiteren Beziehungen ermitteln.
 Berücksichtigt man die Werkstoffbeziehungen und kinematischen
@@ -430,15 +433,15 @@ definieren. Um die Herleitung abzukürzen, wird die Beziehung in
 Gleichung~\ref{eq-momentenkrümmung} zwischen Biegemoment und Krümmung
 vorausgesetzt.
 
-\begin{equation}\protect\hypertarget{eq-momentenkruxfcmmung}{}{
+\begin{equation}\phantomsection\label{eq-momentenkruxfcmmung}{
 \frac{M}{EI} = \chi
-}\label{eq-momentenkrümmung}\end{equation}
+}\end{equation}
 
 Allgemein gilt, die Krümmung entspricht der Änderung der Verdrehung:
 
-\begin{equation}\protect\hypertarget{eq-krummung}{}{
+\begin{equation}\phantomsection\label{eq-krummung}{
 \chi = \varphi(x)'
-}\label{eq-krummung}\end{equation}
+}\end{equation}
 
 Aus der verformten Lage in
 Abbildung~\ref{fig-system_reine_biegung_element} lässt sich die
@@ -458,15 +461,14 @@ M = -EIw(x)''
 und unter Berücksichtigung der Gleichung~\ref{eq-dgl_M_y} folgt die
 Beziehung zwischen Verformung und Einwirkung, dargestellt in
 Gleichung~\ref{eq-dgl_reine_biegung}.
-\begin{equation}\protect\hypertarget{eq-dgl_reine_biegung}{}{
+\begin{equation}\phantomsection\label{eq-dgl_reine_biegung}{
 q_z(x) = EIw(x)''''
-}\label{eq-dgl_reine_biegung}\end{equation}
+}\end{equation}
 
 Durch das Lösen der Differentialgleichung lassen sich die Zustandslinien
 der Querkräfte, Biegemomente, Verdrehungen und Verformungen bestimmen.
 
-\hypertarget{grenzen-der-anwendung}{%
-\subsection{Grenzen der Anwendung}\label{grenzen-der-anwendung}}
+\subsection{Grenzen der Anwendung}\label{grenzen-der-anwendung}
 
 Das Modell berücksichtigt keine Schubverformungen. Da in der Praxis
 übliche Stahlbetonbauteile eine signifikant grössere Schubsteifigkeit
@@ -478,27 +480,25 @@ Träger in Abschnitte zu unterteilen, jeder Abschnitt ist in sich zu
 lösen und mittels den Rand- und Übergangsbedingungen mit dem folgenden
 Abschnitt zu verknüpfen.
 
-\hypertarget{sec-mohrsche_analogie}{%
-\section{Mohr'sche Analogie}\label{sec-mohrsche_analogie}}
+\section{Mohr'sche Analogie}\label{sec-mohrsche_analogie}
 
 Die Mohr'sche Analogie ist an sich keine Modellvorstellung, sondern
 beschreibt ein Lösungsvorgehen der Differentialgleichung mittels
 Handrechnung für reine Biegeträger.
 
-\hypertarget{aufbau-1}{%
-\subsection{Aufbau}\label{aufbau-1}}
+\subsection{Aufbau}\label{aufbau-1}
 
 Aus den Beziehungen, detailliert beschrieben in
 Kapitel~\ref{sec-kontinua}, können folgende Abhängigkeiten definiert
 werden:
 
-\begin{equation}\protect\hypertarget{eq-mohr1}{}{
+\begin{equation}\phantomsection\label{eq-mohr1}{
 \frac{d^2M}{dx^2} = M'' = -q_z
-}\label{eq-mohr1}\end{equation}
+}\end{equation}
 
-\begin{equation}\protect\hypertarget{eq-mohr2}{}{
+\begin{equation}\phantomsection\label{eq-mohr2}{
 \frac{d^2w}{dx^2} = w'' = -\frac{M}{EI}
-}\label{eq-mohr2}\end{equation}
+}\end{equation}
 
 Erkennbar ist die Analogie der beiden Gleichungen. Aus der Einwirkung
 lässt sich der Verlauf der Biegemomente bestimmen. Wird nun auf ein
@@ -512,28 +512,29 @@ Abbildung~\ref{fig-randbedingungen_analogiesysteme} gezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/analogietrager.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/analogietrager.pdf}
 
 }
 
 \caption{\label{fig-randbedingungen_analogiesysteme}Lagerungsbedingungen
 für Analogiesysteme, übernommen aus
-{[}\protect\hyperlink{ref-Spathelf2022}{4}{]}}
+{[}\citeproc{ref-Spathelf2022}{4}{]}}
 
-\end{figure}
+\end{figure}%
 
 Die Mohr'sche Analogie ermöglicht folglich die Bestimmung der
 Verformungen durch das Ermitteln zweier Biegemomentenverläufe, am realen
 und am analogen System.
 
-\hypertarget{sec-norm}{%
-\section{Abschätzung nach Norm}\label{sec-norm}}
+\section{Abschätzung nach Norm}\label{sec-norm}
 
 Die folgende Beschreibung richtet sich nach der Masterthesis
-{[}\protect\hyperlink{ref-Stecher2022}{5}{]}. Der Schweizerische
-Ingenieuren- und Architekten Verband (SIA) stellt in ihrer aktuellen
-Betonnorm {[}\protect\hyperlink{ref-SIA2013a}{6}{]} Ziffer 4.4.3.2.5 den
-Ansatz in Gleichung~\ref{eq-w_1_II_sia} zur Ermittlung der Verformung im
+{[}\citeproc{ref-Stecher2022}{5}{]}. Der Schweizerische Ingenieuren- und
+Architekten Verband (SIA) stellt in ihrer aktuellen Betonnorm
+{[}\citeproc{ref-SIA2013a}{6}{]} Ziffer 4.4.3.2.5 den Ansatz in
+Gleichung~\ref{eq-w_1_II_sia} zur Ermittlung der Verformung im
 gerissenen Zustand. Dazu ist die elastische ungerissene Verformung zu
 bestimmen und mit einem Faktor, welcher abhängig vom Zug- und
 Druckbewehrungsgehalt, der Kriechzahl sowie der Geometrie ist, zu
@@ -541,68 +542,70 @@ vergrössern. Das Verhalten des Faktors unter Variation der
 Bewehrungsgehälter mit konstanter Höhe und konstanter statischer Höhe
 ist in Abbildung~\ref{fig-fg} gezeigt.
 
-\begin{equation}\protect\hypertarget{eq-w_1_II_sia_faktor}{}{
+\begin{equation}\phantomsection\label{eq-w_1_II_sia_faktor}{
 w_{1II,SIA} = f_g w_1
-}\label{eq-w_1_II_sia_faktor}\end{equation}
+}\end{equation}
 
-\begin{equation}\protect\hypertarget{eq-w_1_II_sia}{}{
+\begin{equation}\phantomsection\label{eq-w_1_II_sia}{
 w_{1II,SIA} = \frac{1-20\rho'}{10\rho^{0.7}}(0.75+0.1\varphi)\left(\frac{h}{d}\right)^3 w_1
-}\label{eq-w_1_II_sia}\end{equation}
+}\end{equation}
 
 Durch die Vernachlässigung der Druckbewehrung, sowie ohne
 Berücksichtigung von Langzeiteinflüssen, sprich das Kriechen, folgt die
 Gleichung~\ref{eq-w_1_II_sia_simple}.
 
-\begin{equation}\protect\hypertarget{eq-w_1_II_sia_simple}{}{
+\begin{equation}\phantomsection\label{eq-w_1_II_sia_simple}{
 w_{1II,SIA} = \frac{0.75}{10\rho^{0.7}}\left(\frac{h}{d}\right)^3 w_1
-}\label{eq-w_1_II_sia_simple}\end{equation}
+}\end{equation}
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/f_g.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/f_g.pdf}
 
 }
 
 \caption{\label{fig-fg}Verlauf des Vergrösserungsfaktors der Abschätzung
 nach Norm}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{sec-zuggurtmodell}{%
-\section{Zuggurtmodell}\label{sec-zuggurtmodell}}
+\section{Zuggurtmodell}\label{sec-zuggurtmodell}
 
 Das Zuggurtmodell beschreibt das Verformungsverhalten nach dem Reissen
 des Betons. Das Modell findet Anwendung bei der Ermittlung der
 gerissenen Biegesteifigkeit.
 
-\hypertarget{aufbau-2}{%
-\subsection{Aufbau}\label{aufbau-2}}
+\subsection{Aufbau}\label{aufbau-2}
 
 Der folgende Abschnitt beschreibt das Zuggurtmodell anhand der
-Herleitungen in {[}\protect\hyperlink{ref-Spathelf2022}{4}{]}. Das
-Zuggurtmodell betrachtet auf Zug beanspruchte Stahlbetonzugglieder. Das
-Modell erlaubt eine Eingrenzung der Rissbreiten und der Rissabstände.
-Durch die definierte Position der Risse, lässt sich das Verhalten im
-Riss vom Verhalten zwischen den Rissen unterscheiden. Im Riss ist der
-Querschnitt als gerissen zu betrachten, im Bereich zwischen den Rissen
-erhöht sich die Steifigkeit des Zugglieds, da sich der Beton am
-Lastabtrag beteiligt. Dies wird als Zugversteifung beschrieben. Um das
-Verhalten des Verbunds zwischen Beton und Betonstahl im ungerissenen
-Bereich zu definieren, wird eine Verbundschubspannungs-Schlupf-Beziehung
-dem Modell zugrunde gelegt.
+Herleitungen in {[}\citeproc{ref-Spathelf2022}{4}{]}. Das Zuggurtmodell
+betrachtet auf Zug beanspruchte Stahlbetonzugglieder. Das Modell erlaubt
+eine Eingrenzung der Rissbreiten und der Rissabstände. Durch die
+definierte Position der Risse, lässt sich das Verhalten im Riss vom
+Verhalten zwischen den Rissen unterscheiden. Im Riss ist der Querschnitt
+als gerissen zu betrachten, im Bereich zwischen den Rissen erhöht sich
+die Steifigkeit des Zugglieds, da sich der Beton am Lastabtrag
+beteiligt. Dies wird als Zugversteifung beschrieben. Um das Verhalten
+des Verbunds zwischen Beton und Betonstahl im ungerissenen Bereich zu
+definieren, wird eine Verbundschubspannungs-Schlupf-Beziehung dem Modell
+zugrunde gelegt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Zuggurtmodell_grund.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Zuggurtmodell_grund.pdf}
 
 }
 
 \caption{\label{fig-zuggurtmodell}Verlauf der effektiven
 Verbundschubspannungen, Betonstahlspannungen, Betonspannungen,
 Betonstahldehnungen, Betondehnungen und Schlupf bei einem Zugglied. Bild
-neu gezeichnet nach {[}\protect\hyperlink{ref-Spathelf2022}{4}{]}}
+neu gezeichnet nach {[}\citeproc{ref-Spathelf2022}{4}{]}}
 
-\end{figure}
+\end{figure}%
 
 Verwendet wird eine abgetreppte, starr-ideal-plastische
 Verbundschubspannungs-Schlupf-Beziehung. Durch die Idealisierung lassen
@@ -614,25 +617,26 @@ die Position der Fliessspannung dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/verbund_schlupf.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/verbund_schlupf.pdf}
 
 }
 
 \caption{\label{fig-verbund_schlupf}Idealisierte
 Verbundschubspannungs-Schlupf-Beziehung}
 
-\end{figure}
+\end{figure}%
 
 Zudem verdeutlicht der Verbundschubspannungsverlauf, in
 Abbildung~\ref{fig-zuggurtmodell} (links), die Rechtfertigung der
 Vereinfachung als abgetreppten Verlauf.
 
-\hypertarget{ansatz-nach-marti}{%
-\subsubsection{Ansatz nach Marti}\label{ansatz-nach-marti}}
+\subsubsection{Ansatz nach Marti}\label{ansatz-nach-marti}
 
-In {[}\protect\hyperlink{ref-Spathelf2022}{4}{]} wird der Ansatz von
-Marti zur Berücksichtigung der Zugversteifung basierend auf dem
-Zuggurtmodell für Biegeelemente aufgezeigt.
+In {[}\citeproc{ref-Spathelf2022}{4}{]} wird der Ansatz von Marti zur
+Berücksichtigung der Zugversteifung basierend auf dem Zuggurtmodell für
+Biegeelemente aufgezeigt.
 
 Vor dem Erreichen der Zugfestigkeit des Betons verbleibt das Zugglied
 ungerissen und verhält sich linear elastisch. Beim Reissen des
@@ -641,14 +645,16 @@ Erhöhung der Einwirkung erhöht lediglich die Zugspannung im Betonstahl.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_zugversteifung.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_zugversteifung.pdf}
 
 }
 
 \caption{\label{fig-einfluss_zugversteifung}Einfluss der
 zugversteifenden Wirkung bei einem Biegeelement}
 
-\end{figure}
+\end{figure}%
 
 In der Abbildung~\ref{fig-einfluss_zugversteifung} ist der
 Spannungsverlauf des Betons und des Betonstahls über die Länge des
@@ -658,9 +664,9 @@ Dehnungsreduktion, welche mit \(\Delta \varepsilon_s (\lambda)\)
 beschrieben wird. Aus der Dehnungsreduktion lässt sich eine
 Krümmungsdifferenz definieren nach Gleichung~\ref{eq-krummungsdiff}.
 
-\begin{equation}\protect\hypertarget{eq-krummungsdiff}{}{
+\begin{equation}\phantomsection\label{eq-krummungsdiff}{
 \Delta \chi(\lambda) = \frac{\Delta \varepsilon_s (\lambda)}{(d-x)} = \frac{\lambda}{2} \cdot \left ( \frac{M_r}{EI^{II}} - \frac{f_{ct}}{E_c\cdot(d-x)}\right )
-}\label{eq-krummungsdiff}\end{equation}
+}\end{equation}
 
 Dabei wird die gesamte Krümmung \(M_r/EI^{II}\) beim Reissen des
 Querschnitts durch die Krümmung beim Erreichen der Zugfestigkeit des
@@ -668,23 +674,23 @@ Betons \(f_{ct}/(E_c\cdot(d-x))\) reduziert. Die
 Gleichung~\ref{eq-krummungsdiff} kann mittels dem effektiven
 Bewehrungsgehalt formuliert werden.
 
-\begin{equation}\protect\hypertarget{eq-rho_eff}{}{
+\begin{equation}\phantomsection\label{eq-rho_eff}{
 \rho_{\text{eff}} = \left [\frac{M_r(d-x)\cdot E_S}{f_{ct}\cdot EI^{II}}+1-n \right ]^{-1}
-}\label{eq-rho_eff}\end{equation}
+}\end{equation}
 
-\begin{equation}\protect\hypertarget{eq-krummungsdiff_2}{}{
+\begin{equation}\phantomsection\label{eq-krummungsdiff_2}{
 \Delta \chi(\lambda) = \frac{\lambda}{2} \cdot \frac{f_{ct} \cdot (1-\rho_{\text{eff}})}{\rho_{\text{eff}} \cdot E_s \cdot (d-x)}
-}\label{eq-krummungsdiff_2}\end{equation}
+}\end{equation}
 
 Das Modell liefert ebenfalls Beziehungen zur Bestimmung der Rissweite
 und der Rissabstände.
-\begin{equation}\protect\hypertarget{eq-rissabstand_marti}{}{
+\begin{equation}\phantomsection\label{eq-rissabstand_marti}{
 s_{rm} = \frac{\oslash_{s} \lambda \left(1 - \rho_{\text{eff}}\right)}{4 \rho_{\text{eff}}}
-}\label{eq-rissabstand_marti}\end{equation}
+}\end{equation}
 
-\begin{equation}\protect\hypertarget{eq-rissweite_marti}{}{
+\begin{equation}\phantomsection\label{eq-rissweite_marti}{
 w_{r} = \frac{s_{rm} \left(- \lambda \sigma_{sr0} + 2 \sigma_{sr}\right)}{2 E_{s}}
-}\label{eq-rissweite_marti}\end{equation}
+}\end{equation}
 
 Der Modellbeschrieb wird mit der Erläuterung des \(\lambda\)-Beiwerts
 abgeschlossen. Grundsätzlich gilt die Annahme, dass sich ein Riss
@@ -692,14 +698,16 @@ einstellt beim Erreichen der Zugfestigkeit des Betons.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/lambda_beiwert.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/lambda_beiwert.pdf}
 
 }
 
 \caption{\label{fig-fallunterscheidung_lambda_riss}Fallunterscheidung
 beim Erreichen der Zugfestigkeit des Betons}
 
-\end{figure}
+\end{figure}%
 
 Vor dem Erreichen der Zugfestigkeit des Betons reisst der Beton nicht.
 Unmittelbar beim Erreichen der Zugfestigkeit stellt sich der Riss ein.
@@ -708,16 +716,14 @@ kann in der Elementmitte die Zugfestigkeit erreicht werden, oder sich
 ein erneuter Riss bilden. Der Beiwert \(\lambda\) dient folglich zur
 Unterscheidung dieser Grenzwerte.
 
-\hypertarget{grenzen-der-anwendung-1}{%
-\subsubsection{Grenzen der Anwendung}\label{grenzen-der-anwendung-1}}
+\subsubsection{Grenzen der Anwendung}\label{grenzen-der-anwendung-1}
 
 Das Zuggurtmodell findet Anwendung bei Zuggliedern in der Biegezugzone.
 Es liefert Auskunft über Rissweiten und Rissbreiten, sowie eine
 Verfeinerung der Biegesteifigkeit im gerissenen Bereich. Das Modell
 beschränkt sich ausschliesslich auf normalzugbeanspruchte Bauteile.
 
-\hypertarget{sec-numint}{%
-\section{Numerische Integration der Krümmung}\label{sec-numint}}
+\section{Numerische Integration der Krümmung}\label{sec-numint}
 
 Die numerische Integration der Krümmung bietet einen Ansatz, einen
 nicht-linearen Biegesteifigkeitsverlauf, bzw. eine nicht-lineare
@@ -727,9 +733,9 @@ Der Krümmungsverlauf ermöglicht die Bestimmung der Verformungen unter
 der Berücksichtigung der Arbeitsgleichung. Für Biegeträger gilt die
 folgende Gleichung~\ref{eq-arbeitsgleichung}.
 
-\begin{equation}\protect\hypertarget{eq-arbeitsgleichung}{}{
+\begin{equation}\phantomsection\label{eq-arbeitsgleichung}{
 w = \int_0^l \bar{M}(x) \cdot \frac{M(x)}{EI} d_x
-}\label{eq-arbeitsgleichung}\end{equation}
+}\end{equation}
 
 Wobei \(\frac{M(x)}{EI} = \chi(x)\) gilt, sprich dem Krümmungsverlauf
 entspricht. Die Funktion \(\bar{M}(x)\) beschreibt den virtuellen
@@ -738,13 +744,12 @@ dem Biegemoment multipliziert mit der Krümmung zu der äusseren Arbeit
 gleich, welche aus Kraft multipliziert mit dem Weg entspricht. Daraus
 lässt sich der Weg, sprich die punktuelle Verformung bestimmen.
 
-\hypertarget{momenten-kruxfcmmungs-beziehung}{%
-\subsection{Momenten-Krümmungs-Beziehung}\label{momenten-kruxfcmmungs-beziehung}}
+\subsection{Momenten-Krümmungs-Beziehung}\label{momenten-kruxfcmmungs-beziehung}
 
 Eine nicht-lineare Momenten-Krümmungs-Beziehung lässt sich mittels
 Handrechnung an einer Querschnittsanalyse bestimmen. Zur rechnerischen
 Ermittlung gelten folgende Annahmen, wie in
-{[}\protect\hyperlink{ref-Spathelf2022}{4}{]} beschrieben:
+{[}\citeproc{ref-Spathelf2022}{4}{]} beschrieben:
 
 \begin{itemize}
 \tightlist
@@ -768,31 +773,31 @@ der Zustand des Biegewiderstands dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_5.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_5.pdf}
 
 }
 
 \caption{\label{fig-exemplar_qs_analyse}Querschnittsanalyse für den
 Zustand des Biegewiderstands}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{sec-fachwerk}{%
-\section{Analyse mit Fachwerksmodellen}\label{sec-fachwerk}}
+\section{Analyse mit Fachwerksmodellen}\label{sec-fachwerk}
 
 Die Analyse mit Fachwerksmodellen basiert auf einer Modellierung mittels
 Spannungsfelder. Das Ziel ist es, mittels Spannungsfelder den Kraftfluss
 im Balken abzubilden. Das Fachwerk bildet den Kraftfluss detaillierter
 als eine Querschnittsanalyse ab. In Anlehnung an die Modellierungsstufen
-in {[}\protect\hyperlink{ref-Thoma2020}{7}{]} gliedert sich die
+in {[}\citeproc{ref-Thoma2020}{7}{]} gliedert sich die
 Fachwerksmodellierung im Level of Approximation II an, eine Stufe höher
 als die Querschnittsanalyse. Grundsätzlich wird das Modell jedoch zur
 Bemessung im Grenzzustand der Tragsicherheit verwendet. Folgend wird
 beschrieben, wie mittels der Analyse mit Fachwerksmodellen Deformationen
 zielführend bestimmt werden können.
 
-\hypertarget{spannungsfelder}{%
-\subsection{Spannungsfelder}\label{spannungsfelder}}
+\subsection{Spannungsfelder}\label{spannungsfelder}
 
 Der Kraftfluss lässt sich für die in dieser Arbeit untersuchten Versuche
 mit zentrierten Fächern und Parallelfeldern modellieren. Durch die Wahl
@@ -801,23 +806,20 @@ Bemessung im Grenzzustand der Tragsicherheit ist die Neigung der
 Druckfelder frei wählbar. Durch die Variation des Winkels ändert sich
 die Kraftaufteilung zwischen der Schubbewehrung und der Zugbewehrung.
 
-\hypertarget{wahl-des-neigungswinkels}{%
-\subsubsection{Wahl des
-Neigungswinkels}\label{wahl-des-neigungswinkels}}
+\subsubsection{Wahl des Neigungswinkels}\label{wahl-des-neigungswinkels}
 
 Anders als bei einer Bemessung eines Balkens, ist die Bügelbewehrung bei
 einer Nachrechnung (Überprüfung) bereits festgelegt. Folgend wird eine
 Abschätzung zur Wahl des Neigungswinkels aufgezeigt. Die
-Querkraftbemessung der Betonnorm
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]} basiert auf der Modellierung
-mittels Spannungsfelder. Der Neigungswinkel der Betondruckstrebe kann in
-Anlehnung an die Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des
-Querkraftwiderstands von vertikaler Schubbewehrung, gemäss Ziffer
-4.3.3.4.3, bestimmt werden.
+Querkraftbemessung der Betonnorm {[}\citeproc{ref-SIA2013a}{6}{]}
+basiert auf der Modellierung mittels Spannungsfelder. Der Neigungswinkel
+der Betondruckstrebe kann in Anlehnung an die
+Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des Querkraftwiderstands
+von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3, bestimmt werden.
 
-\begin{equation}\protect\hypertarget{eq-v_rds_sia262}{}{
+\begin{equation}\phantomsection\label{eq-v_rds_sia262}{
 V_{Rd,s} = \frac{A_{sw}}{s} z f_{sd} \cot(\alpha)
-}\label{eq-v_rds_sia262}\end{equation}
+}\end{equation}
 
 Wird nun ein Fachwerkmodell für die Nachrechnung von Verformungen von
 Versuchen verwendet, so gilt es den passenden Neigungswinkel anhand der
@@ -829,16 +831,14 @@ Gleichung~\ref{eq-v_rds_sia262} eingesetzt. Daraus lässt sich die
 Neigung bestimmen. Mit dem bestimmten Neigungswinkel ist die Geometrie
 der Spannungsfelder und folglich die des Fachwerks eindeutig bestimmt.
 
-\hypertarget{dehnsteifigkeiten}{%
-\subsubsection{Dehnsteifigkeiten}\label{dehnsteifigkeiten}}
+\subsubsection{Dehnsteifigkeiten}\label{dehnsteifigkeiten}
 
 Abschliessend gilt es den Fachwerksstäben die entsprechenden
 Querschnittsflächen, bzw. Dehnsteifigkeiten zuzuordnen, um die
 Verformungen zu berechnen. In den Versuchsnachrechnungen des Dreipunkt-
 und Vierpunktbiegeversuchs ist dies detailliert aufgezeigt.
 
-\hypertarget{sec-versatzmass}{%
-\section{Versatzmass}\label{sec-versatzmass}}
+\section{Versatzmass}\label{sec-versatzmass}
 
 Abgeschlossen wird die Beschreibung der Modellvorstellungen mit den
 Grundlagen des Versatzmasses. Die Modellierung mittels Spannungsfelder
@@ -849,15 +849,17 @@ Biegemoments mit sich.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/spannungsfeld_versatzmass.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/spannungsfeld_versatzmass.pdf}
 
 }
 
 \caption{\label{fig-laengszug_spf}Längszugkraft aus der Querkraft,
 dargestellt im Spannungsfeld, entnommen aus
-{[}\protect\hyperlink{ref-Thoma2020}{7}{]}}
+{[}\citeproc{ref-Thoma2020}{7}{]}}
 
-\end{figure}
+\end{figure}%
 
 Visualisiert ist dies in der Abbildung~\ref{fig-laengszug_spf}. Es ist
 ein freigeschnittenes Spannungsfeld gezeigt, welches mit Schnittkräften
@@ -867,13 +869,13 @@ Schnittufer gezeigt. Durch das Anwenden des Gleichgewichts lassen sich
 die Gurtkräfte bestimmen, welche durchwegs durch den Term in der
 Gleichung~\ref{eq-versatzmass} erhöht werden.
 
-\begin{equation}\protect\hypertarget{eq-versatzmass}{}{
+\begin{equation}\phantomsection\label{eq-versatzmass}{
 h_{Versatz} = \frac{V \cdot \cot(\theta_{c3})}{2}
-}\label{eq-versatzmass}\end{equation}
+}\end{equation}
 
-\begin{equation}\protect\hypertarget{eq-versatzmoment}{}{
+\begin{equation}\phantomsection\label{eq-versatzmoment}{
 M_{Versatz} = \frac{V \cdot \cot(\theta_{c3})}{2} \cdot z
-}\label{eq-versatzmoment}\end{equation}
+}\end{equation}
 
 Die Gleichung~\ref{eq-versatzmass} beschreibt die Erhöhung der
 Längszugkraft aus der Querkraft. Der Einfluss auf das Biegemoment aus
@@ -881,8 +883,7 @@ der erhöhten Längszugkraft zeigt die Gleichung~\ref{eq-versatzmoment}.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{sec-dreipunkt}{%
-\chapter{Dreipunktbiegeversuch}\label{sec-dreipunkt}}
+\chapter{Dreipunktbiegeversuch}\label{sec-dreipunkt}
 
 In diesem Kapitel werden alle in Kapitel~\ref{sec-modellbeschrieb}
 beschriebenen Modellvorstellungen auf einen Dreipunktbiegeversuch
@@ -893,18 +894,17 @@ auf der Anwendung der Modellvorstellungen. Das Kapitel endet mit einem
 Vergleich der verschiedenen Modellvorstellungen und einer Diskussion der
 Ergebnisse.
 
-\hypertarget{versuchsbeschreibung}{%
-\section{Versuchsbeschreibung}\label{versuchsbeschreibung}}
+\section{Versuchsbeschreibung}\label{versuchsbeschreibung}
 
 Der Versuch A3 in der zweiten Versuchsanordnung (kurz A3V2) aus
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]} dient als Grundlage. Der
-Körper wurde in der ersten Versuchsanordnung bereits belastet, jedoch
-unterschiedlich gelagert. Trotzdem führt dies zu Vorverformungen in der
-zweiten Versuchsanordnung.
+{[}\citeproc{ref-Jaeger2006}{1}{]} dient als Grundlage. Der Körper wurde
+in der ersten Versuchsanordnung bereits belastet, jedoch unterschiedlich
+gelagert. Trotzdem führt dies zu Vorverformungen in der zweiten
+Versuchsanordnung.
 
 Im Folgenden sind die wesentlichen Eckdaten des Versuchs dargestellt,
 während detaillierte Beschreibungen in
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]} zu finden sind. Der Versuch
+{[}\citeproc{ref-Jaeger2006}{1}{]} zu finden sind. Der Versuch
 beinhaltet einen Plattenstreifen, dessen Lagerung einem
 Dreipunktbiegeversuch entspricht. Der Plattenstreifen wird durch \(F_A\)
 bis zum Bruch belastet. Die maximale Last beträgt \(331 \text{ kN}\).
@@ -913,15 +913,16 @@ Hauptabmessungen dazu sind in Abbildung~\ref{fig-system_2} aufgezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/belastung_a3v2.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/belastung_a3v2.pdf}
 
 }
 
 \caption{\label{fig-lagerung_a3v2}Lagerung und Belastung des
-Plattenstreifens, entnommen aus
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]}}
+Plattenstreifens, entnommen aus {[}\citeproc{ref-Jaeger2006}{1}{]}}
 
-\end{figure}
+\end{figure}%
 
 Das Bewehrungslayout ist so konzipiert, dass nur eine Zugbewehrung im
 Bereich der negativen Momente vorhanden ist. Die Bewehrung ist
@@ -930,15 +931,16 @@ die Bewehrungsführung in der Abbildung~\ref{fig-bewehrung_a3v2}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/bewehrung_a3v2.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/bewehrung_a3v2.pdf}
 
 }
 
 \caption{\label{fig-bewehrung_a3v2}Bewehrungslayout des
-Plattenstreifens, entnommen aus
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]}}
+Plattenstreifens, entnommen aus {[}\citeproc{ref-Jaeger2006}{1}{]}}
 
-\end{figure}
+\end{figure}%
 
 Die vorhandene Querkraftbewehrung, ausgeführt als Schubdübel, ermöglicht
 ein weitgehend durch Biegung verursachtes Versagen. Dies entspricht der
@@ -952,15 +954,16 @@ Vorverformung aus der ersten Versuchsanordnung.
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=\textwidth,height=90mm]{index_files/mediabag/../images/eth-28720-01_versuche_jaeger103.pdf}
+\centering{
+
+\includegraphics[width=\textwidth,height=90mm]{index_files/mediabag/../images/eth-28720-01_versuche_jaeger103.pdf}
 
 }
 
 \caption{\label{fig-lastverformung_a3v2}Last-Verformungs-Verhalten des
-Plattenstreifens, entnommen aus
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]}}
+Plattenstreifens, entnommen aus {[}\citeproc{ref-Jaeger2006}{1}{]}}
 
-\end{figure}
+\end{figure}%
 
 In Abbildung~\ref{fig-verformungsverlauf_a3v2} ist der
 Verformungsverlauf entlang der Stabachse dargestellt. Der Verlauf zeigt,
@@ -968,50 +971,48 @@ dass die maximalen Verformungen bei der Krafteinleitung entstehen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/eth-28720-01_versuche_jaeger104.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/eth-28720-01_versuche_jaeger104.pdf}
 
 }
 
 \caption{\label{fig-verformungsverlauf_a3v2}Verformungsverlauf des
-Plattenstreifens, entnommen aus
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]}}
+Plattenstreifens, entnommen aus {[}\citeproc{ref-Jaeger2006}{1}{]}}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{eigenschaften-der-baustoffe}{%
-\section{Eigenschaften der
-Baustoffe}\label{eigenschaften-der-baustoffe}}
+\section{Eigenschaften der Baustoffe}\label{eigenschaften-der-baustoffe}
 
-Die Betoneigenschaften wurden in
-{[}\protect\hyperlink{ref-Jaeger2006}{1}{]} mittels Würfel- und
-Zylinderproben ermittelt. Ebenso wurden die Eigenschaften des
-Betonstahls durch Zugproben bestimmt. Um von den Druckfestigkeiten der
-Zylinderproben auf die Bauteildruckfestigkeit zu schliessen, sind in
-{[}\protect\hyperlink{ref-Jaeger2014}{8}{]} Transformationsbeziehungen
-beschrieben. Folgend ist die Anwendung dieser aufgezeigt. Die
-Betondruckfestigkeit aufgrund der Zylinderdruckfestigkeit entspricht:
+Die Betoneigenschaften wurden in {[}\citeproc{ref-Jaeger2006}{1}{]}
+mittels Würfel- und Zylinderproben ermittelt. Ebenso wurden die
+Eigenschaften des Betonstahls durch Zugproben bestimmt. Um von den
+Druckfestigkeiten der Zylinderproben auf die Bauteildruckfestigkeit zu
+schliessen, sind in {[}\citeproc{ref-Jaeger2014}{8}{]}
+Transformationsbeziehungen beschrieben. Folgend ist die Anwendung dieser
+aufgezeigt. Die Betondruckfestigkeit aufgrund der
+Zylinderdruckfestigkeit entspricht:
 
 \begin{equation}f_{c} = 2.7 f_{cc}^{\frac{2}{3}}\end{equation}
 
 \begin{equation}f_{c} = \frac{40.8 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Ebenfalls kann die Zugfestigkeit gemäss
-{[}\protect\hyperlink{ref-Jaeger2013}{9}{]} anhand der
-Zylinderdruckfestigkeit bestimmt werden.
+{[}\citeproc{ref-Jaeger2013}{9}{]} anhand der Zylinderdruckfestigkeit
+bestimmt werden.
 
 \begin{equation}f_{ct} = 0.3 f_{cc}^{\frac{2}{3}}\end{equation}
 
 \begin{equation}f_{ct} = \frac{4.54 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Abschliessend wir der Elastizitätsmodul nach
-{[}\protect\hyperlink{ref-Jaeger2013}{9}{]} abgeschätzt.
+{[}\citeproc{ref-Jaeger2013}{9}{]} abgeschätzt.
 
 \begin{equation}E_{c} = 10000 \sqrt[3]{f_{cc}}\end{equation}
 
 \begin{equation}E_{c} = \frac{38886.0 \text{N}}{\text{mm}^{2}}\end{equation}
 
-\hypertarget{reiner-biegetruxe4ger}{%
-\section{Reiner Biegeträger}\label{reiner-biegetruxe4ger}}
+\section{Reiner Biegeträger}\label{reiner-biegetruxe4ger}
 
 In diesem Abschnitt wird die in Kapitel~\ref{sec-kontinua} beschriebene
 Modellvorstellung auf das Versuchsobjekt angewendet. Zunächst wird das
@@ -1020,25 +1021,27 @@ dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/System_anordnung_2.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/System_anordnung_2.pdf}
 
 }
 
 \caption{\label{fig-system_2}Statisches System des Plattenstreifens}
 
-\end{figure}
+\end{figure}%
 
 Eine Vereinfachung des in Abbildung~\ref{fig-system_2} dargestellten
 Systems ist in Abbildung~\ref{fig-system_2_lager} zu sehen. Dabei wird
 das Eigengewicht aufgrund seines minimalen Einflusses auf das
 Biegemoment vernachlässigt. Darüber hinaus wurden die Verformungen, die
-in {[}\protect\hyperlink{ref-Jaeger2006}{1}{]} gemessen wurden, nach der
+in {[}\citeproc{ref-Jaeger2006}{1}{]} gemessen wurden, nach der
 Installation des Trägers erfasst. Daher spiegelt die Messung den
 Einfluss des Eigengewichts nicht wider.
 
-\begin{equation}\protect\hypertarget{eq-eigengewicht}{}{
+\begin{equation}\phantomsection\label{eq-eigengewicht}{
 g_M, g_{k1}, g_{k2} = 0
-}\label{eq-eigengewicht}\end{equation}
+}\end{equation}
 
 Die Berücksichtigung der Lagerbreiten führt zur Streckenlast \(f_A\),
 bzw. zu den Lagerreaktionen \(f_B\) und \(f_C\). Aufgezeigt ist dies in
@@ -1046,34 +1049,31 @@ der Abbildung~\ref{fig-system_2_lager}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/System_anordnung_2_lagerbreite.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/System_anordnung_2_lagerbreite.pdf}
 
 }
 
 \caption{\label{fig-system_2_lager}Angepasstes statisches System des
 Plattenstreifens}
 
-\end{figure}
+\end{figure}%
 
 Die nun folgenden Berechnungen beziehen sich ausschliesslich auf das
 System in der Abbildung~\ref{fig-system_2_lager}. Dabei werden die
 Parameter in der Tabelle~\ref{tbl-params_reiner_biegetraeger}
 berücksichtigt.
 
-\hypertarget{tbl-params_reiner_biegetraeger}{}
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+
 \caption{\label{tbl-params_reiner_biegetraeger}Berechnungsparameter der
-Systemgeometrie}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\hspace{0pt}
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
+Systemgeometrie}
+
+\tabularnewline
+
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Parameter
@@ -1088,10 +1088,10 @@ Parameter
 \(a_{3} = 0.92 \text{m}\) & \(a_{4} = 0.95 \text{m}\) \\
 \(b = 800.0 \text{mm}\) & \(b_{Auflager} = 100 \text{mm}\) \\
 \(h = 200.0 \text{mm}\) & \hspace{0pt} \\
+
 \end{longtable}
 
-\hypertarget{auflagerkruxe4fte}{%
-\subsection{Auflagerkräfte}\label{auflagerkruxe4fte}}
+\subsection{Auflagerkräfte}\label{auflagerkruxe4fte}
 
 Zunächst müssen die Einwirkungen auf den Stab bestimmt werden, dazu sind
 die Auflagerreaktionen erforderlich. Das statisch bestimmte System kann
@@ -1128,12 +1128,10 @@ die folgenden Gleichungen.
 
 \begin{equation}f_{A} = \frac{F_{A}}{b_{Auflager}}\end{equation}
 
-\hypertarget{zustandslinien}{%
-\subsection{Zustandslinien}\label{zustandslinien}}
+\subsection{Zustandslinien}\label{zustandslinien}
 
-\hypertarget{zustandslinien-der-schnittgruxf6ssen}{%
 \subsubsection{Zustandslinien der
-Schnittgrössen}\label{zustandslinien-der-schnittgruxf6ssen}}
+Schnittgrössen}\label{zustandslinien-der-schnittgruxf6ssen}
 
 Nach dem Bestimmen der Auflagerreaktionen können die Zustandslinien der
 Schnittgrössen bestimmt werden. Die Zustandslinien der Schnittgrössen
@@ -1145,13 +1143,15 @@ aufgezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-q_x-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-q_x-output-1.pdf}
 
 }
 
 \caption{\label{fig-q_x}Verlauf der Einwirkungen}
 
-\end{figure}
+\end{figure}%
 
 Das Vorzeichen der Streckenlast gibt die Wirkungsrichtung an. Negative
 Werte wirken entgegen der positiven \(z\)-Richtung. Die positive
@@ -1161,9 +1161,9 @@ Querkraft bestimmen. Durch Integration der Einwirkung über die
 Laufvariable \(x\) ergibt sich der Verlauf, wie in
 Gleichung~\ref{eq-vx_integriert} dargestellt.
 
-\begin{equation}\protect\hypertarget{eq-vx_integriert}{}{
+\begin{equation}\phantomsection\label{eq-vx_integriert}{
 V(x) = -\int q(x) \, dx + c_1
-}\label{eq-vx_integriert}\end{equation}
+}\end{equation}
 
 Mit der Randbedingung \(V(0) = 0\) kann die Integrationskonstante
 bestimmt werden. Der Verlauf der Querkräfte ist in
@@ -1172,21 +1172,23 @@ Abbildung~\ref{fig-v_x} dargestellt. Die Querkräfte wirken in
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-v_x-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-v_x-output-1.pdf}
 
 }
 
 \caption{\label{fig-v_x}Verlauf der Querkräfte}
 
-\end{figure}
+\end{figure}%
 
 Nach dem bestimmten Querkraftverlauf folgt der Biegemomentenverlauf
 unter der Bemühung der Gleichung~\ref{eq-m_x_a3v2}. Dazu ist der Verlauf
 der Querkräfte zu integrieren.
 
-\begin{equation}\protect\hypertarget{eq-m_x_a3v2}{}{
+\begin{equation}\phantomsection\label{eq-m_x_a3v2}{
 M(x) = \int V(x) \, dx + c_2
-}\label{eq-m_x_a3v2}\end{equation}
+}\end{equation}
 
 Mit der Randbedingung \(M(0) = 0\) kann die Integrationskonstante
 bestimmt werden. Der Verlauf der Biegemomente ist in
@@ -1195,13 +1197,15 @@ Auflager \(C\).
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x}Verlauf der Biegemomente}
 
-\end{figure}
+\end{figure}%
 
 Zusätzlich zu den resultierenden Biegemomenten aus der Einwirkung kann
 ein durch die Längszugkraft aus der Querkraft induziertes Biegemoment
@@ -1229,30 +1233,31 @@ Kräfte \(z\).
 
 Zur Bestimmung des Versatzmass gilt es die Neigung des Druckfelds zu
 ermitteln. Abgeschätzt wird diese mit dem unteren Grenzwert des
-definierten Bereichs aus der Norm
-{[}\protect\hyperlink{ref-SIA2013a}{6}, p.~54{]}.
+definierten Bereichs aus der Norm {[}\citeproc{ref-SIA2013a}{6},
+p.~54{]}.
 
-\begin{equation}\protect\hypertarget{eq-theta_c3}{}{
+\begin{equation}\phantomsection\label{eq-theta_c3}{
  \theta_{c3} = 30.0^{\circ} 
-}\label{eq-theta_c3}\end{equation}
+}\end{equation}
 
 Unter diesen Annahmen folgt der Verlauf der Biegemomente mit dem
 Versatzmass, dargestellt in der Abbildung~\ref{fig-m_x_versatz}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_versatz-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_versatz-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_versatz}Verlauf der Biegemomente, mit
 Versatzmass}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{verdrehung--und-verformungslinien}{%
 \subsubsection{Verdrehung- und
-Verformungslinien}\label{verdrehung--und-verformungslinien}}
+Verformungslinien}\label{verdrehung--und-verformungslinien}
 
 Wie in Kapitel~\ref{sec-kontinua} hergeleitet, sind die
 Gleichgewichtsbetrachtungen nicht ausreichend, um die Verdrehung und
@@ -1268,16 +1273,16 @@ lässt sich die Biegesteifigkeit wie folgt berechnen:
 Der Verlauf der Verdrehung entspricht dem integrierten Verlauf der
 Biegemomente, dividiert durch die Biegesteifigkeit.
 
-\begin{equation}\protect\hypertarget{eq-verdrehung}{}{
+\begin{equation}\phantomsection\label{eq-verdrehung}{
 \varphi(x) = \frac{1}{EI}\int M(x) \, dx + c_3
-}\label{eq-verdrehung}\end{equation}
+}\end{equation}
 
 Die Verformung hingegen entspricht dem integrierten Verlauf der
 Verdrehung.
 
-\begin{equation}\protect\hypertarget{eq-verformung}{}{
+\begin{equation}\phantomsection\label{eq-verformung}{
 w(x) = \int -\varphi(x) \, dx + c_4
-}\label{eq-verformung}\end{equation}
+}\end{equation}
 
 Mit den Randbedingungen \(w(C) = 0\) und \(w(B) = 0\) können die
 Integrationskonstanten bestimmt werden. Der elastische
@@ -1287,17 +1292,18 @@ Abbildung~\ref{fig-w_x} dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-w_x-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-w_x-output-1.pdf}
 
 }
 
 \caption{\label{fig-w_x}Verlauf der Verformung, bestimmt mit einer
 konstanten ungerissenen Biegesteifigkeit}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{mohrsche-analogie}{%
-\section{Mohr'sche Analogie}\label{mohrsche-analogie}}
+\section{Mohr'sche Analogie}\label{mohrsche-analogie}
 
 In diesem Abschnitt sind die Zustandslinien der Schnittgrössen mittels
 der Mohr'schen Analogie bestimmt. Das Vorgehen ist in
@@ -1308,14 +1314,16 @@ anzusetzen. Dies ist in Abbildung~\ref{fig-q_x_mohr} dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-q_x_mohr-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-q_x_mohr-output-1.pdf}
 
 }
 
 \caption{\label{fig-q_x_mohr}Verlauf der Einwirkungen des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Die Randbedingungen bzw. die Lagerungen für das analoge System sind zu
 ermitteln. Dies kann grundsätzlich mit den Lagerungsbedingungen aus
@@ -1328,14 +1336,16 @@ Verformungsverlauf.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/System_analog.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/System_analog.pdf}
 
 }
 
 \caption{\label{fig-system_analog}Einwirkungen und Lagerung des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Der Querkraftverlauf für das analoge System ist in
 Abbildung~\ref{fig-v_x_mohr} dargestellt. Die Querkraft ist einheitslos,
@@ -1343,13 +1353,15 @@ da sie die Verdrehung des realen Systems repräsentiert.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-v_x_mohr-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-v_x_mohr-output-1.pdf}
 
 }
 
 \caption{\label{fig-v_x_mohr}Verlauf der Querkräfte des Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Der Biegemomentenverlauf für das analoge System ist in
 Abbildung~\ref{fig-m_x_mohr} dargestellt. Der Momentenverlauf entspricht
@@ -1360,23 +1372,24 @@ Abbildung~\ref{fig-m_x}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_mohr-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_mohr-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_mohr}Verlauf der Biegemomente des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{abschuxe4tzung-nach-norm}{%
-\section{Abschätzung nach Norm}\label{abschuxe4tzung-nach-norm}}
+\section{Abschätzung nach Norm}\label{abschuxe4tzung-nach-norm}
 
 Nach der Bestimmung der elastischen Verformung kann die Verformung
 anhand des vollständig gerissenen Querschnitts gemäss der Betonnorm
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]} ermittelt werden. Erläutert
-ist das Vorgehen im Kapitel~\ref{sec-norm}. Die Druckbewehrung wird für
-den Versuch vernachlässigt. Ebenso sind keine Langzeiteinflüsse zu
+{[}\citeproc{ref-SIA2013a}{6}{]} ermittelt werden. Erläutert ist das
+Vorgehen im Kapitel~\ref{sec-norm}. Die Druckbewehrung wird für den
+Versuch vernachlässigt. Ebenso sind keine Langzeiteinflüsse zu
 berücksichtigen. Dies führt auf die
 Gleichung~\ref{eq-w_1_II_sia_simple}. Der geometrische Bewehrungsgehalt
 definiert sich folgendermassen.
@@ -1402,9 +1415,8 @@ Stelle \(w_1\) zu:
 
 \begin{equation}w_{1 II,SIA} = 15.7 \text{mm}\end{equation}
 
-\hypertarget{numerische-integration-der-kruxfcmmung}{%
 \section{Numerische Integration der
-Krümmung}\label{numerische-integration-der-kruxfcmmung}}
+Krümmung}\label{numerische-integration-der-kruxfcmmung}
 
 Um sich von der Betrachtung einer konstanten Biegesteifigkeit zu lösen,
 gilt es eine nicht-lineare Momenten-Krümmungs-Beziehung zu bestimmen.
@@ -1414,14 +1426,16 @@ beschriebenen Versuch berechnet.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_Versuch_A3.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_Versuch_A3.pdf}
 
 }
 
 \caption{\label{fig-qs_a3}Querschnitt des Plattenstreifens dargestellt
 mit Zugbewehrung, ohne Schubbewehrung}
 
-\end{figure}
+\end{figure}%
 
 Die vorhandene Schubbewehrung ist in Abbildung~\ref{fig-qs_a3} nicht
 dargestellt. Zur Reduktion des Berechnungsaufwands wird der Querschnitt
@@ -1429,14 +1443,16 @@ gemäss der Abbildung~\ref{fig-qs_vereinfachung} vereinfacht.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_analyse_1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_analyse_1.pdf}
 
 }
 
 \caption{\label{fig-qs_vereinfachung}Vereinfachung der Bewehrungsführung
 des Plattenstreifens}
 
-\end{figure}
+\end{figure}%
 
 Die Parameter aus der Tabelle~\ref{tbl-params_krummung} finden Einfluss
 in die Berechnungen. Neben den Parametern wird das Stoffgesetz für den
@@ -1445,20 +1461,15 @@ bilineare, bzw. linear-elastisch linear-plastische
 Spannungs-Dehnungs-Diagramm für den Betonstahl hält den Rechenaufwand
 klein und liefert eine ausreichende Genauigkeit.
 
-\hypertarget{tbl-params_krummung}{}
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+
 \caption{\label{tbl-params_krummung}Berechnungsparameter
-Momenten-Krümmungs-Beziehung}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\hspace{0pt}
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
+Momenten-Krümmungs-Beziehung}
+
+\tabularnewline
+
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Parameter
@@ -1477,6 +1488,7 @@ Parameter
 \(f_{sy} = \frac{546.0 \text{N}}{\text{mm}^{2}}\) \\
 \(s_{x} = 80.0 \text{mm}\) & \(\theta_{c3} = 30.0\) \\
 \(\varepsilon_{cu} = 0.005\) & \(\varepsilon_{su} = 0.1117\) \\
+
 \end{longtable}
 
 Eine Berücksichtigung des verfestigenden Verhaltens ist essentiell, um
@@ -1487,14 +1499,16 @@ Spannungs-Dehnungs Bereich.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-stahlkennlinie-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-stahlkennlinie-output-1.pdf}
 
 }
 
 \caption{\label{fig-stahlkennlinie}Linear-elastisches,
 linear-plastisches Spannungs-Dehnungs-Diagramm des Betonstahls}
 
-\end{figure}
+\end{figure}%
 
 Dem Beton wird die Betonkennlinie, die in
 Abbildung~\ref{fig-betonkennlinie} dargestellt ist, hinterlegt. Diese
@@ -1506,17 +1520,18 @@ bis zur Bruchstauchung \(\varepsilon_{cu}\) definiert.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-betonkennlinie-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-betonkennlinie-output-1.pdf}
 
 }
 
 \caption{\label{fig-betonkennlinie}Linear-elastisches, ideal-plastisches
 Spannungs-Dehnungs-Diagramm des Betons}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{querschnittsanalyse}{%
-\subsection{Querschnittsanalyse}\label{querschnittsanalyse}}
+\subsection{Querschnittsanalyse}\label{querschnittsanalyse}
 
 Basierend auf den eben beschriebenen Grundlagen wird folgend eine
 Querschnittsanalyse durchgeführt. Dabei wird der Querschnitt vor dem
@@ -1525,9 +1540,8 @@ Versagen untersucht. Durch die Wahl aussagekräftiger Zustände im
 Querschnitt lässt sich eine nicht-lineare Momenten-Krümmungs-Beziehung
 mit überschaubarem Rechenaufwand ermitteln.
 
-\hypertarget{schwerpunkt-des-querschnitts}{%
 \subsubsection{Schwerpunkt des
-Querschnitts}\label{schwerpunkt-des-querschnitts}}
+Querschnitts}\label{schwerpunkt-des-querschnitts}
 
 Zunächst sind die Eigenschaften des Querschnitts zu bestimmen. Die
 Bestimmung der Wertigkeit \(n\) ermöglicht die Betrachtung des
@@ -1567,8 +1581,7 @@ der Abbildung~\ref{fig-qs_a3}, beträgt:
 
 \begin{equation}\zeta_{c} = 96.6 \text{mm}\end{equation}
 
-\hypertarget{fluxe4chentruxe4gheitsmoment}{%
-\subsubsection{Flächenträgheitsmoment}\label{fluxe4chentruxe4gheitsmoment}}
+\subsubsection{Flächenträgheitsmoment}\label{fluxe4chentruxe4gheitsmoment}
 
 Als weitere Querschnittseigenschaft gilt es das Flächenträgheitsmoment
 zu berechnen. Dieses wird ebenfalls am ideellen Querschnitt bestimmt.
@@ -1580,8 +1593,7 @@ der Steiner-Anteil fliesst in die Berechnung ein:
 
 \begin{equation}I^{I} = 5.67 \cdot 10^{8} \text{mm}^{4}\end{equation}
 
-\hypertarget{ungerissen---zustand-1}{%
-\subsubsection{Ungerissen - Zustand 1}\label{ungerissen---zustand-1}}
+\subsubsection{Ungerissen - Zustand 1}\label{ungerissen---zustand-1}
 
 Der Zustand 1 betrachtet den Querschnitt unter Biegung vor dem Erreichen
 der Betonzugfestigkeit. Durch das durchwegs elastische Verhalten kann
@@ -1600,13 +1612,15 @@ vernachlässigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_analyse_2.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_analyse_2.pdf}
 
 }
 
 \caption{\label{fig-qs2}Querschnittsanalyse vor dem Reissen des Betons}
 
-\end{figure}
+\end{figure}%
 
 Die Betondruckspannung lässt sich anhand der über die Querschnittshöhe
 linear verlaufenden Spannung bestimmen.
@@ -1642,9 +1656,8 @@ Reissen des Querschnitts bestimmen.
 
 \begin{equation}\chi_{r} = \frac{0.00116}{\text{m}}\end{equation}
 
-\hypertarget{gerissen-elastisch---zustand-2}{%
 \subsubsection{Gerissen elastisch - Zustand
-2}\label{gerissen-elastisch---zustand-2}}
+2}\label{gerissen-elastisch---zustand-2}
 
 Mit dem Zustand 2 wird darauf abgezielt, den gerissenen Bereich im
 Momenten-Krümmungs-Diagramm darzustellen. Der Querschnitt nach dem
@@ -1654,13 +1667,15 @@ Druckfestigkeit noch nicht erreicht.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_analyse_3.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_analyse_3.pdf}
 
 }
 
 \caption{\label{fig-qs3}Querschnittsanalyse nach dem Reissen des Betons}
 
-\end{figure}
+\end{figure}%
 
 Mittels Gleichgewicht der Kräfte lässt sich die Betondruckzonenhöhe
 bestimmen. Dazu wird zuerst die Beziehung zwischen der
@@ -1746,9 +1761,8 @@ Mit dem Rissmoment und der Krümmung aus dem Zustand 2 ist der
 Anfangspunkt für den gerissenen Zustand im Momenten-Krümmungs-Diagramm
 definiert.
 
-\hypertarget{fliessen-der-bewehrung---zustand-3}{%
 \subsubsection{Fliessen der Bewehrung - Zustand
-3}\label{fliessen-der-bewehrung---zustand-3}}
+3}\label{fliessen-der-bewehrung---zustand-3}
 
 Der Zustand 3 entspricht dem Zustand 2. Einzig die Stahlspannung
 erreicht die Fliessspannung. Dargestellt ist dies in der
@@ -1756,14 +1770,16 @@ Abbildung~\ref{fig-qs4}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_analyse_4.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_analyse_4.pdf}
 
 }
 
 \caption{\label{fig-qs4}Querschnittsanalyse mit erreichter
 Fliessspannung im Stab}
 
-\end{figure}
+\end{figure}%
 
 Durch das Gleichgewicht der horizontalen Kräfte folgen die Beziehungen:
 
@@ -1790,9 +1806,8 @@ Abschliessend lässt sich die Krümmung für den Zustand 3 bestimmen.
 
 \begin{equation}\chi_{y} = \frac{0.0257}{\text{m}}\end{equation}
 
-\hypertarget{biegewiderstand---zustand-4}{%
 \subsubsection{Biegewiderstand - Zustand
-4}\label{biegewiderstand---zustand-4}}
+4}\label{biegewiderstand---zustand-4}
 
 Der Biegewiderstand des Querschnitts kann durch die Plastifizierung der
 Betondruckzone bestimmt werden. Vereinfacht wird dem Betonstahl die
@@ -1801,14 +1816,16 @@ annähernd abzubilden.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_analyse_5.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_analyse_5.pdf}
 
 }
 
 \caption{\label{fig-qs5}Querschnittsanalyse mit erreichter Zugfestigkeit
 im Stab und plastifizierter Betondruckzone}
 
-\end{figure}
+\end{figure}%
 
 Der Verlauf der Betonspannung wird mit einem rechteckigen Spannungsblock
 idealisiert. Dazu wird die Druckzonenhöhe um den Faktor 0.85 reduziert.
@@ -1862,8 +1879,7 @@ bewährt.
 
 \begin{equation}\varepsilon_{su} = 0.1117\end{equation}
 
-\hypertarget{momenten-kruxfcmmungs-diagramm}{%
-\subsubsection{Momenten-Krümmungs-Diagramm}\label{momenten-kruxfcmmungs-diagramm}}
+\subsubsection{Momenten-Krümmungs-Diagramm}\label{momenten-kruxfcmmungs-diagramm}
 
 Folgend ist die Querschnittsanalyse in einem
 Momenten-Krümmungs-Diagramm, aufgezeigt in der
@@ -1874,14 +1890,16 @@ Beziehung zwischen Moment und Krümmung ist erkennbar.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm}Momenten-Krümmungs-Diagramm, definiert
 durch die Querschnittsanalyse}
 
-\end{figure}
+\end{figure}%
 
 Die erste Steigung im Diagramm beschreibt den ungerissenen Zustand 1.
 Dieser hat die Neigung von \(EI^I\). Darauf folgt eine schlagartige
@@ -1892,9 +1910,8 @@ Verlauf mit der Neigung \(EI^{II}\) bis zum Fliessen der Bewehrung
 Betonstahls und ein Plastifizieren der Betondruckzone bis zum Erreichen
 des Biegewiderstands (Zustand 4).
 
-\hypertarget{zustandslinien-der-kruxfcmmung}{%
 \subsubsection{Zustandslinien der
-Krümmung}\label{zustandslinien-der-kruxfcmmung}}
+Krümmung}\label{zustandslinien-der-kruxfcmmung}
 
 Die Momenten-Krümmungs-Beziehung wird nun zur Bestimmung des
 Krümmungsverlaufs verwendet. Der Biegemomentenverlauf \(M(x)\), als
@@ -1905,23 +1922,24 @@ der Biegemomente aus der Abbildung~\ref{fig-m_x}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm}Krümmungsverlauf entlang der
 Stabachse}
 
-\end{figure}
+\end{figure}%
 
 Über dem Auflager \(C\) ist für die dargestellte Laststufe der
 Biegewiderstand erreicht. Man befindet sich im Endbereich der
 Momenten-Krümmungs-Beziehung. Ebenfalls ersichtlich ist der sprunghafte
 Übergang zwischen dem ungerissenen und dem gerissenen Bereich.
 
-\hypertarget{punktuelle-bestimmung-der-verformung}{%
 \subsubsection{Punktuelle Bestimmung der
-Verformung}\label{punktuelle-bestimmung-der-verformung}}
+Verformung}\label{punktuelle-bestimmung-der-verformung}
 
 Unter Anwendung der Arbeitsgleichung kann die Verformung nach
 Gleichung~\ref{eq-arbeitsgleichung} bestimmt werden. Die Position der
@@ -1932,22 +1950,23 @@ Abbildung~\ref{fig-m_x_diagramm_virtuell} führt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_diagramm_virtuell-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-m_x_diagramm_virtuell-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_diagramm_virtuell}Biegemomentenverlauf für den
 virtuellen Kräftezustand}
 
-\end{figure}
+\end{figure}%
 
 Für die maximale Last beträgt die Deformation an der Stelle \(w_1\)
 beispielsweise:
 
 \begin{equation}w_{1} = 15.3 \text{mm}\end{equation}
 
-\hypertarget{zugversteifung}{%
-\subsection{Zugversteifung}\label{zugversteifung}}
+\subsection{Zugversteifung}\label{zugversteifung}
 
 Folgend wird die Modellbildung nach Marti aus dem
 Kapitel~\ref{sec-zuggurtmodell} angewendet. Die bisherige Betrachtung
@@ -1992,13 +2011,12 @@ wird die Fliessspannung eingesetzt. Die Variation des Parameters
 
 \begin{equation}w_{r} = 0.0933 \text{mm}\end{equation}
 
-\begin{equation}w_{r} = 0.0485 \text{mm}\end{equation}
+\begin{equation}w_{r} = 0.0484 \text{mm}\end{equation}
 
 Die Resultate sind vergleichbar mit den gemessenen Rissbreiten der
-Laststufe 12, die in {[}\protect\hyperlink{ref-Jaeger2006}{1}{]}
-dargestellt sind. Diese liegen in einem Wertebereich von
-\(0.15 \text{ mm}\) bis \(0.3 \text{ mm}\). Die Rissweiten werden
-folglich unterschätzt.
+Laststufe 12, die in {[}\citeproc{ref-Jaeger2006}{1}{]} dargestellt
+sind. Diese liegen in einem Wertebereich von \(0.15 \text{ mm}\) bis
+\(0.3 \text{ mm}\). Die Rissweiten werden folglich unterschätzt.
 
 Der Einfluss der Zugversteifung lässt sich direkt im
 Momenten-Krümmungs-Diagramm darstellen. Unter Berücksichtigung der
@@ -2007,21 +2025,22 @@ Abbildung~\ref{fig-mchi_diagramm_zugversteifung} gezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm_zugversteifung-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm_zugversteifung-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm_zugversteifung}Momenten-Krümmungs-Diagramm
 mit Zugversteifung}
 
-\end{figure}
+\end{figure}%
 
 Es zeigt sich ein steiferes Verhalten im gerissenen Bereich. Der
 Einfluss ist relativ gering.
 
-\hypertarget{analyse-mit-fachwerksmodellen}{%
 \section{Analyse mit
-Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen}}
+Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen}
 
 Abschliessend wird die Modellvorstellung aus dem
 Kapitel~\ref{sec-fachwerk} auf den Versuch angewendet. Die bisherigen
@@ -2032,19 +2051,21 @@ Abbildung~\ref{fig-spannungsfelder_flach} gezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Spannungsfelder_flach.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Spannungsfelder_flach.pdf}
 
 }
 
 \caption{\label{fig-spannungsfelder_flach}Plattenstreifen mit
 Spannungsfeldern entsprechend dem Kraftfluss}
 
-\end{figure}
+\end{figure}%
 
 Der Neigungswinkel der Betondruckstrebe wird in Anlehnung an die
 Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des Querkraftwiderstands
 von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]}, bestimmt. Dabei wird die
+{[}\citeproc{ref-SIA2013a}{6}{]}, bestimmt. Dabei wird die
 Querschnittsfläche der Schubbewehrung bestimmt.
 
 \begin{equation}A_{s w} = 197.9 \text{mm}^{2}\end{equation}
@@ -2077,14 +2098,16 @@ Dehnsteifigkeiten zuzuordnen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Fachwerk_flach.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Fachwerk_flach.pdf}
 
 }
 
 \caption{\label{fig-fachwerk_flach}Plattenstreifen mit Fachwerk durch
 das Zusammenfassen der Spannungsfelder}
 
-\end{figure}
+\end{figure}%
 
 Dem Zuggurt ist die Spannungs-Dehnungs-Beziehung gemäss
 Abbildung~\ref{fig-stahlkennlinie} hinterlegt, sowie entspricht die
@@ -2113,14 +2136,16 @@ Schubdübel umfasst sind.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Schubbewehrung_aufteilung_flach.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Schubbewehrung_aufteilung_flach.pdf}
 
 }
 
 \caption{\label{fig-schubbew_fw_flach}Plattenstreifen mit dargestellter
 Schubbewehrung und Spannungsfeldern}
 
-\end{figure}
+\end{figure}%
 
 Mit der definierten Geometrie und den entsprechenden Steifigkeiten
 resultieren die Verformungen für die Maximallast zu
@@ -2129,26 +2154,26 @@ Abbildung~\ref{fig-deformation_fw}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Def_Fachwerk.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Def_Fachwerk.pdf}
 
 }
 
 \caption{\label{fig-deformation_fw}Plattenstreifen mit verformten
 Fachwerk}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{vergleich-der-modellvorstellungen}{%
 \section{Vergleich der
-Modellvorstellungen}\label{vergleich-der-modellvorstellungen}}
+Modellvorstellungen}\label{vergleich-der-modellvorstellungen}
 
 Abgeschlossen wird die Analyse des Dreipunktbiegeversuchs mit einer
 Gegenüberstellung der angewendeten Methoden. Der Fokus liegt auf dem
 Vergleich der experimentell ermittelten Verformungen und den
 Verformungen aus den Modellvorstellungen.
 
-\hypertarget{kruxfcmmung}{%
-\subsection{Krümmung}\label{kruxfcmmung}}
+\subsection{Krümmung}\label{kruxfcmmung}
 
 Der Vergleich der Modellvorstellungen wird bei der Beschreibung der
 Krümmung der unterschiedlichen Modellvorstellungen gestartet. Aus dem
@@ -2158,14 +2183,16 @@ Biegesteifigkeiten herauslesen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm_vergleich-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-mchi_diagramm_vergleich-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm_vergleich}Momenten-Krümmungs-Diagramm
 zum Vergleich der unterschiedlichen Modellvorstellungen}
 
-\end{figure}
+\end{figure}%
 
 Die Unterschiede des Detaillierungsgrad der Beziehung zwischen den
 Modellvorstellungen ist deutlich erkennbar. Ebenso ersichtlich ist der
@@ -2183,14 +2210,16 @@ deutlich zu steif eingeschätzt wird.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm_vergleich-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm_vergleich-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm_vergleich}Krümmungsverlauf, mit
 unterschiedlichen Modellvorstellungen ohne Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Das analoge Vorgehen gilt für den Biegemomentenverlauf mit dem
 Versatzmass aus Abbildung~\ref{fig-m_x_versatz}. Dargestellt ist der
@@ -2199,14 +2228,16 @@ Abbildung~\ref{fig-chi_x_diagramm_laengszugkraft}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm_laengszugkraft-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-chi_x_diagramm_laengszugkraft-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm_laengszugkraft}Krümmungsverlauf, mit
 unterschiedlichen Modellvorstellungen mit Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Die Schwächen der konstanten Biegesteifigkeiten zeigen sich hier
 ebenfalls. Auffallend dabei ist der deutlich breitere Fliessbereich aus
@@ -2215,8 +2246,7 @@ resultiert, wie in Gleichung~\ref{eq-arbeitsgleichung} beschrieben, aus
 der Integration des Krümmungsverlaufs. Folglich hat die Verbreiterung im
 Fliessbereich einen signifikanten Einfluss auf die Verformung.
 
-\hypertarget{verformung}{%
-\subsection{Verformung}\label{verformung}}
+\subsection{Verformung}\label{verformung}
 
 Ein direkter Vergleich der Verformungen mit den gemessenen
 Versuchsresultaten ermöglicht die Erstellung von
@@ -2232,14 +2262,16 @@ Abbildung~\ref{fig-system_2_lager}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_vergleich-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_vergleich-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_vergleich}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) ohne Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Es zeigt sich, dass mit einer konstanten ungerissenen Biegesteifigkeit
 die Verformungen nicht zufriedenstellend abbildbar sind. Bereits im
@@ -2261,14 +2293,16 @@ Abweichungen im Bereich der Traglast.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_laengszug-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_laengszug-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_laengszug}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) mit Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Die Abbildung~\ref{fig-last_verformung_laengszug} zeigt sämtliche
 Berechnungsmethoden unter Berücksichtigung der Längszugkraft aus der
@@ -2293,14 +2327,16 @@ Abbildung~\ref{fig-last_verformung_fachwerk}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_fachwerk-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_fachwerk-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_fachwerk}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) mit Fachwerksmodell, Fachwerkshöhe von 140 mm}
 
-\end{figure}
+\end{figure}%
 
 Das Fachwerkmodell beschreibt den Verlauf bis zum Fliesspunkt der
 Zugbewehrung ausreichend präzise. Die maximale Verformung jedoch, die
@@ -2319,14 +2355,16 @@ bestimmt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_fachwerk_z_var-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/06_Versuch_2_A3_Jaeger_files/figure-pdf/fig-last_verformung_fachwerk_z_var-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_fachwerk_z_var}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) mit Fachwerksmodell, Fachwerkshöhe von 160 mm}
 
-\end{figure}
+\end{figure}%
 
 Das Modell mit der angepassten Höhe beschreibt den Verformungsverlauf
 vollumfänglich präzise. Die Verformungsanteile aus der Schubbewehrung,
@@ -2334,8 +2372,7 @@ dem Druckgurt und der Druckstrebe sind auch hier nicht signifikant.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{sec-vierpunkt}{%
-\chapter{Vierpunktbiegeversuch}\label{sec-vierpunkt}}
+\chapter{Vierpunktbiegeversuch}\label{sec-vierpunkt}
 
 Dieses Kapitel zeigt alle in Kapitel~\ref{sec-modellbeschrieb}
 aufgezeigten Modellvorstellungen, angewendet auf einen
@@ -2346,28 +2383,29 @@ weiteren Versuch zu verifizieren, bzw. die Differenzen zwischen den mit
 den verschiedenen Modellvorstellungen berechneten Verformungen und den
 gemessenen Verformungen aufzuzeigen.
 
-\hypertarget{versuchsbeschreibung-1}{%
-\section{Versuchsbeschreibung}\label{versuchsbeschreibung-1}}
+\section{Versuchsbeschreibung}\label{versuchsbeschreibung-1}
 
-Entnommen ist der Versuch SV14 aus
-{[}\protect\hyperlink{ref-Tue2019}{2}{]}. Es handelt sich um einen
-Vierpunktbiegeversuch. Es wird das Verhalten in Feldmitte analysiert. Im
-Zugbereich sind Bewehrungsstäbe mit hochfestem Stahl verlegt. Die
-Schubbewehrung ist minimal gehalten, sowie unterscheidet sich die
-Teilung im linken und rechten Bereich des Balkens. Die Bewehrung ist
-stets orthogonal oder parallel zu den Bauteilkanten verlegt. Dargestellt
-ist dies in Abbildung~\ref{fig-system_sv14}.
+Entnommen ist der Versuch SV14 aus {[}\citeproc{ref-Tue2019}{2}{]}. Es
+handelt sich um einen Vierpunktbiegeversuch. Es wird das Verhalten in
+Feldmitte analysiert. Im Zugbereich sind Bewehrungsstäbe mit hochfestem
+Stahl verlegt. Die Schubbewehrung ist minimal gehalten, sowie
+unterscheidet sich die Teilung im linken und rechten Bereich des
+Balkens. Die Bewehrung ist stets orthogonal oder parallel zu den
+Bauteilkanten verlegt. Dargestellt ist dies in
+Abbildung~\ref{fig-system_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/versuchsskizze_14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/versuchsskizze_14.pdf}
 
 }
 
 \caption{\label{fig-system_sv14}Lagerung und Belastung des Balkens,
-nachgezeichnet nach {[}\protect\hyperlink{ref-Tue2019}{2}{]}}
+nachgezeichnet nach {[}\citeproc{ref-Tue2019}{2}{]}}
 
-\end{figure}
+\end{figure}%
 
 Das statische System entspricht einem einfachen Balken. Die Last wird an
 beiden Angriffspunkten zeit- und betragsgleich eingeleitet. Gemäss den
@@ -2376,29 +2414,30 @@ Versuchsdaten tritt ein Biegeversagen bei einer Laststufe von
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/verformungsverlauf_tue.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/verformungsverlauf_tue.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_sv14}Last-Verformungs-Verlauf des
-Balkens, entnommen aus {[}\protect\hyperlink{ref-Tue2019}{2}{]}}
+Balkens, entnommen aus {[}\citeproc{ref-Tue2019}{2}{]}}
 
-\end{figure}
+\end{figure}%
 
 Das Last-Verformungs-Verhalten ist in der
 Abbildung~\ref{fig-last_verformung_sv14} dargestellt.
 
-\hypertarget{eigenschaften-der-baustoffe-1}{%
 \section{Eigenschaften der
-Baustoffe}\label{eigenschaften-der-baustoffe-1}}
+Baustoffe}\label{eigenschaften-der-baustoffe-1}
 
 Die Eigenschaften des hochfesten Betonstahls sind aus
-{[}\protect\hyperlink{ref-annahutte_broschure}{10}{]} entnommen. Für den
-Bst 550 sind Eigenschaften gemäss dem B500B aus der Schweizer Norm
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]} angesetzt mit einer Erhöhung
-der Fliessgrenze auf \(550 \text{ N}/\text{mm}^2\). Lediglich die
+{[}\citeproc{ref-annahutte_broschure}{10}{]} entnommen. Für den Bst 550
+sind Eigenschaften gemäss dem B500B aus der Schweizer Norm
+{[}\citeproc{ref-SIA2013a}{6}{]} angesetzt mit einer Erhöhung der
+Fliessgrenze auf \(550 \text{ N}/\text{mm}^2\). Lediglich die
 Betondruckfestigkeit ist im Versuchsbericht
-{[}\protect\hyperlink{ref-Tue2019}{2}{]} beschrieben. Diese wird als
+{[}\citeproc{ref-Tue2019}{2}{]} beschrieben. Diese wird als
 Zielfestigkeit \(f_c = 35 \text{ N}/\text{mm}^2\) deklariert. Die
 Zylinderdruckfestigkeit, sowie Zugefestigkeit und Elastizitätsmodul sind
 folgend rechnerisch ermittelt. Die Zylinderdruckfestigkeit ist
@@ -2409,21 +2448,20 @@ entsprechend gewählt, um die Zielfestigkeit zu erreichen:
 \begin{equation}f_{c} = \frac{35.0 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Die Zugfestigkeit berechnet mittels der Gleichung nach
-{[}\protect\hyperlink{ref-Jaeger2013}{9}{]} folgt zu:
+{[}\citeproc{ref-Jaeger2013}{9}{]} folgt zu:
 
 \begin{equation}f_{ct} = 0.3 f_{cc}^{\frac{2}{3}}\end{equation}
 
 \begin{equation}f_{ct} = \frac{3.9 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Die Abschätzung für den Elastizitätsmodul nach
-{[}\protect\hyperlink{ref-Jaeger2013}{9}{]} resultiert zu:
+{[}\citeproc{ref-Jaeger2013}{9}{]} resultiert zu:
 
 \begin{equation}E_{c} = 10000 \sqrt[3]{f_{cc}}\end{equation}
 
 \begin{equation}E_{c} = \frac{36011.0 \text{N}}{\text{mm}^{2}}\end{equation}
 
-\hypertarget{reiner-biegetruxe4ger-1}{%
-\section{Reiner Biegeträger}\label{reiner-biegetruxe4ger-1}}
+\section{Reiner Biegeträger}\label{reiner-biegetruxe4ger-1}
 
 Die beschriebenen Beziehungen aus dem Kapitel~\ref{sec-kontinua} sind
 folgend auf den Versuch angewendet. Es sind Auflagerkräfte, sowie
@@ -2433,29 +2471,26 @@ Abbildung~\ref{fig-stat_system_14_auflagerbreite}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/statisches_system_auflagerbreite_14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/statisches_system_auflagerbreite_14.pdf}
 
 }
 
 \caption{\label{fig-stat_system_14_auflagerbreite}Statisches System des
 Balkens mit berücksichtigter Auflagerbreite}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{tbl-params_reiner_biegetraeger_sv14}{}
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+
 \caption{\label{tbl-params_reiner_biegetraeger_sv14}Berechnungsparameter
-der Systemgeometrie}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\hspace{0pt}
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
+der Systemgeometrie}
+
+\tabularnewline
+
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Parameter
@@ -2470,10 +2505,10 @@ Parameter
 \(a_{3} = 1.0 \text{m}\) & \(a_{4} = 1.5 \text{m}\) \\
 \(a_{5} = 0.2 \text{m}\) & \(b = 170.0 \text{mm}\) \\
 \(b_{Auflager} = 100 \text{mm}\) & \(h = 450.0 \text{mm}\) \\
+
 \end{longtable}
 
-\hypertarget{auflagerkruxe4fte-1}{%
-\subsection{Auflagerkräfte}\label{auflagerkruxe4fte-1}}
+\subsection{Auflagerkräfte}\label{auflagerkruxe4fte-1}
 
 Die Auflagerkräfte lassen sich anhand der Gleichgewichtsbeziehungen am
 statisch bestimmten System ermitteln. Die Bestimmung derer ist für den
@@ -2511,8 +2546,7 @@ den folgenden Streckenlasten, bzw. Reaktionen:
 
 \begin{equation}f_{A} = \frac{F_{A}}{b_{Auflager}}\end{equation}
 
-\hypertarget{zustandslinien-1}{%
-\subsection{Zustandslinien}\label{zustandslinien-1}}
+\subsection{Zustandslinien}\label{zustandslinien-1}
 
 Folgend wird anhand der Einwirkung die Zustandslinien der Schnittkräfte
 bestimmt. Dabei ist zu beachten, dass die Zustandslinien lediglich für
@@ -2521,20 +2555,22 @@ in Abbildung~\ref{fig-q_x_sv14} aufgezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-q_x_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-q_x_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-q_x_sv14}Verlauf der Einwirkungen}
 
-\end{figure}
+\end{figure}%
 
 Durch Integration der Einwirkung über die Laufvariable \(x\) ergibt sich
 der Verlauf der Querkraft.
 
-\begin{equation}\protect\hypertarget{eq-vx_integriert_sv14}{}{
+\begin{equation}\phantomsection\label{eq-vx_integriert_sv14}{
 V(x) = -\int q(x) \, dx + c_1
-}\label{eq-vx_integriert_sv14}\end{equation}
+}\end{equation}
 
 Dabei kann mit der Randbedingun \(V(0) = 0\) die Integrationskonstante
 ermittelt werden. Der Verlauf der Querkräfte ist in
@@ -2542,20 +2578,22 @@ Abbildung~\ref{fig-v_x_sv14} dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-v_x_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-v_x_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-v_x_sv14}Verlauf der Querkräfte}
 
-\end{figure}
+\end{figure}%
 
 Der Verlauf des Biegemoments lässt sich durch die Integration der
 Querkräfte bestimmen:
 
-\begin{equation}\protect\hypertarget{eq-m_x_sv14}{}{
+\begin{equation}\phantomsection\label{eq-m_x_sv14}{
 M(x) = \int V(x) \, dx + c_2
-}\label{eq-m_x_sv14}\end{equation}
+}\end{equation}
 
 Mit der Randbedingung \(M(0) = 0\) kann die Integrationskonstante
 bestimmt werden. Der Verlauf der Biegemomente ist in
@@ -2564,13 +2602,15 @@ der Feldmitte ein.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_sv14}Verlauf der Biegemomente}
 
-\end{figure}
+\end{figure}%
 
 Zusätzlich zu den resultierenden Biegemomenten aus der Einwirkung kann
 ein durch die Längszugkraft aus der Querkraft induziertes Biegemoment
@@ -2602,29 +2642,30 @@ Anhand dieser wird der Hebelarm der inneren Kräfte bestimmt:
 \begin{equation}z = 367.0 \text{mm}\end{equation}
 
 Sowie gilt folgende Neigung des Druckfelds. Die Wahl des Winkels
-entspricht dem unteren Grenzwert der Norm
-{[}\protect\hyperlink{ref-SIA2013a}{6}, p.~54{]}.
+entspricht dem unteren Grenzwert der Norm {[}\citeproc{ref-SIA2013a}{6},
+p.~54{]}.
 
-\begin{equation}\protect\hypertarget{eq-theta_c3_sv14}{}{
+\begin{equation}\phantomsection\label{eq-theta_c3_sv14}{
  \theta_{c3} = 30.0^{\circ}
-}\label{eq-theta_c3_sv14}\end{equation}
+}\end{equation}
 
 Damit ist der Verlauf der Biegemomente mit dem Versatzmass definiert.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_versatz_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_versatz_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_versatz_sv14}Verlauf der Biegemomente, mit
 Versatzmass}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{verdrehung--und-verformungslinien-1}{%
 \subsubsection{Verdrehung- und
-Verformungslinien}\label{verdrehung--und-verformungslinien-1}}
+Verformungslinien}\label{verdrehung--und-verformungslinien-1}
 
 Wie in Kapitel~\ref{sec-kontinua} hergeleitet, sind die
 Gleichgewichtsbetrachtungen nicht ausreichend, um die Verdrehung und
@@ -2640,16 +2681,16 @@ lässt sich die Biegesteifigkeit wie folgt berechnen:
 Der Verlauf der Verdrehung entspricht dem integrierten Verlauf der
 Biegemomente, dividiert durch die Biegesteifigkeit.
 
-\begin{equation}\protect\hypertarget{eq-verdrehung_sv14}{}{
+\begin{equation}\phantomsection\label{eq-verdrehung_sv14}{
 \varphi(x) = \frac{1}{EI}\int M(x) \, dx + c_3
-}\label{eq-verdrehung_sv14}\end{equation}
+}\end{equation}
 
 Die Verformung hingegen entspricht dem integrierten Verlauf der
 Verdrehung.
 
-\begin{equation}\protect\hypertarget{eq-verformung_sv14}{}{
+\begin{equation}\phantomsection\label{eq-verformung_sv14}{
 w(x) = \int -\varphi(x) \, dx + c_4
-}\label{eq-verformung_sv14}\end{equation}
+}\end{equation}
 
 Mit den Randbedingungen \(w(C) = 0\) und \(w(B) = 0\) können die
 Integrationskonstanten bestimmt werden. Der elastische
@@ -2657,17 +2698,18 @@ Verformungsverlauf ist in der Abbildung~\ref{fig-w_x_sv14} dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-w_x_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-w_x_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-w_x_sv14}Verlauf der Verformung, bestimmt mit einer
 konstanten ungerissenen Biegesteifigkeit}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{mohrsche-analogie-1}{%
-\section{Mohr'sche Analogie}\label{mohrsche-analogie-1}}
+\section{Mohr'sche Analogie}\label{mohrsche-analogie-1}
 
 Folgend sind die Zustandslinien der Verformung und Verdrehung mittels
 der Mohr'schen Analogie bestimmt. Das Vorgehen ist in
@@ -2678,14 +2720,16 @@ anzusetzen. Dargestellt ist dies in Abbildung~\ref{fig-q_x_mohr_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-q_x_mohr_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-q_x_mohr_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-q_x_mohr_sv14}Verlauf der Einwirkungen des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 In der Abbildung~\ref{fig-w_x_sv14} ist ersichtlich, dass für das
 analoge System Gelenke bei den Verformungsnullpunkten einzuführen sind,
@@ -2697,14 +2741,16 @@ werden.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/analogiesystem_14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/analogiesystem_14.pdf}
 
 }
 
 \caption{\label{fig-analogiesystem_sv14}Einwirkungen und Lagerung des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Der Querkraftverlauf für das analoge System ist in
 Abbildung~\ref{fig-v_x_mohr_sv14} aufgezeigt. Die Querkraft ist
@@ -2712,14 +2758,16 @@ einheitslos, da es sich um die Verdrehung handelt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-v_x_mohr_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-v_x_mohr_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-v_x_mohr_sv14}Verlauf der Querkräfte des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Den Biegemomentenverlauf für das analoge System zeigt die
 Abbildung~\ref{fig-m_x_mohr_sv14}. Der Momentenverlauf entspricht der
@@ -2727,26 +2775,27 @@ Verformung und ist folglich in Millimeter dargestellt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_mohr_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_mohr_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_mohr_sv14}Verlauf der Biegemomente des
 Analogiesystems}
 
-\end{figure}
+\end{figure}%
 
 Erwartungsgemäss entspricht der Verlauf der Verformung in der
 Abbildung~\ref{fig-m_x_mohr_sv14} dem Verlauf in der
 Abbildung~\ref{fig-w_x_sv14}.
 
-\hypertarget{abschuxe4tzung-nach-norm-1}{%
-\section{Abschätzung nach Norm}\label{abschuxe4tzung-nach-norm-1}}
+\section{Abschätzung nach Norm}\label{abschuxe4tzung-nach-norm-1}
 
 Nach der Bestimmung der elastischen Verformung kann die Verformung
 anhand des vollständig gerissenen Querschnitts gemäss der Norm
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]} ermittelt werden. Die
-Kriecheinflüsse werden nicht berücksichtigt, da in den Versuchsdaten die
+{[}\citeproc{ref-SIA2013a}{6}{]} ermittelt werden. Die Kriecheinflüsse
+werden nicht berücksichtigt, da in den Versuchsdaten die
 Langzeiteinflüsse nicht abgebildet werden. Zur Reduktion des
 Rechenaufwands wird die Druckbewehrung ebenfalls vernachlässigt.
 Folglich ist die Gleichung~\ref{eq-w_1_II_sia_simple} anzuwenden. Dabei
@@ -2763,9 +2812,9 @@ berechnet. Die Querschnittsfläche des hochfesten Stabs entspricht:
 
 Die Querschnittsfläche des in der Mitte angeordneten Stabs entspricht:
 
-\begin{equation}A_{s 2} = \frac{\pi \oslash_{s,2}^{2}}{2}\end{equation}
+\begin{equation}A_{s 2} = \frac{\pi \oslash_{s,2}^{2}}{4}\end{equation}
 
-\begin{equation}A_{s 2} = 226.0 \text{mm}^{2}\end{equation}
+\begin{equation}A_{s 2} = 113.0 \text{mm}^{2}\end{equation}
 
 Die Querschnittsfläche der Stäbe im Zugbereich wird abschliessend
 bestimmt. Vereinfacht wird der Stab in der Mitte der Zugzone der
@@ -2773,7 +2822,7 @@ Gesamtquerschnittsfläche hinzugezählt.
 
 \begin{equation}A_{s} = A_{s 1} + A_{s 2}\end{equation}
 
-\begin{equation}A_{s} = 735.1 \text{mm}^{2}\end{equation}
+\begin{equation}A_{s} = 622.0 \text{mm}^{2}\end{equation}
 
 Die bereits bestimmte statische Höhe wird erneut aufgezeigt:
 
@@ -2784,11 +2833,10 @@ Die bereits bestimmte statische Höhe wird erneut aufgezeigt:
 Damit lässt sich abschliessend die Verformung mittels der Abschätzformel
 für die maximale Laststufe bestimmen.
 
-\begin{equation}w_{1 II,SIA} = 26.7 \text{mm}\end{equation}
+\begin{equation}w_{1 II,SIA} = 30.0 \text{mm}\end{equation}
 
-\hypertarget{numerische-integration-der-kruxfcmmung-1}{%
 \section{Numerische Integration der
-Krümmung}\label{numerische-integration-der-kruxfcmmung-1}}
+Krümmung}\label{numerische-integration-der-kruxfcmmung-1}
 
 Um sich von der Betrachtung einer konstanten Biegesteifigkeit zu lösen,
 hilft die Anwendung einer nicht-linearen Momenten-Krümmungs-Beziehung.
@@ -2798,48 +2846,47 @@ nicht dargestellt in Abbildung~\ref{fig-qs_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_Versuch14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_Versuch14.pdf}
 
 }
 
 \caption{\label{fig-qs_sv14}Querschnitt des Balkens dargestellt mit
 Zugbewehrung, ohne Schubbewehrung}
 
-\end{figure}
+\end{figure}%
 
 Zur Reduktion des Rechenaufwands wird der Querschnitt gemäss der
 Abbildung~\ref{fig-qs_sv14_vereinfachung} vereinfacht.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14.pdf}
 
 }
 
 \caption{\label{fig-qs_sv14_vereinfachung}Vereinfachung der
 Bewehrungsführung des Balkens}
 
-\end{figure}
+\end{figure}%
 
 Sowie finden die Parameter in der Tabelle~\ref{tbl-params_krummung_sv14}
 Einfluss in die Berechnungen. Die Indizes \(1\) und \(2\) der Parameter
 entsprechen der Beschriftung der Zugstäbe in der
 Abbildung~\ref{fig-qs_sv14}.
 
-\hypertarget{tbl-params_krummung_sv14}{}
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+
 \caption{\label{tbl-params_krummung_sv14}Berechnungsparameter
-Momenten-Krümmungs-Beziehung}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Parameter
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\hspace{0pt}
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
+Momenten-Krümmungs-Beziehung}
+
+\tabularnewline
+
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Parameter
@@ -2860,6 +2907,7 @@ Parameter
 \(f_{sy,2} = \frac{550.0 \text{N}}{\text{mm}^{2}}\) &
 \(\theta_{c3} = 30.0\) \\
 \(\varepsilon_{cu} = 0.003\) & \(\varepsilon_{su} = 0.05\) \\
+
 \end{longtable}
 
 Neben den Parametern wird das Stoffgesetz für den Betonstahl in
@@ -2876,14 +2924,16 @@ verfestigenden Bereich.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-stahlkennlinie_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-stahlkennlinie_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-stahlkennlinie_sv14}Linear-elastisches,
 ideal-plastisches Spannungs-Dehnungs-Diagramm des Betonstahls}
 
-\end{figure}
+\end{figure}%
 
 Die Betonkennlinie, die in Abbildung~\ref{fig-betonkennlinie_sv14}
 dargestellt ist, zeigt ein linear-elastisches ideal-plastisches
@@ -2894,17 +2944,18 @@ beginnt ein Plastifizieren beim Erreichen der Betondruckfestigkeit
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-betonkennlinie_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-betonkennlinie_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-betonkennlinie_sv14}Linear-elastisches,
 ideal-plastisches Spannungs-Dehnungs-Diagramm des Betons}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{querschnittsanalyse-1}{%
-\subsection{Querschnittsanalyse}\label{querschnittsanalyse-1}}
+\subsection{Querschnittsanalyse}\label{querschnittsanalyse-1}
 
 Zur Bestimmung der nicht-linearen Momenten-Krümmungs-Beziehung wird eine
 Querschnittsanalyse durchgeführt. Dabei wird der Querschnitt vor dem
@@ -2914,9 +2965,8 @@ beim Versagen (Zustand 5) untersucht. Durch die Wahl aussagekräftiger
 Zustände im Querschnitt lässt sich eine Momenten-Krümmungs-Beziehung mit
 überschaubarem Rechenaufwand ermitteln.
 
-\hypertarget{schwerpunkt-des-querschnitts-1}{%
 \subsubsection{Schwerpunkt des
-Querschnitts}\label{schwerpunkt-des-querschnitts-1}}
+Querschnitts}\label{schwerpunkt-des-querschnitts-1}
 
 Die Bestimmung der Wertigkeit \(n\) ermöglicht die Betrachtung des
 Querschnitts als homogenen Betonquerschnitt. Dies findet Einfluss bei
@@ -2934,7 +2984,7 @@ Die Querschnittsfläche der Zugstäbe ist die folgende:
 
 \begin{equation}A_{s} = A_{s 1} + A_{s 2}\end{equation}
 
-\begin{equation}A_{s} = 735.1 \text{mm}^{2}\end{equation}
+\begin{equation}A_{s} = 622.0 \text{mm}^{2}\end{equation}
 
 Dabei beträgt die Betonquerschnittsfläche:
 
@@ -2946,17 +2996,16 @@ Und die ideelle Querschnittsfläche resultiert zu:
 
 \begin{equation}A_{i} = A_{c} + A_{s} \left(n - 1\right)\end{equation}
 
-\begin{equation}A_{i} = 79949.7 \text{mm}^{2}\end{equation}
+\begin{equation}A_{i} = 79419.0 \text{mm}^{2}\end{equation}
 
 Der vertikale Abstand von der Oberkante zum Schwerpunkt, dargestellt ist
 dieser in der Abbildung~\ref{fig-qs_sv14}, beträgt:
 
 \begin{equation}\zeta_{c} = \frac{\frac{A_{c} h}{2} + \left(n - 1\right) \left(A_{s 1} \left(- d_{1} + h\right) + A_{s 2} \left(- d_{2} + h\right)\right)}{A_{i}}\end{equation}
 
-\begin{equation}\zeta_{c} = 217.0 \text{mm}\end{equation}
+\begin{equation}\zeta_{c} = 218.0 \text{mm}\end{equation}
 
-\hypertarget{fluxe4chentruxe4gheitsmoment-1}{%
-\subsubsection{Flächenträgheitsmoment}\label{fluxe4chentruxe4gheitsmoment-1}}
+\subsubsection{Flächenträgheitsmoment}\label{fluxe4chentruxe4gheitsmoment-1}
 
 Das Flächenträgheitsmoment wird ebenfalls am ideellen Querschnitt
 bestimmt. Die Eigenträgheitsmomente der Kreisquerschnitte der Stäbe sind
@@ -2965,10 +3014,9 @@ der Steiner-Anteil fliesst in die Berechnung ein:
 
 \begin{equation}I^{I} = \frac{b h^{3}}{12} + b h \left(\frac{h}{2} - \zeta_{c}\right)^{2} + \left(n - 1\right) \left(A_{s 1} \left(\frac{\oslash_{s,1}}{2} + c_{nom} - \zeta_{c}\right)^{2} + A_{s 2} \left(\frac{\oslash_{s,2}}{2} + c_{nom} - \zeta_{c}\right)^{2}\right)\end{equation}
 
-\begin{equation}I^{I} = 1.4 \cdot 10^{9} \text{mm}^{4}\end{equation}
+\begin{equation}I^{I} = 1.38 \cdot 10^{9} \text{mm}^{4}\end{equation}
 
-\hypertarget{ungerissen---zustand-1-1}{%
-\subsubsection{Ungerissen - Zustand 1}\label{ungerissen---zustand-1-1}}
+\subsubsection{Ungerissen - Zustand 1}\label{ungerissen---zustand-1-1}
 
 Durch das durchwegs elastische Verhalten kann die Biegesteifigkeit
 anhand des Elastizitätmoduls des Betons und des Flächenträgheitmoments
@@ -2976,7 +3024,7 @@ des ideellen Querschnitts bestimmt werden.
 
 \begin{equation}EI^{I} = E_{c} I^{I}\end{equation}
 
-\begin{equation}EI^{I} = 5.042 \cdot 10^{4} \text{kN} \text{m}^{2}\end{equation}
+\begin{equation}EI^{I} = 4.983 \cdot 10^{4} \text{kN} \text{m}^{2}\end{equation}
 
 Das Rissmoment definiert den Endpunkt des Zustands I im
 Momenten-Krümmungs-Diagramm und wird folgend bestimmt. Dabei gilt die
@@ -2985,40 +3033,42 @@ Zugstäben wird vernachlässigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_1.pdf}
 
 }
 
 \caption{\label{fig-qs2_sv14}Querschnittsanalyse vor dem Reissen des
 Betons}
 
-\end{figure}
+\end{figure}%
 
 Die Betonspannung lässt sich anhand der über die Querschnittshöhe linear
 verlaufenden Spannung bestimmen. Dies ist folgend dargestellt:
 
 \begin{equation}\sigma_{c 1} = \frac{f_{ct} \left(h - \zeta_{c}\right)}{\zeta_{c}}\end{equation}
 
-\begin{equation}\sigma_{c 1} = \frac{4.17 \text{N}}{\text{mm}^{2}}\end{equation}
+\begin{equation}\sigma_{c 1} = \frac{4.13 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Zur Bestimmung des Rissmoments gilt es den Hebelarm der inneren Kräfte
 zu bestimmen, sowie die Betondruckkraft:
 
 \begin{equation}z_{1} = \frac{2 h}{3} + \frac{\zeta_{c}}{3}\end{equation}
 
-\begin{equation}z_{1} = 372.0 \text{mm}\end{equation}
+\begin{equation}z_{1} = 373.0 \text{mm}\end{equation}
 
 Die Betondruckkraft ist definiert nach:
 
 \begin{equation}F_{c,1} = \frac{b \sigma_{c 1} \left(h - \zeta_{c}\right)}{2}\end{equation}
 
-\begin{equation}F_{c,1} = 82.6 \text{kN}\end{equation}
+\begin{equation}F_{c,1} = 81.3 \text{kN}\end{equation}
 
 Und das Rissmoment resultiert schliesslich zu:
 
 \begin{equation}M_{r} = F_{c,1} z_{1}\end{equation}
 
-\begin{equation}M_{r} = 30.75 \text{kN} \text{m}\end{equation}
+\begin{equation}M_{r} = 30.31 \text{kN} \text{m}\end{equation}
 
 Unter Berücksichtigung der Biegesteifigkeit lässt sich die Krümmung beim
 Reissen des Querschnitts bestimmen. Gezeigt in den folgenden
@@ -3026,11 +3076,10 @@ Gleichungen:
 
 \begin{equation}\chi_{r} = \frac{M_{r}}{EI^{I}}\end{equation}
 
-\begin{equation}\chi_{r} = \frac{0.00061}{\text{m}}\end{equation}
+\begin{equation}\chi_{r} = \frac{0.000608}{\text{m}}\end{equation}
 
-\hypertarget{gerissen-elastisch---zustand-2-1}{%
 \subsubsection{Gerissen elastisch - Zustand
-2}\label{gerissen-elastisch---zustand-2-1}}
+2}\label{gerissen-elastisch---zustand-2-1}
 
 Mit dem Zustand 2 wird darauf abgezielt, den gerissenen Bereich im
 Momenten-Krümmungs-Diagramm darzustellen. Der Querschnitt nach dem
@@ -3042,14 +3091,16 @@ beschreiben.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_2.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_2.pdf}
 
 }
 
 \caption{\label{fig-qs3_sv14}Querschnittsanalyse nach dem Reissen des
 Betons}
 
-\end{figure}
+\end{figure}%
 
 Dabei betragen die statischen Höhen der Zugstäbe:
 
@@ -3105,7 +3156,7 @@ werden kann.
 
 \begin{equation}x_{2} = \frac{- A_{s 1} n - A_{s 2} n + \sqrt{n \left(A_{s 1}^{2} n + 2 A_{s 1} A_{s 2} n + 2 A_{s 1} b d_{1} + A_{s 2}^{2} n + 2 A_{s 2} b d_{2}\right)}}{b}\end{equation}
 
-\begin{equation}x_{2} = 119.0 \text{mm}\end{equation}
+\begin{equation}x_{2} = 111.0 \text{mm}\end{equation}
 
 Die hergeleiteten Beziehungen gelten für den gesamten gerissenen
 Bereich. Mit der freien Wahl eines Biegemoments kann die
@@ -3123,26 +3174,25 @@ bestimmen.
 Daraus resultiert die Betonstahldehnung und die entsprechende
 Betonstahlspannung:
 
-\begin{equation}\varepsilon_{s2,2} = 0.00056\end{equation}
+\begin{equation}\varepsilon_{s2,2} = 0.000648\end{equation}
 
-\begin{equation}\sigma_{s 2,2} = \frac{115.0 \text{N}}{\text{mm}^{2}}\end{equation}
+\begin{equation}\sigma_{s 2,2} = \frac{133.0 \text{N}}{\text{mm}^{2}}\end{equation}
 
 Die Krümmung kann anhand des Dehnungsverlaufs in
 Abbildung~\ref{fig-qs3_sv14} bestimmt werden:
 
 \begin{equation}\chi^{II} = \frac{\varepsilon_{s2,2}}{d_{2} - x_{2}}\end{equation}
 
-\begin{equation}\chi^{II} = \frac{0.00193}{\text{m}}\end{equation}
+\begin{equation}\chi^{II} = \frac{0.00218}{\text{m}}\end{equation}
 
 Abschliessend folgt die gerissene Biegesteifigkeit zu:
 
 \begin{equation}EI^{II} = \frac{M_{2}}{\chi^{II}}\end{equation}
 
-\begin{equation}EI^{II} = 15932.3 \text{kN} \text{m}^{2}\end{equation}
+\begin{equation}EI^{II} = 13929.3 \text{kN} \text{m}^{2}\end{equation}
 
-\hypertarget{fliessen-der-bewehrung-2---zustand-3}{%
 \subsubsection{Fliessen der Bewehrung 2 - Zustand
-3}\label{fliessen-der-bewehrung-2---zustand-3}}
+3}\label{fliessen-der-bewehrung-2---zustand-3}
 
 Der Zustand 3 entspricht dem Zustand 2. Einzig die Stahlspannung im Stab
 2 erreicht die Fliessspannung. Dargestellt ist dies in der
@@ -3150,14 +3200,16 @@ Abbildung~\ref{fig-qs4_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_3.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_3.pdf}
 
 }
 
 \caption{\label{fig-qs4_sv14}Querschnittsanalyse mit erreichter
 Fliessspannung im Stab 2}
 
-\end{figure}
+\end{figure}%
 
 Die Dehnungen in den Stäben folgen zu:
 
@@ -3168,7 +3220,7 @@ Die Dehnungen in den Stäben folgen zu:
 Die Betondruckzonenhöhe bleibt unverändert, sofern der Beton im
 elastischen Zustand verbleibt.
 
-\begin{equation}x_{3} = 119.0 \text{mm}\end{equation}
+\begin{equation}x_{3} = 111.0 \text{mm}\end{equation}
 
 Die Betonstahldehnung anhand des linearen Dehnungsverlaufs entspricht:
 
@@ -3180,7 +3232,7 @@ Die Betonstauchung folgt zu:
 
 \begin{equation}\varepsilon_{c3} = \frac{\varepsilon_{s3,1} x_{3}}{d_{1} - x_{3}}\end{equation}
 
-\begin{equation}\varepsilon_{c3} = 0.0011\end{equation}
+\begin{equation}\varepsilon_{c3} = 0.000999\end{equation}
 
 Die maximale elastische Dehnung ist folgend gezeigt, welche mit
 \(\varepsilon_{c3}\) zu vergleichen ist:
@@ -3197,39 +3249,40 @@ abzuschätzen. Der geringe Abstand lässt die Annahme zu.
 
 \begin{equation}a = x_{3} - \frac{f_{c} x_{3}}{E_{c} \varepsilon_{c3}}\end{equation}
 
-\begin{equation}a = 14.0 \text{mm}\end{equation}
+\begin{equation}a = 2.94 \text{mm}\end{equation}
 
 Daraus lässt sich das Fliessmoment bestimmen, welches den Endpunkt im
 Momenten-Krümmungs-Diagramm für den gerissenen Zustand definiert:
 
 \begin{equation}M_{y 2} = A_{s 1} E_{s} \varepsilon_{s3,1} \left(d_{1} - \frac{x_{3}}{3}\right) + A_{s 2} E_{s} \varepsilon_{s3,2} \left(d_{2} - \frac{x_{3}}{3}\right)\end{equation}
 
-\begin{equation}M_{y 2} = 147.4 \text{kN} \text{m}\end{equation}
+\begin{equation}M_{y 2} = 125.4 \text{kN} \text{m}\end{equation}
 
 Abschliessend lässt sich die Krümmung für den Endpunkt des Zustands 3
 bestimmen:
 
 \begin{equation}\chi_{y2} = \frac{\varepsilon_{s3,1}}{d_{1} - x_{3}}\end{equation}
 
-\begin{equation}\chi_{y2} = \frac{0.00925}{\text{m}}\end{equation}
+\begin{equation}\chi_{y2} = \frac{0.009}{\text{m}}\end{equation}
 
-\hypertarget{fliessen-der-bewehrung-1---zustand-4}{%
 \subsubsection{Fliessen der Bewehrung 1 - Zustand
-4}\label{fliessen-der-bewehrung-1---zustand-4}}
+4}\label{fliessen-der-bewehrung-1---zustand-4}
 
 Der Zustand 4 entspricht dem Zustand 3. Als einzige Abweichung erreicht
 die Stahlspannung im Stab 1 nun ebenfalls die Fliessspannung.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_4.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_4.pdf}
 
 }
 
 \caption{\label{fig-qs5_sv14}Querschnittsanalyse mit erreichter
 Fliessspannung im Stab 1}
 
-\end{figure}
+\end{figure}%
 
 Die Dehnungen in den Stäben, vereinfacht wird die Dehnung in beiden
 Stäben gleichgesetzt, folgen zu:
@@ -3243,13 +3296,13 @@ Stäben gleichgesetzt, folgen zu:
 Es wird weiterhin von einer dreiecksförmigen Betonspannungsverteilung
 ausgegangen.
 
-\begin{equation}x_{4} = 119.0 \text{mm}\end{equation}
+\begin{equation}x_{4} = 111.0 \text{mm}\end{equation}
 
 Die Betonstauchung folgt zu:
 
 \begin{equation}\varepsilon_{c4} = \frac{\varepsilon_{s4,1} x_{4}}{d_{1} - x_{4}}\end{equation}
 
-\begin{equation}\varepsilon_{c4} = 0.00136\end{equation}
+\begin{equation}\varepsilon_{c4} = 0.00123\end{equation}
 
 Auch hier gilt, dass der Beton eigentlich bereits plastifiziert. Der
 Abstand des plastischen Bereichs von der äussersten Faser ist folgend
@@ -3258,7 +3311,7 @@ einem dreieckigen Betonspannungsverlauf weiterverfahren.
 
 \begin{equation}a = x_{4} - \frac{f_{c} x_{4}}{E_{c} \varepsilon_{c4}}\end{equation}
 
-\begin{equation}a = 33.7 \text{mm}\end{equation}
+\begin{equation}a = 23.2 \text{mm}\end{equation}
 
 Die Spannungen anhand des bilinearen Spannungs-Dehnungsverlauf folgen
 zu:
@@ -3274,18 +3327,17 @@ definiert:
 
 \begin{equation}M_{y 1} = A_{s 1} E_{s} \varepsilon_{s4,1} \left(d_{1} - \frac{x_{4}}{3}\right) + A_{s 2} f_{sy,2} \left(d_{2} - \frac{x_{4}}{3}\right)\end{equation}
 
-\begin{equation}M_{y 1} = 170.9 \text{kN} \text{m}\end{equation}
+\begin{equation}M_{y 1} = 149.0 \text{kN} \text{m}\end{equation}
 
 Abschliessend lässt sich die Krümmung für den Endpunkt des Zustands 4
 bestimmen:
 
 \begin{equation}\chi_{y1} = \frac{\varepsilon_{s4,1}}{d_{1} - x_{4}}\end{equation}
 
-\begin{equation}\chi_{y1} = \frac{0.0114}{\text{m}}\end{equation}
+\begin{equation}\chi_{y1} = \frac{0.0111}{\text{m}}\end{equation}
 
-\hypertarget{biegewiderstand---zustand-5}{%
 \subsubsection{Biegewiderstand - Zustand
-5}\label{biegewiderstand---zustand-5}}
+5}\label{biegewiderstand---zustand-5}
 
 Der Biegewiderstand kann durch die Plastifizierung der Betondruckzone
 bestimmt werden. Vereinfacht werden den Zugstäben die entsprechende
@@ -3294,14 +3346,16 @@ annähernd abzubilden.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/QS_14_analyse_5.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/QS_14_analyse_5.pdf}
 
 }
 
 \caption{\label{fig-qs6_sv14}Querschnittsanalyse mit erreichter
 Zugfestigkeit im Stab und plastifizierter Betondruckzone}
 
-\end{figure}
+\end{figure}%
 
 Es wird die Betonbruchstauchung vorausgesetzt:
 
@@ -3316,25 +3370,25 @@ Das Gleichgewicht der Kräfte führt zu:
 Aus dem Gleichgewicht der horizontalen Kräfte folgt die Druckzonenhöhe
 zu:
 
-\begin{equation}x_{5} = 110.0 \text{mm}\end{equation}
+\begin{equation}x_{5} = 95.1 \text{mm}\end{equation}
 
 Damit lässt sich der Hebelarm der inneren Kräfte bestimmen:
 
 \begin{equation}z_{5} = d_{1} - 0.425 x_{5}\end{equation}
 
-\begin{equation}z_{5} = 359.0 \text{mm}\end{equation}
+\begin{equation}z_{5} = 366.0 \text{mm}\end{equation}
 
 Welche den Biegewiderstand ermitteln lässt:
 
 \begin{equation}M_{R} = A_{s 1} f_{su,1} \left(d_{1} - 0.425 x_{5}\right) + A_{s 2} f_{su,2} \left(d_{2} - 0.425 x_{5}\right)\end{equation}
 
-\begin{equation}M_{R} = 200.1 \text{kN} \text{m}\end{equation}
+\begin{equation}M_{R} = 176.2 \text{kN} \text{m}\end{equation}
 
 Die Krümmung lässt sich anhand der Betonstauchung ermitteln:
 
 \begin{equation}\chi_{u} = \frac{\varepsilon_{cu}}{x_{5}}\end{equation}
 
-\begin{equation}\chi_{u} = \frac{0.0273}{\text{m}}\end{equation}
+\begin{equation}\chi_{u} = \frac{0.0315}{\text{m}}\end{equation}
 
 Sowie wird kontrolliert, dass die Betonstahldehnung die Bruchdehnung
 nicht überschreiten. Die Betonstahldehnung wird für beide Stäbe
@@ -3344,7 +3398,7 @@ gleichgesetzt.
 
 \begin{equation}\varepsilon_{s5,2} = \varepsilon_{s5,1}\end{equation}
 
-\begin{equation}\varepsilon_{s5,1} = 0.00809\end{equation}
+\begin{equation}\varepsilon_{s5,1} = 0.0098\end{equation}
 
 \begin{equation}\varepsilon_{su} = 0.05\end{equation}
 
@@ -3356,10 +3410,9 @@ Biegesteifigkeit für den verfestigenden Bereich bestimmen:
 
 \begin{equation}EI^{III} = \frac{M_{R}}{\chi_{u}}\end{equation}
 
-\begin{equation}EI^{III} = 7.33 \cdot 10^{3} \text{kN} \text{m}^{2}\end{equation}
+\begin{equation}EI^{III} = 5.59 \cdot 10^{3} \text{kN} \text{m}^{2}\end{equation}
 
-\hypertarget{momenten-kruxfcmmungs-diagramm-1}{%
-\subsubsection{Momenten-Krümmungs-Diagramm}\label{momenten-kruxfcmmungs-diagramm-1}}
+\subsubsection{Momenten-Krümmungs-Diagramm}\label{momenten-kruxfcmmungs-diagramm-1}
 
 Die definierten Krümmungen mit den entsprechenden Biegemomenten aus der
 Querschnittsanalyse sind in Abbildung~\ref{fig-mchi_diagramm_sv14}
@@ -3367,14 +3420,16 @@ aufgezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm_sv14}Momenten-Krümmungs-Diagramm,
 definiert durch die Querschnittsanalyse}
 
-\end{figure}
+\end{figure}%
 
 Die erste Steigung im Diagramm beschreibt den ungerissenen Zustand.
 Dieser hat die Neigung von \(EI^I\). Darauf folgt eine schlagartige
@@ -3387,9 +3442,8 @@ folgt ein verfestigendes Verhalten des Betonstahls und ein
 Plastifizieren der Betondruckzone bis zum Erreichen des
 Biegewiderstands.
 
-\hypertarget{zustandslinien-der-kruxfcmmung-1}{%
 \subsubsection{Zustandslinien der
-Krümmung}\label{zustandslinien-der-kruxfcmmung-1}}
+Krümmung}\label{zustandslinien-der-kruxfcmmung-1}
 
 Mittels der nicht-linearen Momenten-Krümmungs-Beziehung lässt sich der
 Krümmungsverlauf bestimmen. Der Biegemomentenverlauf \(M(x)\), als
@@ -3400,22 +3454,23 @@ der Biegemomente aus der Abbildung~\ref{fig-m_x_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm_sv14}Krümmungsverlauf entlang der
 Stabachse}
 
-\end{figure}
+\end{figure}%
 
 In der Feldmitte zeigt sich allmählich ein Fliessen des Stabs 2.
 Vereinfachend lässt sich festhalten, dass die Bewehrung nicht ins
 Fliessen kommt.
 
-\hypertarget{punktuelle-bestimmung-der-verformung-1}{%
 \subsubsection{Punktuelle Bestimmung der
-Verformung}\label{punktuelle-bestimmung-der-verformung-1}}
+Verformung}\label{punktuelle-bestimmung-der-verformung-1}
 
 Unter Anwendung der Arbeitsgleichung kann die Verformung nach
 Gleichung~\ref{eq-arbeitsgleichung} bestimmt werden. Die virtuelle Kraft
@@ -3425,42 +3480,43 @@ Abbildung~\ref{fig-m_x_diagramm_virtuell_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_diagramm_virtuell_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-m_x_diagramm_virtuell_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-m_x_diagramm_virtuell_sv14}Biegemomentenverlauf für
 den virtuellen Kräftezustand}
 
-\end{figure}
+\end{figure}%
 
 Mit dem bestimmen Krümmungsverlauf lässt sich die Deformation an der
 Stelle \(w_1\) für die Maximallast exemplarisch bestimmen:
 
-\begin{equation}w_{1} = 16.3 \text{mm}\end{equation}
+\begin{equation}w_{1} = 24.1 \text{mm}\end{equation}
 
-\hypertarget{zugversteifung-1}{%
-\subsection{Zugversteifung}\label{zugversteifung-1}}
+\subsection{Zugversteifung}\label{zugversteifung-1}
 
 In diesem Abschnitt wird die Modellbildung nach Marti, gemäss
 Kapitel~\ref{sec-zuggurtmodell}, angewendet. Dazu wird die
 Krümmungsdifferenz, der Rissabstand und die Rissweiten bestimmt. Im
-Versuchsbericht {[}\protect\hyperlink{ref-Tue2019}{2}{]} sind keine
-Rissweiten aufgeführt, welche mit den Berechnungen verglichen werden
-können. Die Krümmungsdifferenez nach Marti mit der mittleren statischen
-Höhe in Abhängigkeit des \(\lambda\)-Parameters beträgt:
+Versuchsbericht {[}\citeproc{ref-Tue2019}{2}{]} sind keine Rissweiten
+aufgeführt, welche mit den Berechnungen verglichen werden können. Die
+Krümmungsdifferenez nach Marti mit der mittleren statischen Höhe in
+Abhängigkeit des \(\lambda\)-Parameters beträgt:
 
 \begin{equation}d = 407.5 \text{mm}\end{equation}
 
 \begin{equation}\Delta\chi{\left(\lambda \right)} = \frac{\lambda}{2} \frac{f_{ct} \left(1 - \rho_{eff}\right)}{E_{s} \rho_{eff} \left(d - x_{2}\right)}\end{equation}
 
-\begin{equation}\Delta\chi{\left(\lambda \right)} = \frac{0.000779 \lambda}{\text{m}}\end{equation}
+\begin{equation}\Delta\chi{\left(\lambda \right)} = \frac{0.000906 \lambda}{\text{m}}\end{equation}
 
 Der mechanische Bewehrungsgehalt folgt zu:
 
 \begin{equation}\rho_{eff} = \frac{1}{- n + 1 + \frac{E_{s} M_{r} \left(d - x_{2}\right)}{EI^{II} f_{ct}}}\end{equation}
 
-\begin{equation}\rho_{eff} = 0.0406\end{equation}
+\begin{equation}\rho_{eff} = 0.0342\end{equation}
 
 Eine Abschätzung des Rissabstands in Abhängigkeit ist folgend gezeigt.
 Dabei sind die Resultate für \(\lambda = 1\) und \(\lambda = 0.5\)
@@ -3468,9 +3524,9 @@ berechnet.
 
 \begin{equation}s_{rm} = \frac{\lambda \left(1 - \rho_{eff}\right) \left(\oslash_{s,1} + \oslash_{s,2}\right)}{8 \rho_{eff}}\end{equation}
 
-\begin{equation}s_{rm} = 88.7 \text{mm}\end{equation}
+\begin{equation}s_{rm} = 0.106 \text{m}\end{equation}
 
-\begin{equation}s_{rm} = 44.4 \text{mm}\end{equation}
+\begin{equation}s_{rm} = 0.053 \text{m}\end{equation}
 
 Die Rissbreite ist abhängig von der Betonstahlspannung. Da vor dem
 Reissen des Betons keine Risse vorhanden sind, darf die Rissspannung von
@@ -3486,9 +3542,9 @@ wird die Fliessspannung des Stabs 2 eingesetzt.
 
 Die Variation des Parameters \(\lambda = 1 ; 0.5\) gilt hier ebenfalls.
 
-\begin{equation}w_{r} = 0.213 \text{mm}\end{equation}
+\begin{equation}w_{r} = 0.00025 \text{m}\end{equation}
 
-\begin{equation}w_{r} = 0.113 \text{mm}\end{equation}
+\begin{equation}w_{r} = 0.000134 \text{m}\end{equation}
 
 Abgeschlossen wird die Anwendung der Zugversteifung mit dem Einfluss im
 Momenten-Krümmungs-Diagramm. Unter Berücksichtigung der beiden
@@ -3497,20 +3553,21 @@ Abbildung~\ref{fig-mchi_diagramm_zugversteifung_sv14} gezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_zugversteifung_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_zugversteifung_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm_zugversteifung_sv14}Momenten-Krümmungs-Diagramm
 mit Zugversteifung}
 
-\end{figure}
+\end{figure}%
 
 Es zeigt sich ein leicht steiferes Verhalten im gerissenen Bereich.
 
-\hypertarget{analyse-mit-fachwerksmodellen-1}{%
 \section{Analyse mit
-Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen-1}}
+Fachwerksmodellen}\label{analyse-mit-fachwerksmodellen-1}
 
 Die Anwendung der Modellvorstellungen wird mit dem Modell aus
 Kapitel~\ref{sec-fachwerk} abgeschlossen, welche sich von der
@@ -3520,19 +3577,21 @@ Fächer ist in Abbildung~\ref{fig-spannungsfelder_sv14} gezeigt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/spannungsfelder_sv14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/spannungsfelder_sv14.pdf}
 
 }
 
 \caption{\label{fig-spannungsfelder_sv14}Balken mit Spannungsfeldern
 entsprechend dem Kraftfluss}
 
-\end{figure}
+\end{figure}%
 
 Der Neigungswinkel der Betondruckstrebe wird in Anlehnung an die
 Gleichung~\ref{eq-v_rds_sia262} zur Bestimmung des Querkraftwiderstands
 von vertikaler Schubbewehrung, gemäss Ziffer 4.3.3.4.3
-{[}\protect\hyperlink{ref-SIA2013a}{6}{]}, bestimmt. Dabei beträgt die
+{[}\citeproc{ref-SIA2013a}{6}{]}, bestimmt. Dabei beträgt die
 Querschnittsfläche der Schubbewehrung:
 
 \begin{equation}A_{s w} = 29.0 \text{mm}^{2}\end{equation}
@@ -3540,7 +3599,7 @@ Querschnittsfläche der Schubbewehrung:
 Die Fachwerkshöhe wird entsprechend dem Hebelarm der inneren Kräfte des
 Zustands 5, bzw. dem Bruchzustand gewählt.
 
-\begin{equation}z_{5} = 359.0 \text{mm}\end{equation}
+\begin{equation}z_{5} = 366.0 \text{mm}\end{equation}
 
 Die Fliessspannung wird mit der Zugfestigkeit \(f_{su,2}\), welche dem
 Verhalten der Schubbewehrung entspricht, substituiert. Dies
@@ -3551,9 +3610,9 @@ folgenden Neigungswinkel führt:
 
 \begin{equation}\theta_{c3,min} = \operatorname{acot}{\left(\frac{V_{R,s} s_{w}}{A_{s w} f_{su,2} z_{5}} \right)}\end{equation}
 
-\begin{equation}\theta_{c3,min} = 0.214\end{equation}
+\begin{equation}\theta_{c3,min} = 0.218\end{equation}
 
-\begin{equation}\theta_{c3,min} = 12.3 ^\circ\end{equation}
+\begin{equation}\theta_{c3,min} = 12.5 ^\circ\end{equation}
 
 Der gewählte Neigungswinkel der Felder in der
 Abbildung~\ref{fig-spannungsfelder_sv14} orientiert sich an dem
@@ -3567,14 +3626,16 @@ Dehnsteifigkeiten zu zuordnen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/fachwerk_sv14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/fachwerk_sv14.pdf}
 
 }
 
 \caption{\label{fig-fachwerk_sv14}Balken mit Fachwerk durch das
 Zusammenfassen der Spannungsfelder}
 
-\end{figure}
+\end{figure}%
 
 Dem Zuggurt ist die Spannungs-Dehnungs-Beziehung gemäss
 Abbildung~\ref{fig-stahlkennlinie_sv14} hinterlegt, sowie entspricht die
@@ -3605,14 +3666,16 @@ Breich des Balkens.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/schubbwehrung_sv14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/schubbwehrung_sv14.pdf}
 
 }
 
 \caption{\label{fig-schubbew_fw_sv14}Balken mit dargestellter
 Schubbewehrung und Spannungsfeldern}
 
-\end{figure}
+\end{figure}%
 
 Abschliessend lassen sich mit dem Modell Verformungen bestimmen. Für die
 Maximallast ist die Verformungsfigur in
@@ -3621,24 +3684,24 @@ ist in der Feldmitte maximal.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/Deformation_FW_sv14.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/Deformation_FW_sv14.pdf}
 
 }
 
 \caption{\label{fig-verformung_fachwerk_sv14}Balken mit verformten
 Fachwerk}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{vergleich-der-modellvorstellungen-1}{%
 \section{Vergleich der
-Modellvorstellungen}\label{vergleich-der-modellvorstellungen-1}}
+Modellvorstellungen}\label{vergleich-der-modellvorstellungen-1}
 
 Abgeschlossen wird die Analyse des Versuchs mit einer Gegenüberstellung
 der angewendeten Methoden.
 
-\hypertarget{kruxfcmmung-1}{%
-\subsection{Krümmung}\label{kruxfcmmung-1}}
+\subsection{Krümmung}\label{kruxfcmmung-1}
 
 Betrachtet man zunächst die Momenten-Krümmungs-Beziehung anhand der
 unterschiedlichen Modellvorstellungen, aufgezeigt in der
@@ -3648,14 +3711,16 @@ der Beziehung aus der Querschnittsanalyse zu erkennen.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_vergleich_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-mchi_diagramm_vergleich_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-mchi_diagramm_vergleich_sv14}Momenten-Krümmungs-Diagramm
 zum Vergleich der unterschiedlichen Modellvorstellungen}
 
-\end{figure}
+\end{figure}%
 
 Die Abbildung~\ref{fig-chi_x_diagramm_vergleich_sv14} zeigt den
 Krümmungsverlauf für den Biegemomentenverlauf aus
@@ -3666,33 +3731,36 @@ konstanten gerissenen Biegesteifigkeit.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_vergleich_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_vergleich_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm_vergleich_sv14}Krümmungsverlauf, mit
 unterschiedlichen Modellvorstellungen ohne Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_laengszugkraft_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-chi_x_diagramm_laengszugkraft_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-chi_x_diagramm_laengszugkraft_sv14}Krümmungsverlauf,
 mit unterschiedlichen Modellvorstellungen mit Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Das Versatzmass hat auf die Übereinstimmung der nicht-linearen Beziehung
 und der konstanten gerissenen Steifigkeit keinen Einfluss. Dies ist in
 der Abbildung~\ref{fig-chi_x_diagramm_laengszugkraft_sv14} gezeigt.
 Ebenso ist der geringe Einfluss der Zugversteifung zu erkennen.
 
-\hypertarget{verformung-1}{%
-\subsection{Verformung}\label{verformung-1}}
+\subsection{Verformung}\label{verformung-1}
 
 Ein direkter Vergleich der Verformungen mit den gemessenen
 Versuchsresultate ermöglichen die Last-Verformungs-Diagramme. Dazu sind
@@ -3708,14 +3776,16 @@ Abbildung~\ref{fig-stat_system_14_auflagerbreite}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_vergleich_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_vergleich_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_vergleich_sv14}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) ohne Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 In der Abbildung~\ref{fig-last_verformung_vergleich_sv14} ist zu
 erkennen, dass der Verlauf der gemessenen Verformungen in etwa linear
@@ -3731,14 +3801,16 @@ Biegesteifigkeit keine Übereinstimmung mit dem Versuch.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_laengszug_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_laengszug_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_laengszug_sv14}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) mit Versatzmass}
 
-\end{figure}
+\end{figure}%
 
 Wie bereits im Kapitel~\ref{sec-dreipunkt} aufgezeigt, führt das
 Versatzmass zu einem weicheren Verhalten. Die
@@ -3760,14 +3832,16 @@ Abbildung~\ref{fig-last_verformung_fachwerk_sv14}.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_fachwerk_sv14-output-1.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/07_Versuch_SV_14_files/figure-pdf/fig-last_verformung_fachwerk_sv14-output-1.pdf}
 
 }
 
 \caption{\label{fig-last_verformung_fachwerk_sv14}Last-Verformungs-Diagramm
 an der Stelle \(w_1\) mit Fachwerksmodell}
 
-\end{figure}
+\end{figure}%
 
 Das Fachwerkmodell liefert einen treffenden Beschrieb des
 Verformungsverlaufs. Es zeigt sich, dass die Schubbewehrung einen
@@ -3789,11 +3863,9 @@ Schubbewehrung ein.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{fazit}{%
-\chapter{Fazit}\label{fazit}}
+\chapter{Fazit}\label{fazit}
 
-\hypertarget{ruxfcckblick}{%
-\section{Rückblick}\label{ruxfcckblick}}
+\section{Rückblick}\label{ruxfcckblick}
 
 Das einleitende Kapitel der Modellvorstellung bietet einen breiten
 Überblick der Modelle zum Beschreiben von Verformungen im Stahlbetonbau.
@@ -3837,8 +3909,7 @@ Es lässt sich abschliessend festhalten, dass die Arbeit eine Förderung
 des Grundverständnisses der Verformungen im Stahlbetonbau bietet, sowie
 praxistaugliche Werkzeuge zur rechnerischen Beschreibung dieser liefert.
 
-\hypertarget{ausblick}{%
-\section{Ausblick}\label{ausblick}}
+\section{Ausblick}\label{ausblick}
 
 Basierend auf dieser Arbeit, gilt es sich in einer folgenden Arbeit von
 den Stabtragwerken zu lösen. Es wird angestrebt, die beschriebenen
@@ -3860,14 +3931,16 @@ folglich den Grad der Approximation des Krümmungsverlaufs.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/cubus_Stab.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/cubus_Stab.pdf}
 
 }
 
 \caption{\label{fig-cubus_stab}Anordnung von nicht-linearen Drehfedern,
 modelliert als Wegfedern entlang der Stabachse}
 
-\end{figure}
+\end{figure}%
 
 Der Ansatz mittels dem Stabstatikprogramm Statik-9 der Cubus AG ist in
 Abbildung~\ref{fig-cubus_stab} gezeigt. Da ein nicht-lineares Verhalten
@@ -3879,14 +3952,16 @@ Zuggurts oder des Druckgurts hinterlegt.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/axis_stab.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/axis_stab.pdf}
 
 }
 
 \caption{\label{fig-axis_stab}Anordnung von nicht-linearen Drehfedern
 entlang der Stabachse}
 
-\end{figure}
+\end{figure}%
 
 Des Weiteren wird die AxisVM Statiksoftware verwendet. In dieser lassen
 sich direkt nicht-lineare Drehfedern modellieren. Aufgezeigt ist das
@@ -3894,14 +3969,16 @@ Stabmodell in Abbildung~\ref{fig-axis_stab}
 
 \begin{figure}[H]
 
-{\centering \includegraphics{index_files/mediabag/../images/traegerrost.pdf}
+\centering{
+
+\includegraphics{index_files/mediabag/../images/traegerrost.pdf}
 
 }
 
 \caption{\label{fig-traegerrost}Anordnung der Stabtragwerken zu einem
 Trägerrost}
 
-\end{figure}
+\end{figure}%
 
 Die Stabtragwerke werden abschliessend zum Trägerrost angeordnet,
 dargestellt in der Abbildung~\ref{fig-traegerrost}. Aus dem Trägerrost
@@ -4002,22 +4079,21 @@ Bezeichnung
 
 \bookmarksetup{startatroot}
 
-\hypertarget{literatur}{%
-\chapter*{Literatur}\label{literatur}}
+\chapter*{Literatur}\label{literatur}
 \addcontentsline{toc}{chapter}{Literatur}
 
 \markboth{Literatur}{Literatur}
 
-\hypertarget{refs}{}
-\begin{CSLReferences}{0}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-Jaeger2006}{}}%
+\phantomsection\label{refs}
+\begin{CSLReferences}{0}{1}
+\bibitem[\citeproctext]{ref-Jaeger2006}
 \CSLLeftMargin{1. }%
 \CSLRightInline{Jäger T, Marti P (2006) Versuche zum
 {Querkraftwiderstand} und zum {Verformungsvermögen} von
 {Stahlbetonplatten}. IBK Bericht 294.
 \url{https://doi.org/10.3929/ethz-a-005195576}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Tue2019}{}}%
+\bibitem[\citeproctext]{ref-Tue2019}
 \CSLLeftMargin{2. }%
 \CSLRightInline{Tue NV, Ehmann R, Betschoga C, Tung ND (2019) Einfluss
 geringer Querkraftbewehrung auf die Querkrafttragfähigkeit von
@@ -4025,45 +4101,45 @@ Stahlbetonbalken unterschiedlicher M/V-Kombinationen. Beton- und
 Stahlbetonbau 114(4):217--230.
 https://doi.org/\url{https://doi.org/10.1002/best.201800075}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Marti}{}}%
+\bibitem[\citeproctext]{ref-Marti}
 \CSLLeftMargin{3. }%
 \CSLRightInline{Marti P Baustatik. Wiley-VCH Verlag GmbH}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Spathelf2022}{}}%
+\bibitem[\citeproctext]{ref-Spathelf2022}
 \CSLLeftMargin{4. }%
 \CSLRightInline{Spathelf C (2022) Skript Teil 2: Gebrauchstauglichkeit.
 Betonbau - Ausgewählte Kapitel Hochschule Technik \& Architektur Luzern}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Stecher2022}{}}%
+\bibitem[\citeproctext]{ref-Stecher2022}
 \CSLLeftMargin{5. }%
 \CSLRightInline{Stecher G-L (2022) Gebrauchstauglichkeit von
 Stahlbetonplatten: Ansätze zur Verformungsberechnung. Mathesis, HSLU
 Hochschule Luzern, MSE Master of Science in Engineering}
 
-\leavevmode\vadjust pre{\hypertarget{ref-SIA2013a}{}}%
+\bibitem[\citeproctext]{ref-SIA2013a}
 \CSLLeftMargin{6. }%
 \CSLRightInline{SIA (2013) Norm {SIA} 262:2013 {Betonbau}.
 {Schweizerischer Ingenieur- und Architektenverein}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Thoma2020}{}}%
+\bibitem[\citeproctext]{ref-Thoma2020}
 \CSLLeftMargin{7. }%
 \CSLRightInline{Thoma K (2020) Skript Balkentheorie. Stahlbeton}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Jaeger2014}{}}%
+\bibitem[\citeproctext]{ref-Jaeger2014}
 \CSLLeftMargin{8. }%
 \CSLRightInline{Jaeger T (2014) Extended sandwich model for reinforced
 concrete slabs: Shear strength with transverse reinforcement.
 Engineering Structures 74:218--228.
 https://doi.org/\url{https://doi.org/10.1016/j.engstruct.2014.05.025}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-Jaeger2013}{}}%
+\bibitem[\citeproctext]{ref-Jaeger2013}
 \CSLLeftMargin{9. }%
 \CSLRightInline{Jaeger T (2013) Extended sandwich model for reinforced
 concrete slabs: Shear strength without transverse reinforcement.
 Engineering Structures 56:1142--1153.
 https://doi.org/\url{https://doi.org/10.1016/j.engstruct.2013.06.035}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-annahutte_broschure}{}}%
+\bibitem[\citeproctext]{ref-annahutte_broschure}
 \CSLLeftMargin{10. }%
 \CSLRightInline{Annahütte (2023)
 \href{https://www.annahuette.com/cdn/uploads/bro-sas-670-reinforcement-de-en-02-2016-web.pdf}{Grundlagen

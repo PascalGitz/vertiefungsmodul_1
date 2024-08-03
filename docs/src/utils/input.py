@@ -1,13 +1,13 @@
 import os
 
 ## Pfad anpassen
-workspace_dir = "C:/Users/Pascal Gitz/OneDrive - Hochschule Luzern/02_Master/03_Tragverhalten_von_Stahlbetontragwerken"
+workspace_dir = "C:/Users/Pascal Gitz/OneDrive - Hochschule Luzern/Master/03_Tragverhalten_von_Stahlbetontragwerken/VM1"
 os.chdir(workspace_dir)
 
 ## Sympy und Hilfsfunktionen
 import sympy as sp
 # from sympy.abc import *
-from sympycalcs import param_value, dict_render, dict_to_table, eq_pretty_units, eq_subs
+from sympycalcs import to_float, dict_to_table, eq_subs
 import sympy.physics.units as unit
 
 
